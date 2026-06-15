@@ -24,7 +24,7 @@ extension AppDelegate {
 
     @objc func testBatteryAlert() {
         sendBatteryAlert(
-            title: "Vibecoding Guard test",
+            title: "Vibe Coding Guard test",
             message: "Battery warnings are ready.",
             critical: false
         )
@@ -152,8 +152,8 @@ extension AppDelegate {
             ? "/usr/bin/pmset -a sleep 0; /usr/bin/pmset -a disablesleep \(value)"
             : "/usr/bin/pmset -a disablesleep \(value)"
         let prompt = enabled
-            ? "Allow Vibecoding Guard to keep working while the lid is closed. Keep the Mac on a desk, not in a bag."
-            : "Allow Vibecoding Guard to turn off closed-lid work mode."
+            ? "Allow Vibe Coding Guard to keep working while the lid is closed. Keep the Mac on a desk, not in a bag."
+            : "Allow Vibe Coding Guard to turn off closed-lid work mode."
         let script = """
         do shell script "\(command)" with administrator privileges with prompt "\(appleScriptQuoted(prompt))"
         """
@@ -163,7 +163,7 @@ extension AppDelegate {
 
     func enableBatterySleepSetting() {
         let script = """
-        do shell script "/usr/bin/pmset -b sleep 0" with administrator privileges with prompt "Allow Vibecoding Guard to keep long-running work alive on battery."
+        do shell script "/usr/bin/pmset -b sleep 0" with administrator privileges with prompt "Allow Vibe Coding Guard to keep long-running work alive on battery."
         """
         _ = runCommand("/usr/bin/osascript", ["-e", script])
         lastPowerSettings = readPowerSettings()

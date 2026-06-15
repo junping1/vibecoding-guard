@@ -19,7 +19,7 @@ extension AppDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = onboarding ? "Set Up Vibecoding Guard" : "Vibecoding Guard"
+        window.title = onboarding ? "Set Up Vibe Coding Guard" : "Vibe Coding Guard"
         window.minSize = NSSize(width: 520, height: 340)
         window.center()
         window.delegate = self
@@ -94,7 +94,7 @@ extension AppDelegate {
         row.widthAnchor.constraint(equalToConstant: 500).isActive = true
 
         row.addArrangedSubview(symbolCircle("shield.fill", tone: masterGuardEnabled ? .good : .neutral, size: 28))
-        row.addArrangedSubview(label("Vibecoding Guard", size: 14, weight: .semibold))
+        row.addArrangedSubview(label("Vibe Coding Guard", size: 14, weight: .semibold))
         row.addArrangedSubview(spacer())
 
         let battery = label("Checking", size: 12, weight: .medium, color: .secondaryLabelColor)

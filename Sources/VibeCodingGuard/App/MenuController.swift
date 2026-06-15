@@ -3,13 +3,13 @@ import AppKit
 extension AppDelegate {
     func setupStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let image = NSImage(systemSymbolName: "shield", accessibilityDescription: "Vibecoding Guard") {
+        if let image = NSImage(systemSymbolName: "shield", accessibilityDescription: "Vibe Coding Guard") {
             image.isTemplate = true
             item.button?.image = image
             item.button?.imagePosition = .imageLeading
         }
         item.button?.title = "Guard"
-        item.button?.toolTip = "Vibecoding Guard keeps long-running work alive while your display can rest."
+        item.button?.toolTip = "Vibe Coding Guard keeps long-running work alive while your display can rest."
         statusItem = item
         rebuildMenu()
     }
@@ -40,14 +40,14 @@ extension AppDelegate {
         let menu = NSMenu()
         menu.addItem(statusLineItem())
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Open Vibecoding Guard...", #selector(openControlCenter)))
+        menu.addItem(actionItem("Open Vibe Coding Guard...", #selector(openControlCenter)))
         menu.addItem(actionItem(masterGuardEnabled ? "Turn Guard Off" : "Turn Guard On", #selector(toggleGuardFromMenu)))
         menu.addItem(actionItem("Customize...", #selector(openCustomize)))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Sleep Display Now", #selector(displaySleepNow)))
         menu.addItem(actionItem("Test Battery Alert", #selector(testBatteryAlert)))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Quit Vibecoding Guard", #selector(quit), key: "q"))
+        menu.addItem(actionItem("Quit Vibe Coding Guard", #selector(quit), key: "q"))
         statusItem?.menu = menu
     }
 

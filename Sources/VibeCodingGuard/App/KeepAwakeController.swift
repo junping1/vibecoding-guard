@@ -21,7 +21,7 @@ extension AppDelegate {
             try process.run()
             caffeinateProcess = process
         } catch {
-            NSLog("Vibecoding Guard: failed to start caffeinate: \(error)")
+            NSLog("Vibe Coding Guard: failed to start caffeinate: \(error)")
         }
     }
 

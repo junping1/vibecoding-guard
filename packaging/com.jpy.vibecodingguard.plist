@@ -8,7 +8,7 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/jpy/Applications/Vibecoding Guard.app/Contents/MacOS/VibecodingGuard</string>
+    <string>/Users/jpy/Applications/Vibe Coding Guard.app/Contents/MacOS/VibeCodingGuard</string>
   </array>
 
   <key>RunAtLoad</key>

@@ -1,4 +1,4 @@
-name: VibecodingGuard
+name: VibeCodingGuard
 
 options:
   minimumXcodeGenVersion: 2.42.0
@@ -11,16 +11,16 @@ settings:
     MACOSX_DEPLOYMENT_TARGET: "14.0"
 
 targets:
-  VibecodingGuard:
+  VibeCodingGuard:
     type: application
     platform: macOS
     sources:
-      - path: Sources/VibecodingGuard
+      - path: Sources/VibeCodingGuard
     info:
       path: packaging/Info.plist
       properties:
         CFBundleDevelopmentRegion: "$(DEVELOPMENT_LANGUAGE)"
-        CFBundleDisplayName: "Vibecoding Guard"
+        CFBundleDisplayName: "Vibe Coding Guard"
         CFBundleExecutable: "$(EXECUTABLE_NAME)"
         CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
         CFBundleInfoDictionaryVersion: "6.0"
@@ -32,8 +32,8 @@ targets:
         NSHumanReadableCopyright: "Personal local utility."
     settings:
       base:
-        PRODUCT_NAME: "Vibecoding Guard"
-        EXECUTABLE_NAME: VibecodingGuard
+        PRODUCT_NAME: "Vibe Coding Guard"
+        EXECUTABLE_NAME: VibeCodingGuard
         PRODUCT_BUNDLE_IDENTIFIER: com.jpy.vibecodingguard
         CODE_SIGN_STYLE: Manual
         CODE_SIGN_IDENTITY: "-"
@@ -41,10 +41,10 @@ targets:
         ENABLE_HARDENED_RUNTIME: "NO"
 
 schemes:
-  VibecodingGuard:
+  VibeCodingGuard:
     build:
       targets:
-        VibecodingGuard: all
+        VibeCodingGuard: all
     run:
       config: Debug
     archive:

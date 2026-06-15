@@ -1,4 +1,4 @@
-# Vibecoding Guard
+# Vibe Coding Guard
 
 A tiny local macOS menu bar app for keeping long-running work alive while the display rests.
 
@@ -15,7 +15,7 @@ This is a native AppKit project generated from `project.yml` with XcodeGen.
 
 ```sh
 xcodegen generate
-open VibecodingGuard.xcodeproj
+open VibeCodingGuard.xcodeproj
 ```
 
 ## Build And Install
@@ -29,7 +29,7 @@ Run:
 The script installs the app to:
 
 ```text
-~/Applications/Vibecoding Guard.app
+~/Applications/Vibe Coding Guard.app
 ```
 
 It also installs the launch agent at:

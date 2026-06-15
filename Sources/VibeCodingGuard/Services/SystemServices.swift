@@ -228,7 +228,7 @@ extension AppDelegate {
             process.waitUntilExit()
             return String(data: data, encoding: .utf8) ?? ""
         } catch {
-            NSLog("Vibecoding Guard: command failed \(path): \(error)")
+            NSLog("Vibe Coding Guard: command failed \(path): \(error)")
             return ""
         }
     }
