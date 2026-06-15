@@ -173,8 +173,10 @@ extension AppDelegate {
         guard let imageView = imageViews["productStatusIcon"] else {
             return
         }
+        let colors = toneColors(tone)
         imageView.image = NSImage(systemSymbolName: productStatusSymbolName(), accessibilityDescription: nil)
-        imageView.contentTintColor = toneColors(tone).foreground
+        imageView.contentTintColor = colors.foreground
+        (statusViews["productStatusBadge"] as? RoundedView)?.update(fill: colors.background)
     }
 
     func productStatusSymbolName() -> String {

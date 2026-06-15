@@ -18,13 +18,13 @@ extension AppDelegate {
         switches.removeAll()
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: 460),
+            contentRect: NSRect(x: 0, y: 0, width: 560, height: 400),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.title = onboarding ? "Set Up Vibe Coding Guard" : "Vibe Coding Guard"
-        window.minSize = NSSize(width: 520, height: 320)
+        window.minSize = NSSize(width: 520, height: 360)
         position(window, previousFrame: previousFrame)
         window.delegate = self
         window.isReleasedWhenClosed = false
@@ -41,9 +41,9 @@ extension AppDelegate {
     func productRootView() -> NSView {
         let content = NSStackView()
         content.orientation = .vertical
-        content.spacing = 16
+        content.spacing = 14
         content.alignment = .centerX
-        content.edgeInsets = NSEdgeInsets(top: 22, left: 26, bottom: 18, right: 26)
+        content.edgeInsets = NSEdgeInsets(top: 24, left: 26, bottom: 18, right: 26)
         content.translatesAutoresizingMaskIntoConstraints = false
         content.addArrangedSubview(simpleHero())
         content.addArrangedSubview(simplePowerHint())
@@ -67,7 +67,7 @@ extension AppDelegate {
     func simpleHero() -> NSView {
         let stack = NSStackView()
         stack.orientation = .vertical
-        stack.spacing = 14
+        stack.spacing = 12
         stack.alignment = .centerX
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.widthAnchor.constraint(equalToConstant: 500).isActive = true
@@ -77,20 +77,30 @@ extension AppDelegate {
         statusRow.spacing = 12
         statusRow.alignment = .centerY
 
+        let statusBadge = RoundedView(fill: NSColor.controlAccentColor.withAlphaComponent(0.16), stroke: nil, radius: 17)
+        statusBadge.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        statusBadge.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        statusViews["productStatusBadge"] = statusBadge
+
         let statusIcon = NSImageView()
         statusIcon.translatesAutoresizingMaskIntoConstraints = false
         statusIcon.imageScaling = .scaleProportionallyDown
-        statusIcon.widthAnchor.constraint(equalToConstant: 34).isActive = true
-        statusIcon.heightAnchor.constraint(equalToConstant: 34).isActive = true
         imageViews["productStatusIcon"] = statusIcon
-        statusRow.addArrangedSubview(statusIcon)
+        statusBadge.addSubview(statusIcon)
+        NSLayoutConstraint.activate([
+            statusIcon.centerXAnchor.constraint(equalTo: statusBadge.centerXAnchor),
+            statusIcon.centerYAnchor.constraint(equalTo: statusBadge.centerYAnchor),
+            statusIcon.widthAnchor.constraint(equalToConstant: 18),
+            statusIcon.heightAnchor.constraint(equalToConstant: 18)
+        ])
+        statusRow.addArrangedSubview(statusBadge)
 
         let textStack = NSStackView()
         textStack.orientation = .vertical
         textStack.spacing = 3
         textStack.alignment = .leading
 
-        let title = label("Keep Awake", size: 24, weight: .bold)
+        let title = label("Keep Awake", size: 23, weight: .bold)
         title.maximumNumberOfLines = 2
         statusLabels["productHeroTitle"] = title
         textStack.addArrangedSubview(title)
@@ -143,7 +153,7 @@ extension AppDelegate {
         stack.orientation = .vertical
         stack.spacing = 14
         stack.alignment = .leading
-        stack.edgeInsets = NSEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        stack.edgeInsets = NSEdgeInsets(top: 14, left: 18, bottom: 18, right: 18)
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.widthAnchor.constraint(equalToConstant: 500).isActive = true
 
