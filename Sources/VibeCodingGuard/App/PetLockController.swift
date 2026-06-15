@@ -1,6 +1,8 @@
 import ApplicationServices
 import AppKit
 
+private let petLockSystemDefinedEventType = CGEventType(rawValue: 14)!
+
 private let petLockEventCallback: CGEventTapCallBack = { proxy, type, event, userInfo in
     guard let userInfo else {
         return Unmanaged.passUnretained(event)
@@ -59,10 +61,11 @@ extension AppDelegate {
         let eventMask =
             CGEventMask(1 << CGEventType.keyDown.rawValue) |
             CGEventMask(1 << CGEventType.keyUp.rawValue) |
-            CGEventMask(1 << CGEventType.flagsChanged.rawValue)
+            CGEventMask(1 << CGEventType.flagsChanged.rawValue) |
+            CGEventMask(1 << petLockSystemDefinedEventType.rawValue)
 
         guard let eventTap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
+            tap: .cghidEventTap,
             place: .headInsertEventTap,
             options: .defaultTap,
             eventsOfInterest: eventMask,
