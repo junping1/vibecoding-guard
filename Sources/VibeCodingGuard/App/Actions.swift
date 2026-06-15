@@ -14,6 +14,13 @@ extension AppDelegate {
     @objc func toggleGuardFromMenu() {
         let enabled = !masterGuardEnabled
         setMasterGuard(enabled: enabled)
+        syncPetLock()
+        runChecks()
+        rebuildControlCenterIfNeeded()
+    }
+
+    @objc func togglePetLockFromMenu() {
+        setPetLock(enabled: !config.petLockEnabled, promptIfNeeded: true)
         runChecks()
         rebuildControlCenterIfNeeded()
     }
@@ -60,7 +67,15 @@ extension AppDelegate {
     @objc func switchKeepAwake() {
         config.keepAwakeEnabled = switches["keepAwake"]?.state == .on
         applyKeepAwakeState()
+        syncPetLock()
         runChecks()
+    }
+
+    @objc func switchPetLock() {
+        let enabled = switches["petLock"]?.state == .on
+        setPetLock(enabled: enabled, promptIfNeeded: true)
+        runChecks()
+        rebuildControlCenterIfNeeded()
     }
 
     @objc func switchLidClosedMode() {
@@ -72,6 +87,7 @@ extension AppDelegate {
 
     @objc func switchBatteryAlerts() {
         config.batteryAlertsEnabled = switches["batteryAlerts"]?.state == .on
+        syncPetLock()
         runChecks()
     }
 
@@ -91,6 +107,13 @@ extension AppDelegate {
         @unknown default:
             openNotificationSettings()
         }
+    }
+
+    @objc func petLockPermissionAction() {
+        requestPetLockPermission()
+        syncPetLock()
+        runChecks()
+        rebuildControlCenterIfNeeded()
     }
 
     @objc func changeIdleDelay() {
@@ -157,7 +180,9 @@ extension AppDelegate {
         let script = """
         do shell script "\(command)" with administrator privileges with prompt "\(appleScriptQuoted(prompt))"
         """
-        _ = runCommand("/usr/bin/osascript", ["-e", script])
+        withKeyboardInputTemporarilyAllowed {
+            _ = runCommand("/usr/bin/osascript", ["-e", script])
+        }
         lastPowerSettings = readPowerSettings()
     }
 
@@ -165,7 +190,9 @@ extension AppDelegate {
         let script = """
         do shell script "/usr/bin/pmset -b sleep 0" with administrator privileges with prompt "Allow Vibe Coding Guard to keep long-running work alive on battery."
         """
-        _ = runCommand("/usr/bin/osascript", ["-e", script])
+        withKeyboardInputTemporarilyAllowed {
+            _ = runCommand("/usr/bin/osascript", ["-e", script])
+        }
         lastPowerSettings = readPowerSettings()
         refreshWindow()
     }

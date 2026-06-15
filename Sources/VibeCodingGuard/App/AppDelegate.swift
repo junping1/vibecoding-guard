@@ -23,6 +23,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var lastWarningAlert: Date?
     var lastCriticalAlert: Date?
     var lastDisplaySleep = Date.distantPast
+    var petLockEventTap: CFMachPort?
+    var petLockRunLoopSource: CFRunLoopSource?
+    var petLockAccessibilityTrusted = false
+    var petLockActive = false
     var controlWindow: NSWindow?
     var statusLabels: [String: NSTextField] = [:]
     var actionButtons: [String: NSButton] = [:]
@@ -35,6 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         setupStatusItem()
         refreshNotificationStatus()
         applyKeepAwakeState()
+        syncPetLock()
         startTimers()
         runChecks()
 
@@ -52,6 +57,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         stopKeepAwake()
+        stopPetLock()
     }
 
     func windowWillClose(_ notification: Notification) {
@@ -80,6 +86,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func runChecks() {
         lastPowerSettings = readPowerSettings()
+        syncPetLock()
         refreshNotificationStatus()
         checkBattery()
         checkDisplayIdle()

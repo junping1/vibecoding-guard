@@ -13,12 +13,14 @@
 		61F6DC45B67D68844086F6D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EB6049FC6EFE5B0982A6DF /* AppDelegate.swift */; };
 		66C89F371C4D11C834F0C9B1 /* StatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C73FDDD0B0E87083FDFE1A3 /* StatePresenter.swift */; };
 		8EB98CE58F3EF3A73198C642 /* ViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C5BF7470ACC9E22B6AE272 /* ViewHelpers.swift */; };
+		9C1CC3A014E712B96F204FB3 /* PetLockController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4760BCD72DE0B89DB0C90505 /* PetLockController.swift */; };
 		A7B611E48727E7DFFCA8E729 /* PowerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8C1AD267E1CB54F3B8092B /* PowerState.swift */; };
 		B38D05EF19F604EF8540E6C5 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED7B685768211F6A457524A /* Actions.swift */; };
 		B45049B9A0392E262BDDEC50 /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4997ECB779C416E809E9BED5 /* RoundedView.swift */; };
 		C1FC59A6463B6C4B3679B891 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB10AB2E8987195AD044224A /* main.swift */; };
 		F36EC9A95CE23451B844032A /* SystemServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CDCA5240221EE360FFF311 /* SystemServices.swift */; };
 		F8D79901143F5463DAF8635C /* ControlCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3515DE43CA5CEA825D6E6F3E /* ControlCenterView.swift */; };
+		FA9D9D8C2BF3ACF87103C3E1 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 950C3872FEE04EB4EFAAD6D9 /* ApplicationServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,17 +29,38 @@
 		24CDCA5240221EE360FFF311 /* SystemServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemServices.swift; sourceTree = "<group>"; };
 		2ED7B685768211F6A457524A /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		3515DE43CA5CEA825D6E6F3E /* ControlCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterView.swift; sourceTree = "<group>"; };
+		4760BCD72DE0B89DB0C90505 /* PetLockController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetLockController.swift; sourceTree = "<group>"; };
 		4997ECB779C416E809E9BED5 /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 		4E60C5A7BC50681E4545A573 /* KeepAwakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepAwakeController.swift; sourceTree = "<group>"; };
 		64AF9389343A7F4C6E045490 /* GuardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardConfig.swift; sourceTree = "<group>"; };
 		8C73FDDD0B0E87083FDFE1A3 /* StatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatePresenter.swift; sourceTree = "<group>"; };
+		950C3872FEE04EB4EFAAD6D9 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		95EB6049FC6EFE5B0982A6DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB10AB2E8987195AD044224A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		CADA5614B46C21FDA2F04FC9 /* VibeCodingGuard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibeCodingGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1C5BF7470ACC9E22B6AE272 /* ViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelpers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		27E62A5CC8BA52831A3101AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA9D9D8C2BF3ACF87103C3E1 /* ApplicationServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
+		060C4F8B1B795C6877F8B8BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				950C3872FEE04EB4EFAAD6D9 /* ApplicationServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		17B4B3C337475FADD6FDCD80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +77,7 @@
 				4E60C5A7BC50681E4545A573 /* KeepAwakeController.swift */,
 				BB10AB2E8987195AD044224A /* main.swift */,
 				0A35B4D51E1EB29086E6C790 /* MenuController.swift */,
+				4760BCD72DE0B89DB0C90505 /* PetLockController.swift */,
 				8C73FDDD0B0E87083FDFE1A3 /* StatePresenter.swift */,
 			);
 			path = App;
@@ -81,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				DF203BD735223959BF6DB903 /* VibeCodingGuard */,
+				060C4F8B1B795C6877F8B8BE /* Frameworks */,
 				C3EA005F2B95FE314BD18439 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,6 +147,7 @@
 			buildConfigurationList = 3BABD4E2C6E3F8C396D55727 /* Build configuration list for PBXNativeTarget "VibeCodingGuard" */;
 			buildPhases = (
 				ABAC6C5DC44218364C1FABED /* Sources */,
+				27E62A5CC8BA52831A3101AE /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -179,6 +205,7 @@
 				3F7E7B382BBB8401D6B4A993 /* GuardConfig.swift in Sources */,
 				0D93C19AF03E76D8004E18D9 /* KeepAwakeController.swift in Sources */,
 				498ADC3E32389A022F0C59C0 /* MenuController.swift in Sources */,
+				9C1CC3A014E712B96F204FB3 /* PetLockController.swift in Sources */,
 				A7B611E48727E7DFFCA8E729 /* PowerState.swift in Sources */,
 				B45049B9A0392E262BDDEC50 /* RoundedView.swift in Sources */,
 				66C89F371C4D11C834F0C9B1 /* StatePresenter.swift in Sources */,

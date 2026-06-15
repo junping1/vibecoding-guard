@@ -38,6 +38,11 @@ final class GuardConfig {
         set { defaults.set(newValue, forKey: "lidClosedModeEnabled") }
     }
 
+    var petLockEnabled: Bool {
+        get { bool(forKey: "petLockEnabled", default: false) }
+        set { defaults.set(newValue, forKey: "petLockEnabled") }
+    }
+
     var onboardingCompleted: Bool {
         get { bool(forKey: "onboardingCompleted", default: false) }
         set { defaults.set(newValue, forKey: "onboardingCompleted") }

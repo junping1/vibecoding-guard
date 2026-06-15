@@ -8,6 +8,7 @@ It can:
 - Let the display sleep after idle time.
 - Warn before the battery gets low.
 - Enable closed-lid work mode after macOS admin approval.
+- Block accidental keyboard input with Pet Lock while Guard is on.
 
 ## Project
 

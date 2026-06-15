@@ -188,6 +188,12 @@ extension AppDelegate {
         stack.addArrangedSubview(separator())
         stack.addArrangedSubview(compactSwitchRow(title: "Keep Mac awake", switchKey: "keepAwake", action: #selector(switchKeepAwake)))
         stack.addArrangedSubview(separator())
+        stack.addArrangedSubview(compactSwitchRow(title: "Pet keyboard lock", switchKey: "petLock", action: #selector(switchPetLock)))
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            stack.addArrangedSubview(separator())
+            stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
+        }
+        stack.addArrangedSubview(separator())
         stack.addArrangedSubview(compactSwitchRow(title: "Allow lid closed", switchKey: "lidClosed", action: #selector(switchLidClosedMode)))
         stack.addArrangedSubview(separator())
         stack.addArrangedSubview(compactSwitchRow(title: "Battery alerts", switchKey: "batteryAlerts", action: #selector(switchBatteryAlerts)))

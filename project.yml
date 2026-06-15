@@ -16,6 +16,8 @@ targets:
     platform: macOS
     sources:
       - path: Sources/VibeCodingGuard
+    dependencies:
+      - sdk: ApplicationServices.framework
     info:
       path: packaging/Info.plist
       properties:

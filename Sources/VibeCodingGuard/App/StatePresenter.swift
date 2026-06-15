@@ -19,6 +19,7 @@ extension AppDelegate {
 
     func refreshWindow() {
         switches["keepAwake"]?.state = config.keepAwakeEnabled ? .on : .off
+        switches["petLock"]?.state = config.petLockEnabled ? .on : .off
         switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
 
@@ -37,6 +38,7 @@ extension AppDelegate {
         }
 
         refreshNotificationButton()
+        refreshPetLockPermissionButton()
         refreshPopups()
     }
 
@@ -58,6 +60,14 @@ extension AppDelegate {
             button.title = "Open Settings"
             button.isEnabled = true
         }
+    }
+
+    func refreshPetLockPermissionButton() {
+        guard let button = actionButtons["petLockPermission"] else {
+            return
+        }
+        button.title = petLockAccessibilityTrusted ? "Allowed" : "Allow"
+        button.isEnabled = !petLockAccessibilityTrusted
     }
 
     func refreshPopups() {
@@ -98,11 +108,34 @@ extension AppDelegate {
         }
         return (
             "Guard is On",
-            config.lidClosedModeEnabled
-                ? "You can close the lid. Keep it on a desk, not in a bag."
-                : "Keep the lid open. Long jobs keep running while the display can sleep.",
+            guardOnMessage(),
             .good
         )
+    }
+
+    func guardOnMessage() -> String {
+        if config.petLockEnabled && petLockActive {
+            return "Pet Lock is blocking accidental key presses."
+        }
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            return "Pet Lock needs Accessibility permission in Customize."
+        }
+        return config.lidClosedModeEnabled
+            ? "You can close the lid. Keep it on a desk, not in a bag."
+            : "Keep the lid open. Long jobs keep running while the display can sleep."
+    }
+
+    func petLockSummary() -> String {
+        if !config.petLockEnabled {
+            return "Pet Lock: off"
+        }
+        if petLockActive {
+            return "Pet Lock: blocking keyboard"
+        }
+        if !petLockAccessibilityTrusted {
+            return "Pet Lock: permission needed"
+        }
+        return masterGuardEnabled ? "Pet Lock: starting" : "Pet Lock: waits for Guard"
     }
 
     func simplePrimaryTitle() -> String {

@@ -42,6 +42,7 @@ extension AppDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Open Vibe Coding Guard...", #selector(openControlCenter)))
         menu.addItem(actionItem(masterGuardEnabled ? "Turn Guard Off" : "Turn Guard On", #selector(toggleGuardFromMenu)))
+        menu.addItem(actionItem(config.petLockEnabled ? "Turn Pet Lock Off" : "Turn Pet Lock On", #selector(togglePetLockFromMenu)))
         menu.addItem(actionItem("Customize...", #selector(openCustomize)))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Sleep Display Now", #selector(displaySleepNow)))
@@ -66,11 +67,12 @@ extension AppDelegate {
         } else {
             lidText = "Lid closed: off"
         }
+        let petText = petLockSummary()
         let displayText = config.displayIdleSleepEnabled
             ? "Display sleeps after \(config.idleDisplaySeconds / 60) min"
             : "Display sleep automation off"
         let item = NSMenuItem(
-            title: "\(batteryText)\n\(awakeText)\n\(lidText)\n\(displayText)",
+            title: "\(batteryText)\n\(awakeText)\n\(lidText)\n\(petText)\n\(displayText)",
             action: nil,
             keyEquivalent: ""
         )
