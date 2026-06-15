@@ -45,6 +45,9 @@ extension AppDelegate {
         let product = productHealth()
         statusLabels["productHeroTitle"]?.stringValue = product.title
         statusLabels["productHeroMessage"]?.stringValue = product.message
+        updateStatusIcon(tone: product.tone)
+        statusViews["powerHint"]?.isHidden = !needsPowerAdapterTip
+        statusViews["setupHint"]?.isHidden = !needsSetupHelp
 
         refreshNotificationButton()
         refreshPetLockPermissionButton()
@@ -109,36 +112,36 @@ extension AppDelegate {
     func productHealth() -> (title: String, message: String, tone: Tone) {
         if keepAwakeShouldRun && caffeinateProcess?.isRunning != true {
             return (
-                "Keep Awake needs attention",
-                "The helper is not running yet. VCG will keep trying.",
+                "Needs Attention",
+                "Keep Awake helper is starting.",
                 .danger
             )
         }
         if needsSetupHelp {
             return (
-                "Permission needed",
-                "macOS needs one approval before closed-lid work can run.",
+                "Permission Needed",
+                "Approve closed-lid work once in macOS.",
                 .warning
             )
         }
         switch config.keepAwakeMode {
         case .off:
             return (
-                "Keep Awake is Off",
-                "VCG is not keeping the Mac awake.",
+                "Off",
+                "VCG is idle.",
                 .neutral
             )
         case .smart:
             if let activity = lastAgentActivity {
                 return (
-                    "Smart is On",
-                    "\(activity.displayName) detected. Your Mac will keep working.",
+                    "Smart",
+                    "\(activity.displayName) detected.",
                     .good
                 )
             }
             return (
-                "Smart is Ready",
-                "VCG will keep awake when Codex or Claude Code is active.",
+                "Smart",
+                "Watching Codex and Claude Code.",
                 .blue
             )
         case .alwaysOn:
@@ -147,6 +150,31 @@ extension AppDelegate {
                 guardOnMessage(),
                 .good
             )
+        }
+    }
+
+    func updateStatusIcon(tone: Tone) {
+        guard let imageView = imageViews["productStatusIcon"] else {
+            return
+        }
+        imageView.image = NSImage(systemSymbolName: productStatusSymbolName(), accessibilityDescription: nil)
+        imageView.contentTintColor = toneColors(tone).foreground
+    }
+
+    func productStatusSymbolName() -> String {
+        if keepAwakeShouldRun && caffeinateProcess?.isRunning != true {
+            return "exclamationmark.triangle.fill"
+        }
+        if needsSetupHelp {
+            return "lock.open.fill"
+        }
+        switch config.keepAwakeMode {
+        case .off:
+            return "power.circle"
+        case .smart:
+            return keepAwakeShouldRun ? "shield.fill" : "sparkles"
+        case .alwaysOn:
+            return "bolt.fill"
         }
     }
 

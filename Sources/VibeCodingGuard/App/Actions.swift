@@ -7,7 +7,6 @@ extension AppDelegate {
     }
 
     @objc func openCustomize() {
-        advancedExpanded = true
         showControlCenter(onboarding: false)
     }
 
@@ -87,11 +86,6 @@ extension AppDelegate {
         config.batteryAlertsEnabled = switches["batteryAlerts"]?.state == .on
         syncPetLock()
         runChecks()
-    }
-
-    @objc func toggleAdvancedOptions() {
-        advancedExpanded.toggle()
-        rebuildControlCenter(onboarding: !config.onboardingCompleted)
     }
 
     @objc func notificationPermissionAction() {

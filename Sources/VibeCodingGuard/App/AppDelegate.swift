@@ -50,13 +50,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var petLockAccessibilityTrusted = false
     var petLockActive = false
     var controlWindow: NSWindow?
+    var statusViews: [String: NSView] = [:]
+    var imageViews: [String: NSImageView] = [:]
     var statusLabels: [String: NSTextField] = [:]
     var actionButtons: [String: NSButton] = [:]
     var radioButtons: [String: NSButton] = [:]
     var popups: [String: NSPopUpButton] = [:]
     var segments: [String: NSSegmentedControl] = [:]
     var switches: [String: NSSwitch] = [:]
-    var advancedExpanded = false
     var activeCustomizeGroup: CustomizeGroup = .keepAwake
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -91,6 +92,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
 
         controlWindow = nil
+        statusViews.removeAll()
+        imageViews.removeAll()
         statusLabels.removeAll()
         actionButtons.removeAll()
         radioButtons.removeAll()
@@ -100,8 +103,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func startTimers() {
-        batteryTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            self?.checkBattery()
+        batteryTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
+            self?.runLiveChecks()
         }
         displayTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
             self?.checkDisplayIdle()
@@ -112,12 +115,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func runChecks() {
-        syncKeepAwakeMode()
         lastPowerSettings = readPowerSettings()
-        syncPetLock()
         refreshNotificationStatus()
-        checkBattery()
+        runLiveChecks()
         checkDisplayIdle()
+    }
+
+    func runLiveChecks() {
+        syncKeepAwakeMode()
+        syncPetLock()
+        checkBattery()
         refreshMenuStatus()
         refreshWindow()
     }

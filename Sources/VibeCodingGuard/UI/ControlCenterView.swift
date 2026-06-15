@@ -10,13 +10,15 @@ extension AppDelegate {
 
         statusLabels.removeAll()
         actionButtons.removeAll()
+        statusViews.removeAll()
+        imageViews.removeAll()
         radioButtons.removeAll()
         popups.removeAll()
         segments.removeAll()
         switches.removeAll()
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 520 : 320),
+            contentRect: NSRect(x: 0, y: 0, width: 560, height: 460),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
@@ -52,11 +54,6 @@ extension AppDelegate {
     }
 
     func productRootView() -> NSView {
-        let root = NSStackView()
-        root.orientation = .vertical
-        root.spacing = 0
-        root.translatesAutoresizingMaskIntoConstraints = false
-
         let content = NSStackView()
         content.orientation = .vertical
         content.spacing = 16
@@ -64,66 +61,66 @@ extension AppDelegate {
         content.edgeInsets = NSEdgeInsets(top: 22, left: 26, bottom: 18, right: 26)
         content.translatesAutoresizingMaskIntoConstraints = false
         content.addArrangedSubview(simpleHero())
-        if needsPowerAdapterTip {
-            content.addArrangedSubview(simplePowerHint())
-        }
-        if needsSetupHelp {
-            content.addArrangedSubview(simpleSetupHint())
-        }
-        content.addArrangedSubview(simpleCustomizeRow())
-        if advancedExpanded {
-            content.addArrangedSubview(simpleCustomizePanel())
-        }
-
-        root.addArrangedSubview(content)
+        content.addArrangedSubview(simplePowerHint())
+        content.addArrangedSubview(simpleSetupHint())
+        content.addArrangedSubview(simpleCustomizePanel())
 
         let container = NSView()
         container.translatesAutoresizingMaskIntoConstraints = false
         container.wantsLayer = true
         container.layer?.backgroundColor = productBackgroundColor().cgColor
-        container.addSubview(root)
+        container.addSubview(content)
         NSLayoutConstraint.activate([
-            root.topAnchor.constraint(equalTo: container.topAnchor),
-            root.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            root.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            root.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            content.topAnchor.constraint(equalTo: container.topAnchor),
+            content.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            content.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            content.bottomAnchor.constraint(lessThanOrEqualTo: container.bottomAnchor)
         ])
         return container
     }
 
     func simpleHero() -> NSView {
-        let card = RoundedView(fill: productCardColor(), stroke: NSColor.separatorColor.withAlphaComponent(0.26), radius: 8)
-        card.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        card.heightAnchor.constraint(equalToConstant: 170).isActive = true
-
         let stack = NSStackView()
         stack.orientation = .vertical
-        stack.spacing = 12
+        stack.spacing = 14
         stack.alignment = .centerX
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.widthAnchor.constraint(equalToConstant: 500).isActive = true
 
-        let title = label("Keep Awake", size: 28, weight: .bold)
-        title.alignment = .center
+        let statusRow = NSStackView()
+        statusRow.orientation = .horizontal
+        statusRow.spacing = 12
+        statusRow.alignment = .centerY
+
+        let statusIcon = NSImageView()
+        statusIcon.translatesAutoresizingMaskIntoConstraints = false
+        statusIcon.imageScaling = .scaleProportionallyDown
+        statusIcon.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        statusIcon.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        imageViews["productStatusIcon"] = statusIcon
+        statusRow.addArrangedSubview(statusIcon)
+
+        let textStack = NSStackView()
+        textStack.orientation = .vertical
+        textStack.spacing = 3
+        textStack.alignment = .leading
+
+        let title = label("Keep Awake", size: 24, weight: .bold)
         title.maximumNumberOfLines = 2
         statusLabels["productHeroTitle"] = title
-        stack.addArrangedSubview(title)
+        textStack.addArrangedSubview(title)
 
         let message = label("Choose when your Mac should keep working.", size: 13, color: .secondaryLabelColor)
-        message.alignment = .center
+        message.maximumNumberOfLines = 2
         statusLabels["productHeroMessage"] = message
-        stack.addArrangedSubview(message)
+        textStack.addArrangedSubview(message)
+
+        statusRow.addArrangedSubview(textStack)
+        statusRow.addArrangedSubview(spacer())
+        stack.addArrangedSubview(statusRow)
 
         stack.addArrangedSubview(keepAwakeModeRadioGroup())
-
-        card.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.centerYAnchor.constraint(equalTo: card.centerYAnchor),
-            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 26),
-            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -26),
-            stack.topAnchor.constraint(greaterThanOrEqualTo: card.topAnchor, constant: 20),
-            stack.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -20)
-        ])
-        return card
+        return stack
     }
 
     func simplePowerHint() -> NSView {
@@ -136,6 +133,8 @@ extension AppDelegate {
         let text = label("Power adapter not connected. Plug in before leaving a long run.", size: 12, color: .secondaryLabelColor)
         text.maximumNumberOfLines = 2
         row.addArrangedSubview(text)
+        row.isHidden = !needsPowerAdapterTip
+        statusViews["powerHint"] = row
         return row
     }
 
@@ -149,47 +148,24 @@ extension AppDelegate {
         let text = label("macOS will ask once so VCG can keep working with the lid closed.", size: 12, color: .secondaryLabelColor)
         text.maximumNumberOfLines = 2
         row.addArrangedSubview(text)
-        return row
-    }
-
-    func simpleCustomizeRow() -> NSView {
-        let row = NSStackView()
-        row.orientation = .horizontal
-        row.spacing = 10
-        row.alignment = .centerY
-        row.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        row.addArrangedSubview(spacer())
-
-        let button = NSButton(title: advancedExpanded ? "Hide Customize" : "Customize", target: self, action: #selector(toggleAdvancedOptions))
-        button.bezelStyle = .rounded
-        row.addArrangedSubview(button)
+        row.isHidden = !needsSetupHelp
+        statusViews["setupHint"] = row
         return row
     }
 
     func simpleCustomizePanel() -> NSView {
-        let card = RoundedView(fill: productCardColor(), stroke: NSColor.separatorColor.withAlphaComponent(0.26), radius: 8)
-        card.widthAnchor.constraint(equalToConstant: 500).isActive = true
-        card.heightAnchor.constraint(greaterThanOrEqualToConstant: 170).isActive = true
-
         let stack = NSStackView()
         stack.orientation = .vertical
         stack.spacing = 14
         stack.alignment = .leading
         stack.edgeInsets = NSEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
         stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.widthAnchor.constraint(equalToConstant: 500).isActive = true
 
         stack.addArrangedSubview(customizeGroupControl())
         stack.addArrangedSubview(separator())
         stack.addArrangedSubview(customizeGroupContent())
-
-        card.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: card.topAnchor),
-            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor),
-            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor),
-            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor)
-        ])
-        return card
+        return stack
     }
 
     func keepAwakeModeRadioGroup() -> NSView {
