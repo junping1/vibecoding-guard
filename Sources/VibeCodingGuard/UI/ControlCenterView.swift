@@ -38,21 +38,6 @@ extension AppDelegate {
         window.orderFrontRegardless()
     }
 
-    func rebuildControlCenterIfNeeded() {
-        guard controlWindow != nil else {
-            return
-        }
-        rebuildControlCenter(onboarding: !config.onboardingCompleted)
-    }
-
-    func rebuildControlCenter(onboarding: Bool) {
-        let oldWindow = controlWindow
-        let previousFrame = oldWindow?.frame
-        controlWindow = nil
-        oldWindow?.close()
-        showControlCenter(onboarding: onboarding, previousFrame: previousFrame)
-    }
-
     func productRootView() -> NSView {
         let content = NSStackView()
         content.orientation = .vertical
@@ -164,7 +149,7 @@ extension AppDelegate {
 
         stack.addArrangedSubview(customizeGroupControl())
         stack.addArrangedSubview(separator())
-        stack.addArrangedSubview(customizeGroupContent())
+        stack.addArrangedSubview(customizeGroupsContent())
         return stack
     }
 
@@ -210,14 +195,31 @@ extension AppDelegate {
         return control
     }
 
-    func customizeGroupContent() -> NSView {
+    func customizeGroupsContent() -> NSView {
+        let stack = NSStackView()
+        stack.orientation = .vertical
+        stack.spacing = 0
+        stack.alignment = .leading
+        stack.widthAnchor.constraint(equalToConstant: 464).isActive = true
+
+        for group in CustomizeGroup.allCases {
+            let content = customizeGroupContent(for: group)
+            content.isHidden = group != activeCustomizeGroup
+            statusViews["customize.\(group.rawValue)"] = content
+            stack.addArrangedSubview(content)
+        }
+
+        return stack
+    }
+
+    func customizeGroupContent(for group: CustomizeGroup) -> NSView {
         let stack = NSStackView()
         stack.orientation = .vertical
         stack.spacing = 12
         stack.alignment = .leading
         stack.widthAnchor.constraint(equalToConstant: 464).isActive = true
 
-        switch activeCustomizeGroup {
+        switch group {
         case .keepAwake:
             stack.addArrangedSubview(compactTextRow(
                 title: "Smart watches",
@@ -259,10 +261,13 @@ extension AppDelegate {
             let status = config.petLockEnabled
                 ? "When you turn Keep Awake off, the keyboard unlocks automatically."
                 : "Turn this on if something may press the keyboard during an agent run."
-            stack.addArrangedSubview(compactInfoRow(status))
-            if config.petLockEnabled && !petLockAccessibilityTrusted {
-                stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
-            }
+            let info = compactInfoRow(status)
+            statusLabels["keyboardLockInfo"] = info as? NSTextField
+            stack.addArrangedSubview(info)
+            let permissionRow = compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction))
+            permissionRow.isHidden = !(config.petLockEnabled && !petLockAccessibilityTrusted)
+            statusViews["keyboardPermissionRow"] = permissionRow
+            stack.addArrangedSubview(permissionRow)
         }
 
         return stack

@@ -2,7 +2,7 @@ import AppKit
 import Foundation
 import UserNotifications
 
-enum CustomizeGroup: Int {
+enum CustomizeGroup: Int, CaseIterable {
     case keepAwake
     case display
     case battery

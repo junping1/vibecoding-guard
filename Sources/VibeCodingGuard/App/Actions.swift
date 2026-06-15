@@ -13,25 +13,21 @@ extension AppDelegate {
     @objc func setKeepAwakeOffFromMenu() {
         setKeepAwakeMode(.off)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func setKeepAwakeSmartFromMenu() {
         setKeepAwakeMode(.smart)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func setKeepAwakeAlwaysOnFromMenu() {
         setKeepAwakeMode(.alwaysOn)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func togglePetLockFromMenu() {
         setPetLock(enabled: !config.petLockEnabled, promptIfNeeded: true)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func displaySleepNow() {
@@ -54,13 +50,12 @@ extension AppDelegate {
         let rawMode = sender.identifier?.rawValue.replacingOccurrences(of: "keepAwake.", with: "") ?? KeepAwakeMode.smart.rawValue
         setKeepAwakeMode(KeepAwakeMode(rawValue: rawMode) ?? .smart)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func changeCustomizeGroup() {
         let selected = segments["customizeGroup"]?.selectedSegment ?? 0
         activeCustomizeGroup = CustomizeGroup(rawValue: selected) ?? .keepAwake
-        rebuildControlCenterIfNeeded()
+        refreshWindow()
     }
 
     @objc func switchDisplayIdleSleep() {
@@ -72,14 +67,12 @@ extension AppDelegate {
         let enabled = switches["petLock"]?.state == .on
         setPetLock(enabled: enabled, promptIfNeeded: true)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func switchLidClosedMode() {
         let enabled = switches["lidClosed"]?.state == .on
         setLidClosedMode(enabled: enabled)
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func switchBatteryAlerts() {
@@ -105,7 +98,6 @@ extension AppDelegate {
         requestPetLockPermission()
         syncPetLock()
         runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func changeIdleDelay() {

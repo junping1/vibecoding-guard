@@ -131,7 +131,6 @@ extension AppDelegate {
             DispatchQueue.main.async { [weak self] in
                 self?.setPetLock(enabled: false, promptIfNeeded: false)
                 self?.runChecks()
-                self?.rebuildControlCenterIfNeeded()
             }
         }
 

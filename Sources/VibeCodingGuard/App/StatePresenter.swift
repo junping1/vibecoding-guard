@@ -48,6 +48,8 @@ extension AppDelegate {
         updateStatusIcon(tone: product.tone)
         statusViews["powerHint"]?.isHidden = !needsPowerAdapterTip
         statusViews["setupHint"]?.isHidden = !needsSetupHelp
+        refreshCustomizeGroupVisibility()
+        refreshKeyboardLockInfo()
 
         refreshNotificationButton()
         refreshPetLockPermissionButton()
@@ -79,6 +81,20 @@ extension AppDelegate {
             return
         }
         segment.selectedSegment = activeCustomizeGroup.rawValue
+    }
+
+    func refreshCustomizeGroupVisibility() {
+        for group in CustomizeGroup.allCases {
+            statusViews["customize.\(group.rawValue)"]?.isHidden = group != activeCustomizeGroup
+        }
+        statusViews["keyboardPermissionRow"]?.isHidden = !(config.petLockEnabled && !petLockAccessibilityTrusted)
+    }
+
+    func refreshKeyboardLockInfo() {
+        let text = config.petLockEnabled
+            ? "When you turn Keep Awake off, the keyboard unlocks automatically."
+            : "Turn this on if something may press the keyboard during an agent run."
+        statusLabels["keyboardLockInfo"]?.stringValue = text
     }
 
     func refreshPetLockPermissionButton() {
