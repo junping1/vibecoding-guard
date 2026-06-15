@@ -14,7 +14,6 @@ extension AppDelegate {
         config.keepAwakeEnabled = enabled
         config.displayIdleSleepEnabled = enabled
         config.batteryAlertsEnabled = enabled
-        config.lidClosedModeEnabled = enabled
         applyKeepAwakeState()
     }
 

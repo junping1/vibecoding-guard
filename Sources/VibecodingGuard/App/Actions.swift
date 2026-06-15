@@ -14,7 +14,6 @@ extension AppDelegate {
     @objc func toggleGuardFromMenu() {
         let enabled = !masterGuardEnabled
         setMasterGuard(enabled: enabled)
-        setLidClosedMode(enabled: enabled)
         runChecks()
         rebuildControlCenterIfNeeded()
     }
@@ -50,7 +49,6 @@ extension AppDelegate {
 
         let enabled = !masterGuardEnabled
         setMasterGuard(enabled: enabled)
-        setLidClosedMode(enabled: enabled)
         if enabled && notificationStatus == .notDetermined {
             requestNotificationPermission()
         }
