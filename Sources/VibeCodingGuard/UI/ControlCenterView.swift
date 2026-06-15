@@ -23,7 +23,7 @@ extension AppDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = onboarding ? "Set Up Vibe Coding Guard" : "Vibe Coding Guard"
+        window.title = onboarding ? "Set Up Vibe Coding Guard".localized : "Vibe Coding Guard".localized
         window.minSize = NSSize(width: 520, height: 360)
         position(window, previousFrame: previousFrame)
         window.delegate = self
@@ -100,12 +100,12 @@ extension AppDelegate {
         textStack.spacing = 3
         textStack.alignment = .leading
 
-        let title = label("Keep Awake", size: 23, weight: .bold)
+        let title = label("Vibe Coding Guard".localized, size: 23, weight: .bold)
         title.maximumNumberOfLines = 2
         statusLabels["productHeroTitle"] = title
         textStack.addArrangedSubview(title)
 
-        let message = label("Choose when your Mac should keep working.", size: 13, color: .secondaryLabelColor)
+        let message = label("Choose when your Mac should keep working.".localized, size: 13, color: .secondaryLabelColor)
         message.maximumNumberOfLines = 2
         statusLabels["productHeroMessage"] = message
         textStack.addArrangedSubview(message)
@@ -125,7 +125,7 @@ extension AppDelegate {
         row.alignment = .centerY
         row.widthAnchor.constraint(equalToConstant: 500).isActive = true
         row.addArrangedSubview(symbolCircle("exclamationmark.triangle.fill", tone: .warning, size: 24))
-        let text = label("Power adapter not connected. Plug in before leaving a long run.", size: 12, color: .secondaryLabelColor)
+        let text = label("Power adapter not connected. Plug in before leaving a long run.".localized, size: 12, color: .secondaryLabelColor)
         text.maximumNumberOfLines = 2
         row.addArrangedSubview(text)
         row.isHidden = !needsPowerAdapterTip
@@ -140,7 +140,7 @@ extension AppDelegate {
         row.alignment = .centerY
         row.widthAnchor.constraint(equalToConstant: 500).isActive = true
         row.addArrangedSubview(symbolCircle("lock.open.fill", tone: .warning, size: 24))
-        let text = label("macOS will ask once so VCG can keep working with the lid closed.", size: 12, color: .secondaryLabelColor)
+        let text = label("macOS will ask for your password once to allow lid-closed mode.".localized, size: 12, color: .secondaryLabelColor)
         text.maximumNumberOfLines = 2
         row.addArrangedSubview(text)
         row.isHidden = !needsSetupHelp
@@ -169,9 +169,9 @@ extension AppDelegate {
         row.spacing = 18
         row.alignment = .centerY
 
-        row.addArrangedSubview(modeRadioButton(title: "Off", mode: .off))
-        row.addArrangedSubview(modeRadioButton(title: "Auto", mode: .smart))
-        row.addArrangedSubview(modeRadioButton(title: "Always", mode: .alwaysOn))
+        row.addArrangedSubview(modeRadioButton(title: "Off".localized, mode: .off))
+        row.addArrangedSubview(modeRadioButton(title: "Auto".localized, mode: .smart))
+        row.addArrangedSubview(modeRadioButton(title: "Always".localized, mode: .alwaysOn))
         selectKeepAwakeRadioButtons()
         return row
     }
@@ -232,19 +232,19 @@ extension AppDelegate {
         switch group {
         case .keepAwake:
             stack.addArrangedSubview(compactTextRow(
-                title: "Auto watches",
-                detail: "Codex and Claude Code"
+                title: "Watches for".localized,
+                detail: "Codex and Claude Code".localized
             ))
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Allow work with lid closed",
-                detail: "macOS asks once before VCG can change this power setting.",
+                title: "Keep running with lid closed".localized,
+                detail: "Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat.".localized,
                 switchKey: "lidClosed",
                 action: #selector(switchLidClosedMode)
             ))
             let powerPermissionRow = compactButtonRow(
-                title: "Saved power permission",
-                detail: "Allows only VCG's closed-lid power commands.",
-                buttonTitle: "Remove",
+                title: "Lid-closed admin access".localized,
+                detail: "Allows the app to change lid settings without asking for your password. Your password is not stored.".localized,
+                buttonTitle: "Remove".localized,
                 buttonKey: "powerPermission",
                 action: #selector(removePowerPermissionAction)
             )
@@ -253,45 +253,45 @@ extension AppDelegate {
             stack.addArrangedSubview(powerPermissionRow)
         case .display:
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Let display sleep",
-                detail: "Turns the screen off after idle time while work keeps running.",
+                title: "Turn off screen when idle".localized,
+                detail: "Screen turns off after idle time, but your work keeps running.".localized,
                 switchKey: "displayIdleSleep",
                 action: #selector(switchDisplayIdleSleep)
             ))
-            stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
-            stack.addArrangedSubview(compactButtonRow(title: "Sleep display now", buttonTitle: "Sleep", buttonKey: "displaySleep", action: #selector(displaySleepNow)))
+            stack.addArrangedSubview(compactPopupRow(title: "Screen off after".localized, popupKey: "idle", titles: ["3 minutes".localized, "5 minutes".localized, "10 minutes".localized, "15 minutes".localized], action: #selector(changeIdleDelay)))
+            stack.addArrangedSubview(compactButtonRow(title: "Sleep display now".localized, buttonTitle: "Sleep".localized, buttonKey: "displaySleep", action: #selector(displaySleepNow)))
         case .battery:
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Battery alerts",
-                detail: "Plays a warning before long-running work drains the battery.",
+                title: "Low battery warnings".localized,
+                detail: "Warns you out loud when battery gets low.".localized,
                 switchKey: "batteryAlerts",
                 action: #selector(switchBatteryAlerts)
             ))
-            stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
-            stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert", popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
+            stack.addArrangedSubview(compactPopupRow(title: "Low battery alert".localized, popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
+            stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert".localized, popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
             stack.addArrangedSubview(compactButtonRow(
-                title: "Notification banners",
-                detail: "Optional. Sound alerts still work without banners.",
+                title: "Notification banners".localized,
+                detail: "Optional. Sound alerts still work without banners.".localized,
                 buttonKey: "productNotification",
                 action: #selector(notificationPermissionAction)
             ))
-            stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
+            stack.addArrangedSubview(compactButtonRow(title: "Test alert sound".localized, buttonTitle: "Test".localized, buttonKey: "testAlert", action: #selector(testBatteryAlert)))
         case .keyboard:
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Keyboard Lock",
-                detail: "Blocks accidental key presses, brightness, and volume keys while Keep Awake is active.",
+                title: "Lock Keyboard".localized,
+                detail: "Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime.".localized,
                 switchKey: "petLock",
                 action: #selector(switchPetLock)
             ))
             let status = config.petLockEnabled
-                ? "When you turn Keep Awake off, the keyboard unlocks automatically."
-                : "Turn this on if something may press the keyboard during an agent run."
+                ? "When you turn Keep Awake off, the keyboard unlocks automatically.".localized
+                : "Turn this on if a pet or kid might step on the keyboard while a job runs.".localized
             let info = compactInfoRow(status)
             statusLabels["keyboardLockInfo"] = info as? NSTextField
             stack.addArrangedSubview(info)
             let permissionRow = compactButtonRow(
-                title: "Accessibility permission",
-                detail: "Needed only to block accidental key presses.",
+                title: "Accessibility permission".localized,
+                detail: "Required so macOS can intercept keyboard input.".localized,
                 buttonKey: "petLockPermission",
                 action: #selector(petLockPermissionAction)
             )

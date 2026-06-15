@@ -8,11 +8,11 @@ enum KeepAwakeMode: String, CaseIterable {
     var title: String {
         switch self {
         case .off:
-            return "Off"
+            return "Off".localized
         case .smart:
-            return "Auto"
+            return "Auto".localized
         case .alwaysOn:
-            return "Always"
+            return "Always".localized
         }
     }
 

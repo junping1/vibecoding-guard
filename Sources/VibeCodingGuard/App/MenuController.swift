@@ -3,13 +3,13 @@ import AppKit
 extension AppDelegate {
     func setupStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let image = NSImage(systemSymbolName: "shield", accessibilityDescription: "Vibe Coding Guard") {
+        if let image = NSImage(systemSymbolName: "shield", accessibilityDescription: "Vibe Coding Guard".localized) {
             image.isTemplate = true
             item.button?.image = image
             item.button?.imagePosition = .imageLeading
         }
-        item.button?.title = "Auto"
-        item.button?.toolTip = "Vibe Coding Guard keeps long-running work alive while your display can rest."
+        item.button?.title = "Auto".localized
+        item.button?.toolTip = "Keeps your Mac awake during long coding sessions.".localized
         statusItem = item
         rebuildMenu()
     }
@@ -34,26 +34,26 @@ extension AppDelegate {
 
     func rebuildMenu() {
         let menu = NSMenu()
-        menu.addItem(disabledItem(menuHeadline()))
+        menu.addItem(disabledItem(menuHeadline().localized))
         menu.addItem(disabledItem(menuActivityLine()))
         if needsPowerAdapterTip {
-            menu.addItem(disabledItem("Power adapter not connected"))
+            menu.addItem(disabledItem("Power adapter not connected".localized))
         }
         menu.addItem(disabledItem(menuEnvironmentLine()))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(keepAwakeModeMenuItem())
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Show Window", #selector(openControlCenter)))
-        menu.addItem(toggleActionItem("Keyboard Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
+        menu.addItem(actionItem("Show Window".localized, #selector(openControlCenter)))
+        menu.addItem(toggleActionItem("Keyboard Lock".localized, state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
         if config.petLockEnabled && !petLockAccessibilityTrusted {
             menu.addItem(actionItem(keyboardPermissionMenuTitle(), #selector(petLockPermissionAction)))
         }
-        menu.addItem(actionItem("Customize...", #selector(openCustomize)))
+        menu.addItem(actionItem("Customize...".localized, #selector(openCustomize)))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Sleep Display Now", #selector(displaySleepNow)))
-        menu.addItem(actionItem("Test Battery Alert", #selector(testBatteryAlert)))
+        menu.addItem(actionItem("Sleep Display Now".localized, #selector(displaySleepNow)))
+        menu.addItem(actionItem("Test Battery Alert".localized, #selector(testBatteryAlert)))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Quit Vibe Coding Guard", #selector(quit), key: "q"))
+        menu.addItem(actionItem("Quit Vibe Coding Guard".localized, #selector(quit), key: "q"))
         statusItem?.menu = menu
     }
 
@@ -66,7 +66,7 @@ extension AppDelegate {
     }
 
     func keyboardPermissionMenuTitle() -> String {
-        petLockPermissionPrompted ? "Open Accessibility Settings..." : "Allow Keyboard Permission..."
+        petLockPermissionPrompted ? "Open Accessibility Settings...".localized : "Allow Keyboard Permission...".localized
     }
 
     func menuBarSymbolName() -> String {
@@ -88,29 +88,29 @@ extension AppDelegate {
     func menuHeadline() -> String {
         switch config.keepAwakeMode {
         case .off:
-            return "Off"
+            return "Off".localized
         case .smart:
-            return "Auto"
+            return "Auto".localized
         case .alwaysOn:
-            return "Always"
+            return "Always".localized
         }
     }
 
     func menuTooltip() -> String {
-        let powerLine = needsPowerAdapterTip ? "\nPower adapter not connected" : ""
-        return "\(menuHeadline())\n\(menuActivityLine())\(powerLine)\n\(menuEnvironmentLine())"
+        let powerLine = needsPowerAdapterTip ? "\n" + "Power adapter not connected".localized : ""
+        return "\(menuHeadline().localized)\n\(menuActivityLine())\(powerLine)\n\(menuEnvironmentLine())"
     }
 
     func menuActivityLine() -> String {
         let activityText: String
         if config.keepAwakeMode == .smart, let activity = lastAgentActivity {
-            activityText = "\(activity.displayName) detected"
+            activityText = String(format: "%@ detected".localized, activity.displayName)
         } else if config.keepAwakeMode == .smart {
-            activityText = "Ready for Codex or Claude Code"
+            activityText = "Ready for Codex or Claude Code".localized
         } else if config.keepAwakeMode == .alwaysOn {
-            activityText = "Keeping Mac awake"
+            activityText = "Keeping Mac awake".localized
         } else {
-            activityText = "Not keeping Mac awake"
+            activityText = "Not keeping Mac awake".localized
         }
 
         return activityText
@@ -119,14 +119,14 @@ extension AppDelegate {
     func menuEnvironmentLine() -> String {
         let lidText: String
         if config.lidClosedModeEnabled {
-            lidText = lastPowerSettings?.sleepDisabled == true ? "Lid closed allowed" : "Lid setup needed"
+            lidText = lastPowerSettings?.sleepDisabled == true ? "Lid closed allowed".localized : "Lid setup needed".localized
         } else {
-            lidText = "Lid open only"
+            lidText = "Lid open only".localized
         }
         let displayText = config.displayIdleSleepEnabled
-            ? "Display sleeps after \(config.idleDisplaySeconds / 60) min"
-            : "Display stays on"
-        return "\(lidText) - \(displayText)"
+            ? String(format: "Display sleeps after %d min".localized, config.idleDisplaySeconds / 60)
+            : "Display stays on".localized
+        return "\(lidText) • \(displayText)"
     }
 
     func disabledItem(_ title: String) -> NSMenuItem {
@@ -148,11 +148,11 @@ extension AppDelegate {
     }
 
     func keepAwakeModeMenuItem() -> NSMenuItem {
-        let item = NSMenuItem(title: "Keep Awake", action: nil, keyEquivalent: "")
+        let item = NSMenuItem(title: "Keep Awake".localized, action: nil, keyEquivalent: "")
         let submenu = NSMenu()
-        submenu.addItem(modeActionItem("Off", mode: .off, action: #selector(setKeepAwakeOffFromMenu)))
-        submenu.addItem(modeActionItem("Auto", mode: .smart, action: #selector(setKeepAwakeSmartFromMenu)))
-        submenu.addItem(modeActionItem("Always", mode: .alwaysOn, action: #selector(setKeepAwakeAlwaysOnFromMenu)))
+        submenu.addItem(modeActionItem("Off".localized, mode: .off, action: #selector(setKeepAwakeOffFromMenu)))
+        submenu.addItem(modeActionItem("Auto".localized, mode: .smart, action: #selector(setKeepAwakeSmartFromMenu)))
+        submenu.addItem(modeActionItem("Always".localized, mode: .alwaysOn, action: #selector(setKeepAwakeAlwaysOnFromMenu)))
         item.submenu = submenu
         return item
     }

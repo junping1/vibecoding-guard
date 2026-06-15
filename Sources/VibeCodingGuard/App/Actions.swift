@@ -36,9 +36,10 @@ extension AppDelegate {
 
     @objc func testBatteryAlert() {
         sendBatteryAlert(
-            title: "Vibe Coding Guard test",
-            message: "Battery warnings are ready.",
-            critical: false
+            title: "Vibe Coding Guard test".localized,
+            message: "Battery warnings are ready.".localized,
+            critical: false,
+            isTest: true
         )
     }
 
@@ -247,7 +248,7 @@ extension AppDelegate {
         """
         let command = "/bin/sh -c \(shellQuoted(installScript))"
         let script = """
-        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "Allow Vibe Coding Guard to change its closed-lid power setting without asking again. This allows only VCG's exact pmset commands."
+        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "\("Allow Vibe Coding Guard to change lid-closed settings without asking for your password again.".localized)"
         """
         let installed = withKeyboardInputTemporarilyAllowed {
             runCommandStatus("/usr/bin/osascript", ["-e", script]) == 0
@@ -267,7 +268,7 @@ extension AppDelegate {
         """
         let command = "/bin/sh -c \(shellQuoted(removeScript))"
         let script = """
-        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "Remove Vibe Coding Guard's saved closed-lid power permission."
+        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "\("Remove the admin permission for lid-closed settings.".localized)"
         """
         let removed = withKeyboardInputTemporarilyAllowed {
             runCommandStatus("/usr/bin/osascript", ["-e", script]) == 0

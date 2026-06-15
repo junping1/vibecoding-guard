@@ -19,16 +19,16 @@ extension AppDelegate {
             maybeSendBatteryAlert(
                 level: "critical",
                 repeatAfter: 300,
-                title: "Battery critical",
-                message: "Battery is at \(battery.percent) percent. Plug in power now.",
+                title: "Battery critical".localized,
+                message: String(format: "Battery is at %d percent. Plug in power now.".localized, battery.percent),
                 critical: true
             )
         } else if battery.percent <= config.warningPercent {
             maybeSendBatteryAlert(
                 level: "warning",
                 repeatAfter: 900,
-                title: "Battery low",
-                message: "Battery is at \(battery.percent) percent. Please plug in power.",
+                title: "Battery low".localized,
+                message: String(format: "Battery is at %d percent. Please plug in power.".localized, battery.percent),
                 critical: false
             )
         }
@@ -55,13 +55,17 @@ extension AppDelegate {
         sendBatteryAlert(title: title, message: message, critical: critical)
     }
 
-    func sendBatteryAlert(title: String, message: String, critical: Bool) {
+    func sendBatteryAlert(title: String, message: String, critical: Bool, isTest: Bool = false) {
         sendUserNotification(title: title, message: message)
 
         if let sound = NSSound(named: critical ? "Sosumi" : "Glass") {
             sound.play()
         }
-        speak(critical ? "Battery critical. Plug in power now." : "Battery low. Please plug in power.")
+        if isTest {
+            speak("This is a test. Alerts are working.".localized)
+        } else {
+            speak(critical ? "Battery is almost dead. Plug in now.".localized : "Battery is getting low. Plug in your charger.".localized)
+        }
     }
 
     func sendUserNotification(title: String, message: String) {

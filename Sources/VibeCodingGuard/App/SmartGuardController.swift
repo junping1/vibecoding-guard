@@ -11,7 +11,7 @@ struct AgentActivity {
     let detail: String
 
     var displayName: String {
-        "\(kind.rawValue) \(detail)"
+        return String(format: "%@ %@", kind.rawValue, detail)
     }
 }
 
@@ -99,14 +99,14 @@ extension AppDelegate {
 
     func agentDetail(from command: String) -> String {
         if command.contains("node_repl") {
-            return "tool session"
+            return "tool session".localized
         }
         if command.contains("app-server") {
-            return "task"
+            return "task".localized
         }
         if command.contains("claude") {
-            return "task"
+            return "task".localized
         }
-        return "work"
+        return "work".localized
     }
 }

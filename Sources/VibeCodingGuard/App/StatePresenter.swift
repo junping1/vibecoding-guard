@@ -51,7 +51,7 @@ extension AppDelegate {
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
 
         let product = productHealth()
-        statusLabels["productHeroTitle"]?.stringValue = product.title
+        statusLabels["productHeroTitle"]?.stringValue = "Vibe Coding Guard"
         statusLabels["productHeroMessage"]?.stringValue = product.message
         updateStatusIcon(tone: product.tone)
         statusViews["powerHint"]?.isHidden = !needsPowerAdapterTip
@@ -71,16 +71,16 @@ extension AppDelegate {
         }
         switch notificationStatus {
         case .authorized, .provisional, .ephemeral:
-            button.title = "Allowed"
+            button.title = "Allowed".localized
             button.isEnabled = false
         case .denied:
-            button.title = "Open Settings"
+            button.title = "Open Settings".localized
             button.isEnabled = true
         case .notDetermined:
-            button.title = "Allow"
+            button.title = "Allow".localized
             button.isEnabled = true
         @unknown default:
-            button.title = "Open Settings"
+            button.title = "Open Settings".localized
             button.isEnabled = true
         }
     }
@@ -104,12 +104,12 @@ extension AppDelegate {
         let text: String
         if config.petLockEnabled && !petLockAccessibilityTrusted {
             text = petLockPermissionPrompted
-                ? "Turn on VCG in Accessibility, then come back here."
-                : "macOS will ask once so Keyboard Lock can block accidental key presses."
+                ? "Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back.".localized
+                : "macOS will ask for permission once so the keyboard can be locked.".localized
         } else if config.petLockEnabled {
-            text = "When you turn Keep Awake off, the keyboard unlocks automatically."
+            text = "When you turn Keep Awake off, the keyboard unlocks automatically.".localized
         } else {
-            text = "Turn this on if something may press the keyboard during an agent run."
+            text = "Turn this on if a pet or kid might step on the keyboard while a job runs.".localized
         }
         statusLabels["keyboardLockInfo"]?.stringValue = text
     }
@@ -119,11 +119,11 @@ extension AppDelegate {
             return
         }
         if petLockAccessibilityTrusted {
-            button.title = "Allowed"
+            button.title = "Allowed".localized
         } else if petLockPermissionPrompted {
-            button.title = "Open Settings"
+            button.title = "Open Settings".localized
         } else {
-            button.title = "Allow"
+            button.title = "Allow".localized
         }
         button.isEnabled = !petLockAccessibilityTrusted
     }
@@ -132,7 +132,7 @@ extension AppDelegate {
         guard let button = actionButtons["powerPermission"] else {
             return
         }
-        button.title = powerPermissionInstalled ? "Remove" : "Not Set"
+        button.title = powerPermissionInstalled ? "Remove".localized : "Not Set".localized
         button.isEnabled = powerPermissionInstalled
     }
 
@@ -162,14 +162,14 @@ extension AppDelegate {
         if needsKeepAwakeHelperAttention {
             return (
                 title,
-                "Starting Keep Awake.",
+                "Starting up…".localized,
                 .warning
             )
         }
         if needsSetupHelp {
             return (
                 title,
-                "Approve closed-lid work once in macOS.",
+                "macOS needs a one-time approval for lid-closed mode.".localized,
                 .warning
             )
         }
@@ -191,12 +191,12 @@ extension AppDelegate {
     func productModeMessage() -> String {
         switch config.keepAwakeMode {
         case .off:
-            return "VCG is idle."
+            return "Standing by.".localized
         case .smart:
             if let activity = lastAgentActivity {
-                return "\(activity.displayName) detected."
+                return String(format: "%@ detected.".localized, activity.displayName)
             }
-            return "Ready for Codex or Claude Code."
+            return "Ready for Codex or Claude Code.".localized
         case .alwaysOn:
             return guardOnMessage()
         }
@@ -239,42 +239,42 @@ extension AppDelegate {
 
     func guardOnMessage() -> String {
         if smartModeActive, let activity = lastAgentActivity {
-            return "\(activity.displayName) detected. Keep Awake is on."
+            return String(format: "%@ detected. Keep Awake is on.".localized, activity.displayName)
         }
         if config.petLockEnabled && petLockActive {
-            return "Keyboard Lock is blocking accidental key presses."
+            return "Keyboard is locked.".localized
         }
         if config.petLockEnabled && !petLockAccessibilityTrusted {
-            return "Keyboard Lock needs Accessibility permission in Customize."
+            return "Keyboard Lock needs permission. Open the Keyboard tab.".localized
         }
         return config.lidClosedModeEnabled
-            ? "You can close the lid. Keep it on a desk, not in a bag."
-            : "Keep the lid open. Long jobs keep running while the display can sleep."
+            ? "You can close the lid. Keep it on a desk, not in a bag.".localized
+            : "Keep the lid open. Your work keeps going even when the screen turns off.".localized
     }
 
     func petLockSummary() -> String {
         if !config.petLockEnabled {
-            return "Keyboard Lock: off"
+            return "Keyboard Lock: off".localized
         }
         if petLockActive {
-            return "Keyboard Lock: blocking keys"
+            return "Keyboard Lock: blocking keys".localized
         }
         if !petLockAccessibilityTrusted {
-            return "Keyboard Lock: permission needed"
+            return "Keyboard Lock: permission needed".localized
         }
-        return masterGuardEnabled ? "Keyboard Lock: starting" : "Keyboard Lock: waits for Keep Awake"
+        return masterGuardEnabled ? "Keyboard Lock: starting".localized : "Keyboard Lock: waits for Keep Awake".localized
     }
 
     func friendlyBatteryStatus(_ status: String) -> String {
         let lower = status.lowercased()
         if lower.contains("charging") {
-            return "Charging"
+            return "Charging".localized
         }
         if lower.contains("discharging") {
-            return "On battery"
+            return "On battery".localized
         }
         if lower.contains("charged") || lower.contains("finishing") {
-            return "Charged"
+            return "Charged".localized
         }
         return status.capitalized
     }

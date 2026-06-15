@@ -88,6 +88,10 @@ if [[ ! -d "$app_dir" ]]; then
   exit 1
 fi
 
+for localization_dir in "$project_dir"/Resources/*.lproj(N); do
+  ditto --norsrc --noqtn "$localization_dir" "$app_dir/Contents/Resources/$(basename "$localization_dir")"
+done
+
 chmod +x "$app_dir/Contents/MacOS/$executable_name"
 xattr -cr "$app_dir" 2>/dev/null || true
 xattr -d com.apple.FinderInfo "$app_dir" 2>/dev/null || true

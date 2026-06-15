@@ -1,0 +1,127 @@
+/* General / Window Title */
+"Vibe Coding Guard" = "Vibe Coding Guard";
+"Set Up Vibe Coding Guard" = "Vibe Coding Guard の設定";
+"Choose when your Mac should keep working." = "Mac のスリープを防止するタイミングを選択します。";
+"Power adapter not connected. Plug in before leaving a long run." = "電源アダプタが接続されていません。長時間の実行を開始する前に電源を接続してください。";
+"macOS will ask for your password once to allow lid-closed mode." = "macOS がパスワードを一度だけ求めます。蓋を閉じたまま動作するための許可です。";
+
+/* Keep Awake Modes */
+"Off" = "オフ";
+"Auto" = "自動";
+"Always" = "常時";
+
+/* Customize Tabs */
+"Keep Awake" = "スリープ防止";
+"Display" = "ディスプレイ";
+"Battery" = "バッテリー";
+"Keyboard" = "キーボード";
+
+/* Keep Awake Tab */
+"Watches for" = "監視対象";
+"Codex and Claude Code" = "Codex および Claude Code";
+"Keep running with lid closed" = "蓋を閉じても実行を継続";
+"Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat." = "管理者パスワードの入力が一度だけ必要です。必ずデスク上で使用してください。バッグに入れると過熱のおそれがあります。";
+"Lid-closed admin access" = "蓋を閉じた状態の管理者権限";
+"Allows the app to change lid settings without asking for your password. Your password is not stored." = "パスワードを毎回入力することなく、アプリが蓋を閉じた状態の設定を変更できるようにします。パスワードは保存されません。";
+"Remove" = "削除";
+
+/* Display Tab */
+"Turn off screen when idle" = "操作がないときに画面をオフ";
+"Screen turns off after idle time, but your work keeps running." = "一定時間操作がないと画面はオフになりますが、作業は続きます。";
+"Screen off after" = "画面オフまでの時間";
+"3 minutes" = "3分";
+"5 minutes" = "5分";
+"10 minutes" = "10分";
+"15 minutes" = "15分";
+"Sleep display now" = "今すぐディスプレイをスリープ";
+"Sleep" = "ディスプレイ消灯";
+
+/* Battery Tab */
+"Low battery warnings" = "バッテリー残量の警告";
+"Warns you out loud when battery gets low." = "バッテリーが少なくなると音声で知らせます。";
+"Low battery alert" = "低バッテリー警告";
+"Critical battery alert" = "バッテリー残量少（重大）";
+"Notification banners" = "通知バナー";
+"Optional. Sound alerts still work without banners." = "オプション。バナーがなくても音声警告は機能します。";
+"Test alert sound" = "警告音のテスト";
+"Test" = "テスト";
+
+/* Keyboard Tab */
+"Lock Keyboard" = "キーボードのロック";
+"Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime." = "作業中にキーボードをロックします。猫が歩いても安心。⌘⌥⌃L でいつでも解除できます。";
+"Accessibility permission" = "アクセシビリティの権限";
+"Required so macOS can intercept keyboard input." = "macOS がキーボード入力を制御するために必要です。";
+
+/* Button Actions / States */
+"Allow" = "許可";
+"Open Settings" = "設定を開く";
+"Allowed" = "許可済み";
+"Not Set" = "未設定";
+
+/* Accessibility/Keyboard Messages */
+"Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back." = "システム設定 ▸ アクセシビリティで Vibe Coding Guard をオンにしてから、ここに戻ってください。";
+"macOS will ask for permission once so the keyboard can be locked." = "キーボードをロックするために、macOS が一度だけ許可を求めます。";
+"When you turn Keep Awake off, the keyboard unlocks automatically." = "スリープ防止をオフにすると、キーボードは自動的にロック解除されます。";
+"Turn this on if a pet or kid might step on the keyboard while a job runs." = "作業中にペットやお子さんがキーボードを踏む可能性がある場合は、オンにしてください。";
+
+/* Dynamic Status Messages (Hero Subtitle) */
+"Starting up…" = "起動中…";
+"macOS needs a one-time approval for lid-closed mode." = "蓋を閉じたモードの使用には、macOS の一度きりの承認が必要です。";
+"Standing by." = "待機中。";
+"Ready for Codex or Claude Code." = "Codex または Claude Code の検出準備完了。";
+"%@ detected." = "%@ が検出されました。";
+"Keyboard is locked." = "キーボードはロック中です。";
+"Keyboard Lock needs permission. Open the Keyboard tab." = "キーボードロックには権限が必要です。キーボードタブを開いてください。";
+"You can close the lid. Keep it on a desk, not in a bag." = "蓋を閉じることができます。バッグの中ではなく、デスク上に置いてください。";
+"Keep the lid open. Your work keeps going even when the screen turns off." = "蓋は開けたままにしてください。画面がオフになっても作業は続きます。";
+
+/* Keyboard Lock Status Summary */
+"Keyboard Lock: off" = "キーボードロック: オフ";
+"Keyboard Lock: blocking keys" = "キーボードロック: キー入力をブロック中";
+"Keyboard Lock: permission needed" = "キーボードロック: 権限が必要です";
+"Keyboard Lock: starting" = "キーボードロック: 起動中";
+"Keyboard Lock: waits for Keep Awake" = "キーボードロック: スリープ防止の起動待ち";
+
+/* Battery Status */
+"Charging" = "充電中";
+"On battery" = "バッテリー動作中";
+"Charged" = "充電完了";
+
+/* Menu Bar Status */
+"Keeps your Mac awake during long coding sessions." = "長時間のコーディング中、Mac をスリープさせません。";
+"Power adapter not connected" = "電源アダプタが接続されていません";
+"Lid closed allowed" = "合蓋動作 許可済み";
+"Lid setup needed" = "合蓋動作 設定未完了";
+"Lid open only" = "開蓋状態のみ";
+"Display sleeps after %d min" = "ディスプレイのスリープ: %d分後";
+"Display stays on" = "ディスプレイは常時オン";
+
+/* Menu Items */
+"Show Window" = "ウィンドウを表示";
+"Keyboard Lock" = "キーボードをロック";
+"Allow Keyboard Permission..." = "キーボードの権限を許可...";
+"Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
+"Customize..." = "カスタマイズ...";
+"Sleep Display Now" = "今すぐディスプレイをスリープ";
+"Test Battery Alert" = "バッテリー警告をテスト";
+"Quit Vibe Coding Guard" = "Vibe Coding Guard を終了";
+
+/* Agent Details */
+"tool session" = "ツールセッション";
+"task" = "タスク";
+"work" = "作業";
+
+/* Battery Alerts / System Notifications */
+"Battery low" = "低バッテリー";
+"Battery is at %d percent. Please plug in power." = "バッテリー残量が %d%% です。電源を接続してください。";
+"Battery critical" = "バッテリー警告（重大）";
+"Battery is at %d percent. Plug in power now." = "バッテリー残量が %d%% です。今すぐ電源を接続してください。";
+"Battery is getting low. Plug in your charger." = "バッテリーが減ってきました。充電器を接続してください。";
+"Battery is almost dead. Plug in now." = "バッテリーがほとんどありません。今すぐ電源を接続してください。";
+"Vibe Coding Guard test" = "Vibe Coding Guard テスト";
+"Battery warnings are ready." = "バッテリー警告は正常に機能しています。";
+"This is a test. Alerts are working." = "テストです。警告は正常に動作しています。";
+
+/* AppleScript / VISUDO prompts */
+"Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "パスワードを入力することなく、Vibe Coding Guard が蓋を閉じた状態の設定を変更できるようにします。";
+"Remove the admin permission for lid-closed settings." = "蓋を閉じた状態の設定に関する管理者権限を削除します。";

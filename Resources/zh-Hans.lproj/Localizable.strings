@@ -1,0 +1,127 @@
+/* General / Window Title */
+"Vibe Coding Guard" = "Vibe Coding Guard";
+"Set Up Vibe Coding Guard" = "设置 Vibe Coding Guard";
+"Choose when your Mac should keep working." = "选择您的 Mac 何时应保持工作状态。";
+"Power adapter not connected. Plug in before leaving a long run." = "未连接电源适配器。在离开进行长时间运行前请接通电源。";
+"macOS will ask for your password once to allow lid-closed mode." = "macOS 会要求输入一次密码，以启用合盖模式。";
+
+/* Keep Awake Modes */
+"Off" = "关闭";
+"Auto" = "自动";
+"Always" = "始终";
+
+/* Customize Tabs */
+"Keep Awake" = "防休眠";
+"Display" = "显示器";
+"Battery" = "电池";
+"Keyboard" = "键盘";
+
+/* Keep Awake Tab */
+"Watches for" = "监控对象";
+"Codex and Claude Code" = "Codex 和 Claude Code";
+"Keep running with lid closed" = "合盖后继续运行";
+"Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat." = "需要输入一次管理员密码。仅限在桌面上使用，切勿放进包里，否则可能过热。";
+"Lid-closed admin access" = "合盖模式管理员权限";
+"Allows the app to change lid settings without asking for your password. Your password is not stored." = "允许应用更改合盖设置而无需询问密码。您的密码不会被保存。";
+"Remove" = "移除";
+
+/* Display Tab */
+"Turn off screen when idle" = "闲置时关闭屏幕";
+"Screen turns off after idle time, but your work keeps running." = "闲置一段时间后屏幕会关闭，但任务继续运行。";
+"Screen off after" = "屏幕关闭时间";
+"3 minutes" = "3 分钟";
+"5 minutes" = "5 分钟";
+"10 minutes" = "10 分钟";
+"15 minutes" = "15 分钟";
+"Sleep display now" = "立即关闭显示器";
+"Sleep" = "关闭屏幕";
+
+/* Battery Tab */
+"Low battery warnings" = "低电量提醒";
+"Warns you out loud when battery gets low." = "电量不足时通过声音提醒您。";
+"Low battery alert" = "低电量警报";
+"Critical battery alert" = "严重低电量警报";
+"Notification banners" = "通知横幅";
+"Optional. Sound alerts still work without banners." = "可选。即使没有横幅，声音警报仍会工作。";
+"Test alert sound" = "测试警报声音";
+"Test" = "测试";
+
+/* Keyboard Tab */
+"Lock Keyboard" = "锁定键盘";
+"Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime." = "任务运行时锁定键盘，防止猫咪踩到。随时按 ⌘⌥⌃L 解锁。";
+"Accessibility permission" = "辅助功能权限";
+"Required so macOS can intercept keyboard input." = "macOS 需要此权限来拦截键盘输入。";
+
+/* Button Actions / States */
+"Allow" = "允许";
+"Open Settings" = "打开设置";
+"Allowed" = "已允许";
+"Not Set" = "未设置";
+
+/* Accessibility/Keyboard Messages */
+"Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back." = "在系统设置 ▸ 辅助功能中开启 Vibe Coding Guard，然后返回这里。";
+"macOS will ask for permission once so the keyboard can be locked." = "macOS 会要求一次权限，以便锁定键盘。";
+"When you turn Keep Awake off, the keyboard unlocks automatically." = "当您关闭防休眠时，键盘将自动解锁。";
+"Turn this on if a pet or kid might step on the keyboard while a job runs." = "如果宠物或小孩可能在任务运行时踩到键盘，请打开此选项。";
+
+/* Dynamic Status Messages (Hero Subtitle) */
+"Starting up…" = "正在启动…";
+"macOS needs a one-time approval for lid-closed mode." = "macOS 需要一次性授权以启用合盖模式。";
+"Standing by." = "待命中。";
+"Ready for Codex or Claude Code." = "准备好检测 Codex 或 Claude Code。";
+"%@ detected." = "检测到 %@。";
+"Keyboard is locked." = "键盘已锁定。";
+"Keyboard Lock needs permission. Open the Keyboard tab." = "键盘锁需要权限，请打开键盘选项卡。";
+"You can close the lid. Keep it on a desk, not in a bag." = "您可以合上盖子。请将其放在桌上，不要放在包里。";
+"Keep the lid open. Your work keeps going even when the screen turns off." = "请保持盖子打开。即使屏幕关闭，任务仍会继续运行。";
+
+/* Keyboard Lock Status Summary */
+"Keyboard Lock: off" = "键盘锁：已关闭";
+"Keyboard Lock: blocking keys" = "键盘锁：正在锁定键盘";
+"Keyboard Lock: permission needed" = "键盘锁：需要权限";
+"Keyboard Lock: starting" = "键盘锁：正在启动";
+"Keyboard Lock: waits for Keep Awake" = "键盘锁：等待防休眠开启";
+
+/* Battery Status */
+"Charging" = "正在充电";
+"On battery" = "使用电池";
+"Charged" = "已充满";
+
+/* Menu Bar Status */
+"Keeps your Mac awake during long coding sessions." = "在长时间编码期间让你的 Mac 保持唤醒。";
+"Power adapter not connected" = "未连接电源适配器";
+"Lid closed allowed" = "允许合盖工作";
+"Lid setup needed" = "合盖设置未完成";
+"Lid open only" = "仅限开盖工作";
+"Display sleeps after %d min" = "显示器在 %d 分钟后关闭";
+"Display stays on" = "显示器保持常亮";
+
+/* Menu Items */
+"Show Window" = "显示窗口";
+"Keyboard Lock" = "锁定键盘";
+"Allow Keyboard Permission..." = "允许键盘权限...";
+"Open Accessibility Settings..." = "打开辅助功能设置...";
+"Customize..." = "自定...";
+"Sleep Display Now" = "立即关闭显示器";
+"Test Battery Alert" = "测试电池警报";
+"Quit Vibe Coding Guard" = "退出 Vibe Coding Guard";
+
+/* Agent Details */
+"tool session" = "工具会话";
+"task" = "任务";
+"work" = "工作";
+
+/* Battery Alerts / System Notifications */
+"Battery low" = "电量低";
+"Battery is at %d percent. Please plug in power." = "电量仅剩 %d%%。请连接电源。";
+"Battery critical" = "电量极低";
+"Battery is at %d percent. Plug in power now." = "电量仅剩 %d%%。请立即连接电源。";
+"Battery is getting low. Plug in your charger." = "电量不多了，请插上充电器。";
+"Battery is almost dead. Plug in now." = "电量即将耗尽，请立即插上电源。";
+"Vibe Coding Guard test" = "Vibe Coding Guard 测试";
+"Battery warnings are ready." = "电量警报已就绪。";
+"This is a test. Alerts are working." = "这是一条测试。警报工作正常。";
+
+/* AppleScript / VISUDO prompts */
+"Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "允许 Vibe Coding Guard 更改合盖设置，之后不再询问密码。";
+"Remove the admin permission for lid-closed settings." = "移除合盖设置的管理员权限。";

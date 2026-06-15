@@ -11,13 +11,13 @@ enum CustomizeGroup: Int, CaseIterable {
     var title: String {
         switch self {
         case .keepAwake:
-            return "Keep Awake"
+            return "Keep Awake".localized
         case .display:
-            return "Display"
+            return "Display".localized
         case .battery:
-            return "Battery"
+            return "Battery".localized
         case .keyboard:
-            return "Keyboard"
+            return "Keyboard".localized
         }
     }
 }
@@ -94,6 +94,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         guard notification.object as? NSWindow === controlWindow else {
             return
+        }
+
+        if !config.onboardingCompleted {
+            config.onboardingCompleted = true
         }
 
         controlWindow = nil

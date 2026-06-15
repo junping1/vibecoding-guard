@@ -1,0 +1,127 @@
+/* General / Window Title */
+"Vibe Coding Guard" = "Vibe Coding Guard";
+"Set Up Vibe Coding Guard" = "Set Up Vibe Coding Guard";
+"Choose when your Mac should keep working." = "Choose when your Mac should keep working.";
+"Power adapter not connected. Plug in before leaving a long run." = "Power adapter not connected. Plug in before leaving a long run.";
+"macOS will ask for your password once to allow lid-closed mode." = "macOS will ask for your password once to allow lid-closed mode.";
+
+/* Keep Awake Modes */
+"Off" = "Off";
+"Auto" = "Auto";
+"Always" = "Always";
+
+/* Customize Tabs */
+"Keep Awake" = "Keep Awake";
+"Display" = "Display";
+"Battery" = "Battery";
+"Keyboard" = "Keyboard";
+
+/* Keep Awake Tab */
+"Watches for" = "Watches for";
+"Codex and Claude Code" = "Codex and Claude Code";
+"Keep running with lid closed" = "Keep running with lid closed";
+"Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat." = "Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat.";
+"Lid-closed admin access" = "Lid-closed admin access";
+"Allows the app to change lid settings without asking for your password. Your password is not stored." = "Allows the app to change lid settings without asking for your password. Your password is not stored.";
+"Remove" = "Remove";
+
+/* Display Tab */
+"Turn off screen when idle" = "Turn off screen when idle";
+"Screen turns off after idle time, but your work keeps running." = "Screen turns off after idle time, but your work keeps running.";
+"Screen off after" = "Screen off after";
+"3 minutes" = "3 minutes";
+"5 minutes" = "5 minutes";
+"10 minutes" = "10 minutes";
+"15 minutes" = "15 minutes";
+"Sleep display now" = "Sleep display now";
+"Sleep" = "Sleep";
+
+/* Battery Tab */
+"Low battery warnings" = "Low battery warnings";
+"Warns you out loud when battery gets low." = "Warns you out loud when battery gets low.";
+"Low battery alert" = "Low battery alert";
+"Critical battery alert" = "Critical battery alert";
+"Notification banners" = "Notification banners";
+"Optional. Sound alerts still work without banners." = "Optional. Sound alerts still work without banners.";
+"Test alert sound" = "Test alert sound";
+"Test" = "Test";
+
+/* Keyboard Tab */
+"Lock Keyboard" = "Lock Keyboard";
+"Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime." = "Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime.";
+"Accessibility permission" = "Accessibility permission";
+"Required so macOS can intercept keyboard input." = "Required so macOS can intercept keyboard input.";
+
+/* Button Actions / States */
+"Allow" = "Allow";
+"Open Settings" = "Open Settings";
+"Allowed" = "Allowed";
+"Not Set" = "Not Set";
+
+/* Accessibility/Keyboard Messages */
+"Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back." = "Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back.";
+"macOS will ask for permission once so the keyboard can be locked." = "macOS will ask for permission once so the keyboard can be locked.";
+"When you turn Keep Awake off, the keyboard unlocks automatically." = "When you turn Keep Awake off, the keyboard unlocks automatically.";
+"Turn this on if a pet or kid might step on the keyboard while a job runs." = "Turn this on if a pet or kid might step on the keyboard while a job runs.";
+
+/* Dynamic Status Messages (Hero Subtitle) */
+"Starting up…" = "Starting up…";
+"macOS needs a one-time approval for lid-closed mode." = "macOS needs a one-time approval for lid-closed mode.";
+"Standing by." = "Standing by.";
+"Ready for Codex or Claude Code." = "Ready for Codex or Claude Code.";
+"%@ detected." = "%@ detected.";
+"Keyboard is locked." = "Keyboard is locked.";
+"Keyboard Lock needs permission. Open the Keyboard tab." = "Keyboard Lock needs permission. Open the Keyboard tab.";
+"You can close the lid. Keep it on a desk, not in a bag." = "You can close the lid. Keep it on a desk, not in a bag.";
+"Keep the lid open. Your work keeps going even when the screen turns off." = "Keep the lid open. Your work keeps going even when the screen turns off.";
+
+/* Keyboard Lock Status Summary */
+"Keyboard Lock: off" = "Keyboard Lock: off";
+"Keyboard Lock: blocking keys" = "Keyboard Lock: blocking keys";
+"Keyboard Lock: permission needed" = "Keyboard Lock: permission needed";
+"Keyboard Lock: starting" = "Keyboard Lock: starting";
+"Keyboard Lock: waits for Keep Awake" = "Keyboard Lock: waits for Keep Awake";
+
+/* Battery Status */
+"Charging" = "Charging";
+"On battery" = "On battery";
+"Charged" = "Charged";
+
+/* Menu Bar Status */
+"Keeps your Mac awake during long coding sessions." = "Keeps your Mac awake during long coding sessions.";
+"Power adapter not connected" = "Power adapter not connected";
+"Lid closed allowed" = "Lid closed allowed";
+"Lid setup needed" = "Lid setup needed";
+"Lid open only" = "Lid open only";
+"Display sleeps after %d min" = "Display sleeps after %d min";
+"Display stays on" = "Display stays on";
+
+/* Menu Items */
+"Show Window" = "Show Window";
+"Keyboard Lock" = "Keyboard Lock";
+"Allow Keyboard Permission..." = "Allow Keyboard Permission...";
+"Open Accessibility Settings..." = "Open Accessibility Settings...";
+"Customize..." = "Customize...";
+"Sleep Display Now" = "Sleep Display Now";
+"Test Battery Alert" = "Test Battery Alert";
+"Quit Vibe Coding Guard" = "Quit Vibe Coding Guard";
+
+/* Agent Details */
+"tool session" = "tool session";
+"task" = "task";
+"work" = "work";
+
+/* Battery Alerts / System Notifications */
+"Battery low" = "Battery low";
+"Battery is at %d percent. Please plug in power." = "Battery is at %d percent. Please plug in power.";
+"Battery critical" = "Battery critical";
+"Battery is at %d percent. Plug in power now." = "Battery is at %d percent. Plug in power now.";
+"Battery is getting low. Plug in your charger." = "Battery is getting low. Plug in your charger.";
+"Battery is almost dead. Plug in now." = "Battery is almost dead. Plug in now.";
+"Vibe Coding Guard test" = "Vibe Coding Guard test";
+"Battery warnings are ready." = "Battery warnings are ready.";
+"This is a test. Alerts are working." = "This is a test. Alerts are working.";
+
+/* AppleScript / VISUDO prompts */
+"Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again.";
+"Remove the admin permission for lid-closed settings." = "Remove the admin permission for lid-closed settings.";

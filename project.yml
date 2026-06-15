@@ -17,6 +17,10 @@ targets:
     sources:
       - path: Sources/VibeCodingGuard
       - path: Resources/Assets.xcassets
+      - path: Resources/en.lproj
+      - path: Resources/zh-Hans.lproj
+      - path: Resources/zh-Hant.lproj
+      - path: Resources/ja.lproj
     dependencies:
       - sdk: ApplicationServices.framework
     info:
