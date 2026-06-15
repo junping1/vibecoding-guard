@@ -3,11 +3,7 @@ import Foundation
 struct AgentActivity {
     enum Kind: String {
         case codex = "Codex"
-        case claude = "Claude"
-        case terminal = "Terminal"
-        case ssh = "SSH"
-        case vsCode = "VS Code"
-        case cursor = "Cursor"
+        case claude = "Claude Code"
     }
 
     let kind: Kind
@@ -30,7 +26,6 @@ extension AppDelegate {
     func detectAgentActivity() -> AgentActivity? {
         let output = runCommand("/bin/ps", ["-axo", "pid=,ppid=,args="])
         let ownPID = Int(ProcessInfo.processInfo.processIdentifier)
-        var fallbackActivity: AgentActivity?
 
         for rawLine in output.split(separator: "\n").map(String.init) {
             guard let process = parseProcessLine(rawLine), process.pid != ownPID else {
@@ -48,21 +43,9 @@ extension AppDelegate {
             if isClaudeAgent(command) {
                 return AgentActivity(kind: .claude, pid: process.pid, detail: agentDetail(from: command))
             }
-            if isSSHSession(command) {
-                return AgentActivity(kind: .ssh, pid: process.pid, detail: "session")
-            }
-            if fallbackActivity == nil, isVSCodeWork(command) {
-                fallbackActivity = AgentActivity(kind: .vsCode, pid: process.pid, detail: "open")
-            }
-            if fallbackActivity == nil, isCursorWork(command) {
-                fallbackActivity = AgentActivity(kind: .cursor, pid: process.pid, detail: "open")
-            }
-            if fallbackActivity == nil, isTerminalWork(command) {
-                fallbackActivity = AgentActivity(kind: .terminal, pid: process.pid, detail: "open")
-            }
         }
 
-        return fallbackActivity
+        return nil
     }
 
     func parseProcessLine(_ line: String) -> (pid: Int, ppid: Int, args: String)? {
@@ -90,12 +73,12 @@ extension AppDelegate {
 
     func isCodexAgent(_ command: String) -> Bool {
         if command.contains("/codex app-server") {
-            return command.contains("--listen stdio://")
+            return true
         }
 
         let firstToken = command.split(separator: " ", maxSplits: 1).first.map(String.init) ?? ""
         if firstToken.contains("/applications/codex.app/contents/resources/codex") {
-            return command.contains("--listen stdio://")
+            return command.contains(" app-server")
         }
 
         let executable = firstToken.split(separator: "/").last.map(String.init) ?? firstToken
@@ -114,28 +97,6 @@ extension AppDelegate {
         return executable == "claude" && !command.contains("/applications/claude.app/")
     }
 
-    func isSSHSession(_ command: String) -> Bool {
-        let firstToken = command.split(separator: " ", maxSplits: 1).first.map(String.init) ?? ""
-        let executable = firstToken.split(separator: "/").last.map(String.init) ?? firstToken
-        return executable == "ssh" || executable == "mosh" || command.contains(" code tunnel ")
-    }
-
-    func isVSCodeWork(_ command: String) -> Bool {
-        command.contains("/applications/visual studio code.app/") ||
-            command.contains("vscode-server") ||
-            command.contains("code tunnel")
-    }
-
-    func isCursorWork(_ command: String) -> Bool {
-        command.contains("/applications/cursor.app/")
-    }
-
-    func isTerminalWork(_ command: String) -> Bool {
-        command.contains("/applications/terminal.app/") ||
-            command.contains("/system/applications/utilities/terminal.app/") ||
-            command.contains("/applications/iterm.app/")
-    }
-
     func agentDetail(from command: String) -> String {
         if command.contains("node_repl") {
             return "tool session"
@@ -146,10 +107,6 @@ extension AppDelegate {
         if command.contains("claude") {
             return "task"
         }
-        if command.contains("ssh") || command.contains("mosh") {
-            return "session"
-        }
         return "work"
     }
-
 }

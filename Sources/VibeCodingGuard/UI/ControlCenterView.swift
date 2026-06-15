@@ -1,7 +1,7 @@
 import AppKit
 
 extension AppDelegate {
-    func showControlCenter(onboarding: Bool) {
+    func showControlCenter(onboarding: Bool, previousFrame: NSRect? = nil) {
         if let existing = controlWindow {
             existing.makeKeyAndOrderFront(nil)
             NSApp.activate(ignoringOtherApps: true)
@@ -23,7 +23,7 @@ extension AppDelegate {
         )
         window.title = onboarding ? "Set Up Vibe Coding Guard" : "Vibe Coding Guard"
         window.minSize = NSSize(width: 520, height: 320)
-        window.center()
+        position(window, previousFrame: previousFrame)
         window.delegate = self
         window.isReleasedWhenClosed = false
         window.collectionBehavior = [.moveToActiveSpace]
@@ -45,9 +45,10 @@ extension AppDelegate {
 
     func rebuildControlCenter(onboarding: Bool) {
         let oldWindow = controlWindow
+        let previousFrame = oldWindow?.frame
         controlWindow = nil
         oldWindow?.close()
-        showControlCenter(onboarding: onboarding)
+        showControlCenter(onboarding: onboarding, previousFrame: previousFrame)
     }
 
     func productRootView() -> NSView {
@@ -62,8 +63,10 @@ extension AppDelegate {
         content.alignment = .centerX
         content.edgeInsets = NSEdgeInsets(top: 22, left: 26, bottom: 18, right: 26)
         content.translatesAutoresizingMaskIntoConstraints = false
-        content.addArrangedSubview(simpleHeader())
         content.addArrangedSubview(simpleHero())
+        if needsPowerAdapterTip {
+            content.addArrangedSubview(simplePowerHint())
+        }
         if needsSetupHelp {
             content.addArrangedSubview(simpleSetupHint())
         }
@@ -86,23 +89,6 @@ extension AppDelegate {
             root.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
         return container
-    }
-
-    func simpleHeader() -> NSView {
-        let row = NSStackView()
-        row.orientation = .horizontal
-        row.spacing = 10
-        row.alignment = .centerY
-        row.widthAnchor.constraint(equalToConstant: 500).isActive = true
-
-        row.addArrangedSubview(symbolCircle("shield.fill", tone: masterGuardEnabled ? .good : .neutral, size: 28))
-        row.addArrangedSubview(label("Vibe Coding Guard", size: 14, weight: .semibold))
-        row.addArrangedSubview(spacer())
-
-        let battery = label("Checking", size: 12, weight: .medium, color: .secondaryLabelColor)
-        statusLabels["productBatteryLine"] = battery
-        row.addArrangedSubview(battery)
-        return row
     }
 
     func simpleHero() -> NSView {
@@ -138,6 +124,19 @@ extension AppDelegate {
             stack.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -20)
         ])
         return card
+    }
+
+    func simplePowerHint() -> NSView {
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.spacing = 10
+        row.alignment = .centerY
+        row.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        row.addArrangedSubview(symbolCircle("exclamationmark.triangle.fill", tone: .warning, size: 24))
+        let text = label("Power adapter not connected. Plug in before leaving a long run.", size: 12, color: .secondaryLabelColor)
+        text.maximumNumberOfLines = 2
+        row.addArrangedSubview(text)
+        return row
     }
 
     func simpleSetupHint() -> NSView {
@@ -246,7 +245,7 @@ extension AppDelegate {
         case .keepAwake:
             stack.addArrangedSubview(compactTextRow(
                 title: "Smart watches",
-                detail: "Codex, Claude, SSH, VS Code, Cursor, Terminal"
+                detail: "Codex and Claude Code"
             ))
             stack.addArrangedSubview(compactSwitchRow(
                 title: "Allow work with lid closed",
@@ -276,14 +275,14 @@ extension AppDelegate {
             stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
         case .keyboard:
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Pet Keyboard Lock",
+                title: "Keyboard Lock",
                 detail: "Blocks accidental key presses, brightness, and volume keys while Keep Awake is active.",
                 switchKey: "petLock",
                 action: #selector(switchPetLock)
             ))
             let status = config.petLockEnabled
                 ? "When you turn Keep Awake off, the keyboard unlocks automatically."
-                : "Turn this on if a pet may step on the keyboard during an agent run."
+                : "Turn this on if something may press the keyboard during an agent run."
             stack.addArrangedSubview(compactInfoRow(status))
             if config.petLockEnabled && !petLockAccessibilityTrusted {
                 stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
@@ -359,5 +358,21 @@ extension AppDelegate {
         row.addArrangedSubview(textStack)
         row.addArrangedSubview(spacer())
         return row
+    }
+
+    func position(_ window: NSWindow, previousFrame: NSRect?) {
+        guard let previousFrame else {
+            window.center()
+            return
+        }
+
+        let size = window.frame.size
+        let screenFrame = (NSScreen.screens.first { $0.visibleFrame.intersects(previousFrame) } ?? NSScreen.main)?.visibleFrame
+        var origin = NSPoint(x: previousFrame.minX, y: previousFrame.maxY - size.height)
+        if let screenFrame {
+            origin.x = min(max(origin.x, screenFrame.minX), screenFrame.maxX - size.width)
+            origin.y = min(max(origin.y, screenFrame.minY), screenFrame.maxY - size.height)
+        }
+        window.setFrame(NSRect(origin: origin, size: size), display: false)
     }
 }

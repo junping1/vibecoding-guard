@@ -36,12 +36,15 @@ extension AppDelegate {
         let menu = NSMenu()
         menu.addItem(disabledItem(menuHeadline()))
         menu.addItem(disabledItem(menuActivityLine()))
+        if needsPowerAdapterTip {
+            menu.addItem(disabledItem("Power adapter not connected"))
+        }
         menu.addItem(disabledItem(menuEnvironmentLine()))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(keepAwakeModeMenuItem())
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Show Window", #selector(openControlCenter)))
-        menu.addItem(toggleActionItem("Pet Keyboard Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
+        menu.addItem(toggleActionItem("Keyboard Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
         if config.petLockEnabled && !petLockAccessibilityTrusted {
             menu.addItem(actionItem("Allow Keyboard Permission...", #selector(petLockPermissionAction)))
         }
@@ -55,11 +58,7 @@ extension AppDelegate {
     }
 
     func menuBarTitle() -> String {
-        let state = menuBarStateText()
-        if let battery = lastBatteryInfo {
-            return "\(state) \(battery.percent)%"
-        }
-        return state
+        menuBarStateText()
     }
 
     func menuBarStateText() -> String {
@@ -67,10 +66,10 @@ extension AppDelegate {
             return "Setup"
         }
         if petLockActive {
-            return "Pet Lock"
+            return "Keys Locked"
         }
         if config.petLockEnabled && !petLockAccessibilityTrusted {
-            return "Pet Setup"
+            return "Key Setup"
         }
         return config.keepAwakeMode.menuTitle
     }
@@ -106,7 +105,8 @@ extension AppDelegate {
     }
 
     func menuTooltip() -> String {
-        "\(menuHeadline())\n\(menuActivityLine())\n\(menuEnvironmentLine())"
+        let powerLine = needsPowerAdapterTip ? "\nPower adapter not connected" : ""
+        return "\(menuHeadline())\n\(menuActivityLine())\(powerLine)\n\(menuEnvironmentLine())"
     }
 
     func menuActivityLine() -> String {
@@ -114,20 +114,14 @@ extension AppDelegate {
         if config.keepAwakeMode == .smart, let activity = lastAgentActivity {
             activityText = "\(activity.displayName) detected"
         } else if config.keepAwakeMode == .smart {
-            activityText = "Watching Codex, Claude, SSH, and work apps"
+            activityText = "Watching Codex and Claude Code"
         } else if config.keepAwakeMode == .alwaysOn {
             activityText = "Keeping Mac awake"
         } else {
             activityText = "Not keeping Mac awake"
         }
 
-        let batteryText: String
-        if let battery = lastBatteryInfo {
-            batteryText = "\(battery.percent)% \(friendlyBatteryStatus(battery.status))"
-        } else {
-            batteryText = "Battery checking"
-        }
-        return "\(activityText) - Battery \(batteryText)"
+        return activityText
     }
 
     func menuEnvironmentLine() -> String {

@@ -12,6 +12,10 @@ extension AppDelegate {
         keepAwakeShouldRun
     }
 
+    var needsPowerAdapterTip: Bool {
+        keepAwakeShouldRun && lastBatteryInfo?.isDischarging == true
+    }
+
     var keepAwakeShouldRun: Bool {
         switch config.keepAwakeMode {
         case .off:
@@ -37,12 +41,6 @@ extension AppDelegate {
         switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
         switches["displayIdleSleep"]?.state = config.displayIdleSleepEnabled ? .on : .off
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
-
-        if let battery = lastBatteryInfo {
-            statusLabels["productBatteryLine"]?.stringValue = "\(battery.percent)% \(friendlyBatteryStatus(battery.status))"
-        } else {
-            statusLabels["productBatteryLine"]?.stringValue = "Checking battery"
-        }
 
         let product = productHealth()
         statusLabels["productHeroTitle"]?.stringValue = product.title
@@ -140,7 +138,7 @@ extension AppDelegate {
             }
             return (
                 "Smart is Ready",
-                "VCG will keep awake when Codex, Claude, SSH, or a watched work app is active.",
+                "VCG will keep awake when Codex or Claude Code is active.",
                 .blue
             )
         case .alwaysOn:
@@ -157,10 +155,10 @@ extension AppDelegate {
             return "\(activity.displayName) detected. Keep Awake is on."
         }
         if config.petLockEnabled && petLockActive {
-            return "Pet Lock is blocking accidental key presses."
+            return "Keyboard Lock is blocking accidental key presses."
         }
         if config.petLockEnabled && !petLockAccessibilityTrusted {
-            return "Pet Lock needs Accessibility permission in Customize."
+            return "Keyboard Lock needs Accessibility permission in Customize."
         }
         return config.lidClosedModeEnabled
             ? "You can close the lid. Keep it on a desk, not in a bag."
@@ -169,15 +167,15 @@ extension AppDelegate {
 
     func petLockSummary() -> String {
         if !config.petLockEnabled {
-            return "Pet Lock: off"
+            return "Keyboard Lock: off"
         }
         if petLockActive {
-            return "Pet Lock: blocking keyboard"
+            return "Keyboard Lock: blocking keys"
         }
         if !petLockAccessibilityTrusted {
-            return "Pet Lock: permission needed"
+            return "Keyboard Lock: permission needed"
         }
-        return masterGuardEnabled ? "Pet Lock: starting" : "Pet Lock: waits for Keep Awake"
+        return masterGuardEnabled ? "Keyboard Lock: starting" : "Keyboard Lock: waits for Keep Awake"
     }
 
     func friendlyBatteryStatus(_ status: String) -> String {
