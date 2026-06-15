@@ -51,16 +51,16 @@ extension AppDelegate {
         NSApp.terminate(nil)
     }
 
-    @objc func changeKeepAwakeMode() {
-        switch segments["keepAwakeMode"]?.selectedSegment ?? 1 {
-        case 0:
-            setKeepAwakeMode(.off)
-        case 2:
-            setKeepAwakeMode(.alwaysOn)
-        default:
-            setKeepAwakeMode(.smart)
-        }
+    @objc func changeKeepAwakeRadioMode(_ sender: NSButton) {
+        let rawMode = sender.identifier?.rawValue.replacingOccurrences(of: "keepAwake.", with: "") ?? KeepAwakeMode.smart.rawValue
+        setKeepAwakeMode(KeepAwakeMode(rawValue: rawMode) ?? .smart)
         runChecks()
+        rebuildControlCenterIfNeeded()
+    }
+
+    @objc func changeCustomizeGroup() {
+        let selected = segments["customizeGroup"]?.selectedSegment ?? 0
+        activeCustomizeGroup = CustomizeGroup(rawValue: selected) ?? .keepAwake
         rebuildControlCenterIfNeeded()
     }
 

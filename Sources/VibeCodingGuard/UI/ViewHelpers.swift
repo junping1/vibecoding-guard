@@ -2,21 +2,11 @@ import AppKit
 
 extension AppDelegate {
     func productBackgroundColor() -> NSColor {
-        NSColor(name: nil) { appearance in
-            if appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
-                return NSColor(calibratedRed: 0.08, green: 0.08, blue: 0.08, alpha: 1)
-            }
-            return NSColor(calibratedWhite: 0.965, alpha: 1)
-        }
+        NSColor.windowBackgroundColor
     }
 
     func productCardColor() -> NSColor {
-        NSColor(name: nil) { appearance in
-            if appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua {
-                return NSColor(calibratedRed: 0.12, green: 0.12, blue: 0.12, alpha: 1)
-            }
-            return NSColor(calibratedWhite: 1.0, alpha: 1)
-        }
+        NSColor.controlBackgroundColor
     }
 
     func separator() -> NSView {

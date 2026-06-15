@@ -10,12 +10,13 @@ extension AppDelegate {
 
         statusLabels.removeAll()
         actionButtons.removeAll()
+        radioButtons.removeAll()
         popups.removeAll()
         segments.removeAll()
         switches.removeAll()
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 720 : 320),
+            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 520 : 320),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
@@ -126,8 +127,7 @@ extension AppDelegate {
         statusLabels["productHeroMessage"] = message
         stack.addArrangedSubview(message)
 
-        let modeControl = keepAwakeModeControl(width: 300, controlSize: .large)
-        stack.addArrangedSubview(modeControl)
+        stack.addArrangedSubview(keepAwakeModeRadioGroup())
 
         card.addSubview(stack)
         NSLayoutConstraint.activate([
@@ -170,38 +170,18 @@ extension AppDelegate {
     func simpleCustomizePanel() -> NSView {
         let card = RoundedView(fill: productCardColor(), stroke: NSColor.separatorColor.withAlphaComponent(0.26), radius: 8)
         card.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        card.heightAnchor.constraint(greaterThanOrEqualToConstant: 170).isActive = true
 
         let stack = NSStackView()
         stack.orientation = .vertical
-        stack.spacing = 12
+        stack.spacing = 14
         stack.alignment = .leading
-        stack.edgeInsets = NSEdgeInsets(top: 16, left: 18, bottom: 16, right: 18)
+        stack.edgeInsets = NSEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
         stack.translatesAutoresizingMaskIntoConstraints = false
 
-        stack.addArrangedSubview(sectionTitle("Keep Awake"))
-        stack.addArrangedSubview(compactTextRow(title: "Smart watches", detail: "Codex, Claude, SSH, VS Code, Cursor"))
-        stack.addArrangedSubview(compactSwitchRow(title: "Allow lid closed", switchKey: "lidClosed", action: #selector(switchLidClosedMode)))
+        stack.addArrangedSubview(customizeGroupControl())
         stack.addArrangedSubview(separator())
-
-        stack.addArrangedSubview(sectionTitle("Display"))
-        stack.addArrangedSubview(compactSwitchRow(title: "Let display sleep", switchKey: "displayIdleSleep", action: #selector(switchDisplayIdleSleep)))
-        stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
-        stack.addArrangedSubview(compactButtonRow(title: "Sleep display now", buttonTitle: "Sleep", buttonKey: "displaySleep", action: #selector(displaySleepNow)))
-        stack.addArrangedSubview(separator())
-
-        stack.addArrangedSubview(sectionTitle("Battery"))
-        stack.addArrangedSubview(compactSwitchRow(title: "Battery alerts", switchKey: "batteryAlerts", action: #selector(switchBatteryAlerts)))
-        stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
-        stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert", popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
-        stack.addArrangedSubview(compactButtonRow(title: "Notification banners", buttonKey: "productNotification", action: #selector(notificationPermissionAction)))
-        stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
-        stack.addArrangedSubview(separator())
-
-        stack.addArrangedSubview(sectionTitle("Keyboard"))
-        stack.addArrangedSubview(compactSwitchRow(title: "Pet keyboard lock", switchKey: "petLock", action: #selector(switchPetLock)))
-        if config.petLockEnabled && !petLockAccessibilityTrusted {
-            stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
-        }
+        stack.addArrangedSubview(customizeGroupContent())
 
         card.addSubview(stack)
         NSLayoutConstraint.activate([
@@ -213,25 +193,104 @@ extension AppDelegate {
         return card
     }
 
-    func keepAwakeModeControl(width: CGFloat, controlSize: NSControl.ControlSize) -> NSSegmentedControl {
+    func keepAwakeModeRadioGroup() -> NSView {
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.spacing = 18
+        row.alignment = .centerY
+
+        row.addArrangedSubview(modeRadioButton(title: "Off", mode: .off))
+        row.addArrangedSubview(modeRadioButton(title: "Smart", mode: .smart))
+        row.addArrangedSubview(modeRadioButton(title: "Always On", mode: .alwaysOn))
+        selectKeepAwakeRadioButtons()
+        return row
+    }
+
+    func modeRadioButton(title: String, mode: KeepAwakeMode) -> NSButton {
+        let button = NSButton(radioButtonWithTitle: title, target: self, action: #selector(changeKeepAwakeRadioMode(_:)))
+        let key = "keepAwake.\(mode.rawValue)"
+        button.controlSize = .regular
+        button.identifier = NSUserInterfaceItemIdentifier(key)
+        radioButtons[key] = button
+        return button
+    }
+
+    func customizeGroupControl() -> NSSegmentedControl {
         let control = NSSegmentedControl(
-            labels: ["Off", "Smart", "Always On"],
+            labels: [
+                CustomizeGroup.keepAwake.title,
+                CustomizeGroup.display.title,
+                CustomizeGroup.battery.title,
+                CustomizeGroup.keyboard.title
+            ],
             trackingMode: .selectOne,
             target: self,
-            action: #selector(changeKeepAwakeMode)
+            action: #selector(changeCustomizeGroup)
         )
-        control.segmentStyle = .rounded
-        control.controlSize = controlSize
-        control.widthAnchor.constraint(equalToConstant: width).isActive = true
-        segments["keepAwakeMode"] = control
-        selectKeepAwakeSegment(control)
+        control.segmentStyle = .automatic
+        control.controlSize = .regular
+        control.widthAnchor.constraint(equalToConstant: 464).isActive = true
+        segments["customizeGroup"] = control
+        selectCustomizeSegment(control)
         return control
     }
 
-    func sectionTitle(_ title: String) -> NSTextField {
-        let field = label(title, size: 12, weight: .semibold, color: .secondaryLabelColor)
-        field.stringValue = title.uppercased()
-        return field
+    func customizeGroupContent() -> NSView {
+        let stack = NSStackView()
+        stack.orientation = .vertical
+        stack.spacing = 12
+        stack.alignment = .leading
+        stack.widthAnchor.constraint(equalToConstant: 464).isActive = true
+
+        switch activeCustomizeGroup {
+        case .keepAwake:
+            stack.addArrangedSubview(compactTextRow(
+                title: "Smart watches",
+                detail: "Codex, Claude, SSH, VS Code, Cursor, Terminal"
+            ))
+            stack.addArrangedSubview(compactSwitchRow(
+                title: "Allow work with lid closed",
+                detail: "Keeps long jobs running when the MacBook is closed.",
+                switchKey: "lidClosed",
+                action: #selector(switchLidClosedMode)
+            ))
+        case .display:
+            stack.addArrangedSubview(compactSwitchRow(
+                title: "Let display sleep",
+                detail: "Turns the screen off after idle time while work keeps running.",
+                switchKey: "displayIdleSleep",
+                action: #selector(switchDisplayIdleSleep)
+            ))
+            stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
+            stack.addArrangedSubview(compactButtonRow(title: "Sleep display now", buttonTitle: "Sleep", buttonKey: "displaySleep", action: #selector(displaySleepNow)))
+        case .battery:
+            stack.addArrangedSubview(compactSwitchRow(
+                title: "Battery alerts",
+                detail: "Plays a warning before long-running work drains the battery.",
+                switchKey: "batteryAlerts",
+                action: #selector(switchBatteryAlerts)
+            ))
+            stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
+            stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert", popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
+            stack.addArrangedSubview(compactButtonRow(title: "Notification banners", buttonKey: "productNotification", action: #selector(notificationPermissionAction)))
+            stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
+        case .keyboard:
+            stack.addArrangedSubview(compactSwitchRow(
+                title: "Pet Keyboard Lock",
+                detail: "Blocks accidental key presses, brightness, and volume keys while Keep Awake is active.",
+                switchKey: "petLock",
+                action: #selector(switchPetLock)
+            ))
+            let status = config.petLockEnabled
+                ? "When you turn Keep Awake off, the keyboard unlocks automatically."
+                : "Turn this on if a pet may step on the keyboard during an agent run."
+            stack.addArrangedSubview(compactInfoRow(status))
+            if config.petLockEnabled && !petLockAccessibilityTrusted {
+                stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
+            }
+        }
+
+        return stack
     }
 
     func compactTextRow(title: String, detail: String) -> NSView {
@@ -254,8 +313,8 @@ extension AppDelegate {
         return row
     }
 
-    func compactSwitchRow(title: String, switchKey: String, action: Selector) -> NSView {
-        let row = compactRow(title: title)
+    func compactSwitchRow(title: String, detail: String? = nil, switchKey: String, action: Selector) -> NSView {
+        let row = compactRow(title: title, detail: detail)
         let switchControl = NSSwitch()
         switchControl.target = self
         switchControl.action = action
@@ -273,12 +332,31 @@ extension AppDelegate {
         return row
     }
 
-    func compactRow(title: String) -> NSStackView {
+    func compactInfoRow(_ text: String) -> NSView {
+        let field = label(text, size: 12, color: .secondaryLabelColor)
+        field.maximumNumberOfLines = 2
+        field.widthAnchor.constraint(equalToConstant: 420).isActive = true
+        return field
+    }
+
+    func compactRow(title: String, detail: String? = nil) -> NSStackView {
         let row = NSStackView()
         row.orientation = .horizontal
         row.spacing = 10
         row.alignment = .centerY
-        row.addArrangedSubview(label(title, size: 13, weight: .medium))
+
+        let textStack = NSStackView()
+        textStack.orientation = .vertical
+        textStack.spacing = 2
+        textStack.alignment = .leading
+        textStack.addArrangedSubview(label(title, size: 13, weight: .medium))
+        if let detail {
+            let detailLabel = label(detail, size: 12, color: .secondaryLabelColor)
+            detailLabel.maximumNumberOfLines = 2
+            textStack.addArrangedSubview(detailLabel)
+        }
+
+        row.addArrangedSubview(textStack)
         row.addArrangedSubview(spacer())
         return row
     }

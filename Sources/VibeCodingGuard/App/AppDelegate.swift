@@ -2,6 +2,26 @@ import AppKit
 import Foundation
 import UserNotifications
 
+enum CustomizeGroup: Int {
+    case keepAwake
+    case display
+    case battery
+    case keyboard
+
+    var title: String {
+        switch self {
+        case .keepAwake:
+            return "Keep Awake"
+        case .display:
+            return "Display"
+        case .battery:
+            return "Battery"
+        case .keyboard:
+            return "Keyboard"
+        }
+    }
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     enum Tone {
         case good
@@ -32,10 +52,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var controlWindow: NSWindow?
     var statusLabels: [String: NSTextField] = [:]
     var actionButtons: [String: NSButton] = [:]
+    var radioButtons: [String: NSButton] = [:]
     var popups: [String: NSPopUpButton] = [:]
     var segments: [String: NSSegmentedControl] = [:]
     var switches: [String: NSSwitch] = [:]
     var advancedExpanded = false
+    var activeCustomizeGroup: CustomizeGroup = .keepAwake
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
@@ -71,6 +93,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         controlWindow = nil
         statusLabels.removeAll()
         actionButtons.removeAll()
+        radioButtons.removeAll()
         popups.removeAll()
         segments.removeAll()
         switches.removeAll()

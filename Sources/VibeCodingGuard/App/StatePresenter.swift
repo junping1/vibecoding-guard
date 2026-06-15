@@ -31,7 +31,8 @@ extension AppDelegate {
     }
 
     func refreshWindow() {
-        selectKeepAwakeSegment(segments["keepAwakeMode"])
+        selectKeepAwakeRadioButtons()
+        selectCustomizeSegment(segments["customizeGroup"])
         switches["petLock"]?.state = config.petLockEnabled ? .on : .off
         switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
         switches["displayIdleSleep"]?.state = config.displayIdleSleepEnabled ? .on : .off
@@ -72,6 +73,13 @@ extension AppDelegate {
         }
     }
 
+    func selectCustomizeSegment(_ segment: NSSegmentedControl?) {
+        guard let segment else {
+            return
+        }
+        segment.selectedSegment = activeCustomizeGroup.rawValue
+    }
+
     func refreshPetLockPermissionButton() {
         guard let button = actionButtons["petLockPermission"] else {
             return
@@ -94,18 +102,10 @@ extension AppDelegate {
         popup.selectItem(at: index)
     }
 
-    func selectKeepAwakeSegment(_ segment: NSSegmentedControl?) {
-        guard let segment else {
-            return
-        }
-        switch config.keepAwakeMode {
-        case .off:
-            segment.selectedSegment = 0
-        case .smart:
-            segment.selectedSegment = 1
-        case .alwaysOn:
-            segment.selectedSegment = 2
-        }
+    func selectKeepAwakeRadioButtons() {
+        radioButtons["keepAwake.off"]?.state = config.keepAwakeMode == .off ? .on : .off
+        radioButtons["keepAwake.smart"]?.state = config.keepAwakeMode == .smart ? .on : .off
+        radioButtons["keepAwake.alwaysOn"]?.state = config.keepAwakeMode == .alwaysOn ? .on : .off
     }
 
     func productHealth() -> (title: String, message: String, tone: Tone) {
