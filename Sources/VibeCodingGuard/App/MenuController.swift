@@ -39,6 +39,7 @@ extension AppDelegate {
         menu.addItem(disabledItem(menuProtectionLine()))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Show Window", #selector(openControlCenter)))
+        menu.addItem(toggleActionItem("Smart Guard", state: config.smartGuardEnabled, action: #selector(toggleSmartGuardFromMenu)))
         menu.addItem(toggleActionItem("Guard", state: masterGuardEnabled, action: #selector(toggleGuardFromMenu)))
         menu.addItem(toggleActionItem("Pet Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
         if config.petLockEnabled && !petLockAccessibilityTrusted {
@@ -68,6 +69,9 @@ extension AppDelegate {
         if !masterGuardEnabled {
             return "Off"
         }
+        if smartGuardAutoActive {
+            return "Auto"
+        }
         if petLockActive {
             return "Pet Lock"
         }
@@ -82,6 +86,9 @@ extension AppDelegate {
             return "shield.lefthalf.filled"
         }
         if !masterGuardEnabled {
+            if smartGuardPausedUntilAgentStops {
+                return "pause.circle"
+            }
             return "shield.slash"
         }
         if petLockActive {
@@ -95,7 +102,13 @@ extension AppDelegate {
             return "Setup Needed"
         }
         if !masterGuardEnabled {
+            if smartGuardPausedUntilAgentStops {
+                return "Guard Paused"
+            }
             return "Guard Off"
+        }
+        if smartGuardAutoActive {
+            return "Smart Guard On"
         }
         if petLockActive {
             return "Pet Lock Active"
@@ -131,7 +144,7 @@ extension AppDelegate {
         } else {
             lidText = "Lid: open only"
         }
-        return "\(lidText) - \(petLockSummary())"
+        return "\(lidText) - \(petLockSummary()) - \(smartGuardSummary())"
     }
 
     func disabledItem(_ title: String) -> NSMenuItem {

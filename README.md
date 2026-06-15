@@ -5,6 +5,7 @@ A tiny local macOS menu bar app for keeping long-running work alive while the di
 It can:
 
 - Keep the Mac awake for long Codex sessions, builds, downloads, and remote work.
+- Turn on automatically when local Codex or Claude agent work is detected.
 - Let the display sleep after idle time.
 - Warn before the battery gets low.
 - Enable closed-lid work mode after macOS admin approval.

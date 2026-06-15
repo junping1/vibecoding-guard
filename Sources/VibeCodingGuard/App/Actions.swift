@@ -19,6 +19,15 @@ extension AppDelegate {
         rebuildControlCenterIfNeeded()
     }
 
+    @objc func toggleSmartGuardFromMenu() {
+        config.smartGuardEnabled.toggle()
+        if !config.smartGuardEnabled {
+            smartGuardPausedUntilAgentStops = false
+        }
+        runChecks()
+        rebuildControlCenterIfNeeded()
+    }
+
     @objc func togglePetLockFromMenu() {
         setPetLock(enabled: !config.petLockEnabled, promptIfNeeded: true)
         runChecks()
@@ -69,6 +78,15 @@ extension AppDelegate {
         applyKeepAwakeState()
         syncPetLock()
         runChecks()
+    }
+
+    @objc func switchSmartGuard() {
+        config.smartGuardEnabled = switches["smartGuard"]?.state == .on
+        if !config.smartGuardEnabled {
+            smartGuardPausedUntilAgentStops = false
+        }
+        runChecks()
+        rebuildControlCenterIfNeeded()
     }
 
     @objc func switchPetLock() {

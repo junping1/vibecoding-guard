@@ -14,7 +14,7 @@ extension AppDelegate {
         switches.removeAll()
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 560 : 360),
+            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 590 : 360),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
@@ -183,6 +183,8 @@ extension AppDelegate {
         stack.translatesAutoresizingMaskIntoConstraints = false
 
         stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
+        stack.addArrangedSubview(separator())
+        stack.addArrangedSubview(compactSwitchRow(title: "Smart Guard", switchKey: "smartGuard", action: #selector(switchSmartGuard)))
         stack.addArrangedSubview(separator())
         stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
         stack.addArrangedSubview(separator())

@@ -43,6 +43,16 @@ final class GuardConfig {
         set { defaults.set(newValue, forKey: "petLockEnabled") }
     }
 
+    var smartGuardEnabled: Bool {
+        get { bool(forKey: "smartGuardEnabled", default: true) }
+        set { defaults.set(newValue, forKey: "smartGuardEnabled") }
+    }
+
+    var smartGuardOwnsGuard: Bool {
+        get { bool(forKey: "smartGuardOwnsGuard", default: false) }
+        set { defaults.set(newValue, forKey: "smartGuardOwnsGuard") }
+    }
+
     var onboardingCompleted: Bool {
         get { bool(forKey: "onboardingCompleted", default: false) }
         set { defaults.set(newValue, forKey: "onboardingCompleted") }

@@ -10,7 +10,22 @@ extension AppDelegate {
         config.keepAwakeEnabled && config.displayIdleSleepEnabled && config.batteryAlertsEnabled
     }
 
-    func setMasterGuard(enabled: Bool) {
+    func setMasterGuard(enabled: Bool, source: GuardChangeSource = .manual) {
+        if source == .manual {
+            config.smartGuardOwnsGuard = false
+            if enabled {
+                smartGuardAutoActive = false
+                smartGuardPausedUntilAgentStops = false
+            } else if lastAgentActivity != nil {
+                smartGuardAutoActive = false
+                smartGuardPausedUntilAgentStops = true
+            }
+        }
+
+        if source == .smart {
+            config.smartGuardOwnsGuard = enabled
+        }
+
         config.keepAwakeEnabled = enabled
         config.displayIdleSleepEnabled = enabled
         config.batteryAlertsEnabled = enabled
@@ -19,6 +34,7 @@ extension AppDelegate {
 
     func refreshWindow() {
         switches["keepAwake"]?.state = config.keepAwakeEnabled ? .on : .off
+        switches["smartGuard"]?.state = config.smartGuardEnabled ? .on : .off
         switches["petLock"]?.state = config.petLockEnabled ? .on : .off
         switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
@@ -100,6 +116,20 @@ extension AppDelegate {
             )
         }
         if !masterGuardEnabled {
+            if smartGuardPausedUntilAgentStops {
+                return (
+                    "Guard is Paused",
+                    "Smart Guard will wait until this agent run ends.",
+                    .neutral
+                )
+            }
+            if config.smartGuardEnabled {
+                return (
+                    "Guard is Ready",
+                    "It turns on automatically when Codex or Claude starts working.",
+                    .blue
+                )
+            }
             return (
                 "Guard is Off",
                 "Turn it on before you step away from long-running work.",
@@ -114,6 +144,9 @@ extension AppDelegate {
     }
 
     func guardOnMessage() -> String {
+        if smartGuardAutoActive, let activity = lastAgentActivity {
+            return "\(activity.displayName) detected. Guard turned on automatically."
+        }
         if config.petLockEnabled && petLockActive {
             return "Pet Lock is blocking accidental key presses."
         }

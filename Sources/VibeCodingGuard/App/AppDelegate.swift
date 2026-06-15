@@ -17,6 +17,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var batteryTimer: Timer?
     var displayTimer: Timer?
     var menuTimer: Timer?
+    var lastAgentActivity: AgentActivity?
+    var smartGuardAutoActive = false
+    var smartGuardPausedUntilAgentStops = false
     var lastBatteryInfo: BatteryInfo?
     var lastPowerSettings: PowerSettings?
     var notificationStatus: UNAuthorizationStatus = .notDetermined
@@ -85,6 +88,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func runChecks() {
+        syncSmartGuard()
         lastPowerSettings = readPowerSettings()
         syncPetLock()
         refreshNotificationStatus()

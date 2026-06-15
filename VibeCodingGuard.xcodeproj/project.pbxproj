@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D93C19AF03E76D8004E18D9 /* KeepAwakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E60C5A7BC50681E4545A573 /* KeepAwakeController.swift */; };
 		2280E1C0C779D855988070E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B525B7A9271C5A3CB2356AB /* Assets.xcassets */; };
+		3AFD938CC1127E033F5A7DFA /* SmartGuardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90067B74E18CDF224E02E59C /* SmartGuardController.swift */; };
 		3F7E7B382BBB8401D6B4A993 /* GuardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64AF9389343A7F4C6E045490 /* GuardConfig.swift */; };
 		498ADC3E32389A022F0C59C0 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A35B4D51E1EB29086E6C790 /* MenuController.swift */; };
 		61F6DC45B67D68844086F6D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EB6049FC6EFE5B0982A6DF /* AppDelegate.swift */; };
@@ -36,6 +37,7 @@
 		64AF9389343A7F4C6E045490 /* GuardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardConfig.swift; sourceTree = "<group>"; };
 		6B525B7A9271C5A3CB2356AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C73FDDD0B0E87083FDFE1A3 /* StatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatePresenter.swift; sourceTree = "<group>"; };
+		90067B74E18CDF224E02E59C /* SmartGuardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartGuardController.swift; sourceTree = "<group>"; };
 		950C3872FEE04EB4EFAAD6D9 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
 		95EB6049FC6EFE5B0982A6DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BB10AB2E8987195AD044224A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				BB10AB2E8987195AD044224A /* main.swift */,
 				0A35B4D51E1EB29086E6C790 /* MenuController.swift */,
 				4760BCD72DE0B89DB0C90505 /* PetLockController.swift */,
+				90067B74E18CDF224E02E59C /* SmartGuardController.swift */,
 				8C73FDDD0B0E87083FDFE1A3 /* StatePresenter.swift */,
 			);
 			path = App;
@@ -231,6 +234,7 @@
 				9C1CC3A014E712B96F204FB3 /* PetLockController.swift in Sources */,
 				A7B611E48727E7DFFCA8E729 /* PowerState.swift in Sources */,
 				B45049B9A0392E262BDDEC50 /* RoundedView.swift in Sources */,
+				3AFD938CC1127E033F5A7DFA /* SmartGuardController.swift in Sources */,
 				66C89F371C4D11C834F0C9B1 /* StatePresenter.swift in Sources */,
 				F36EC9A95CE23451B844032A /* SystemServices.swift in Sources */,
 				8EB98CE58F3EF3A73198C642 /* ViewHelpers.swift in Sources */,
