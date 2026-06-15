@@ -16,6 +16,7 @@ targets:
     platform: macOS
     sources:
       - path: Sources/VibeCodingGuard
+      - path: Resources/Assets.xcassets
     dependencies:
       - sdk: ApplicationServices.framework
     info:
@@ -26,6 +27,7 @@ targets:
         CFBundleExecutable: "$(EXECUTABLE_NAME)"
         CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
         CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleIconName: AppIcon
         CFBundleName: "$(PRODUCT_NAME)"
         CFBundlePackageType: APPL
         CFBundleShortVersionString: "1.0"
@@ -36,11 +38,13 @@ targets:
       base:
         PRODUCT_NAME: "Vibe Coding Guard"
         EXECUTABLE_NAME: VibeCodingGuard
-        PRODUCT_BUNDLE_IDENTIFIER: com.jpy.vibecodingguard
-        CODE_SIGN_STYLE: Manual
-        CODE_SIGN_IDENTITY: "-"
-        DEVELOPMENT_TEAM: ""
-        ENABLE_HARDENED_RUNTIME: "NO"
+        PRODUCT_BUNDLE_IDENTIFIER: com.junping.vibecodingguard
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: 5W738VH83V
+        ENABLE_HARDENED_RUNTIME: "YES"
+        PROVISIONING_PROFILE_SPECIFIER: ""
 
 schemes:
   VibeCodingGuard:
