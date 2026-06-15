@@ -11,16 +11,17 @@ extension AppDelegate {
         statusLabels.removeAll()
         actionButtons.removeAll()
         popups.removeAll()
+        segments.removeAll()
         switches.removeAll()
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 590 : 360),
+            contentRect: NSRect(x: 0, y: 0, width: 560, height: advancedExpanded ? 720 : 320),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.title = onboarding ? "Set Up Vibe Coding Guard" : "Vibe Coding Guard"
-        window.minSize = NSSize(width: 520, height: 340)
+        window.minSize = NSSize(width: 520, height: 320)
         window.center()
         window.delegate = self
         window.isReleasedWhenClosed = false
@@ -106,40 +107,35 @@ extension AppDelegate {
     func simpleHero() -> NSView {
         let card = RoundedView(fill: productCardColor(), stroke: NSColor.separatorColor.withAlphaComponent(0.26), radius: 8)
         card.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        card.heightAnchor.constraint(equalToConstant: 170).isActive = true
 
         let stack = NSStackView()
         stack.orientation = .vertical
         stack.spacing = 12
         stack.alignment = .centerX
-        stack.edgeInsets = NSEdgeInsets(top: 26, left: 26, bottom: 26, right: 26)
         stack.translatesAutoresizingMaskIntoConstraints = false
 
-        let title = label("Guard is On", size: 28, weight: .bold)
+        let title = label("Keep Awake", size: 28, weight: .bold)
         title.alignment = .center
         title.maximumNumberOfLines = 2
         statusLabels["productHeroTitle"] = title
         stack.addArrangedSubview(title)
 
-        let message = label("You can close the lid. Keep it on a desk, not in a bag.", size: 13, color: .secondaryLabelColor)
+        let message = label("Choose when your Mac should keep working.", size: 13, color: .secondaryLabelColor)
         message.alignment = .center
-        message.maximumNumberOfLines = 2
-        message.widthAnchor.constraint(lessThanOrEqualToConstant: 400).isActive = true
         statusLabels["productHeroMessage"] = message
         stack.addArrangedSubview(message)
 
-        let primary = NSButton(title: "Turn Off", target: self, action: #selector(simplePrimaryAction))
-        primary.bezelStyle = .rounded
-        primary.controlSize = .large
-        primary.keyEquivalent = "\r"
-        actionButtons["simplePrimary"] = primary
-        stack.addArrangedSubview(primary)
+        let modeControl = keepAwakeModeControl(width: 300, controlSize: .large)
+        stack.addArrangedSubview(modeControl)
 
         card.addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: card.topAnchor),
-            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor),
-            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor),
-            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor)
+            stack.centerYAnchor.constraint(equalTo: card.centerYAnchor),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 26),
+            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -26),
+            stack.topAnchor.constraint(greaterThanOrEqualTo: card.topAnchor, constant: 20),
+            stack.bottomAnchor.constraint(lessThanOrEqualTo: card.bottomAnchor, constant: -20)
         ])
         return card
     }
@@ -151,7 +147,7 @@ extension AppDelegate {
         row.alignment = .centerY
         row.widthAnchor.constraint(equalToConstant: 500).isActive = true
         row.addArrangedSubview(symbolCircle("lock.open.fill", tone: .warning, size: 24))
-        let text = label("macOS will ask once so Guard can run with the lid closed.", size: 12, color: .secondaryLabelColor)
+        let text = label("macOS will ask once so VCG can keep working with the lid closed.", size: 12, color: .secondaryLabelColor)
         text.maximumNumberOfLines = 2
         row.addArrangedSubview(text)
         return row
@@ -182,27 +178,30 @@ extension AppDelegate {
         stack.edgeInsets = NSEdgeInsets(top: 16, left: 18, bottom: 16, right: 18)
         stack.translatesAutoresizingMaskIntoConstraints = false
 
-        stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
-        stack.addArrangedSubview(separator())
-        stack.addArrangedSubview(compactSwitchRow(title: "Smart Guard", switchKey: "smartGuard", action: #selector(switchSmartGuard)))
-        stack.addArrangedSubview(separator())
-        stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
-        stack.addArrangedSubview(separator())
-        stack.addArrangedSubview(compactSwitchRow(title: "Keep Mac awake", switchKey: "keepAwake", action: #selector(switchKeepAwake)))
-        stack.addArrangedSubview(separator())
-        stack.addArrangedSubview(compactSwitchRow(title: "Pet keyboard lock", switchKey: "petLock", action: #selector(switchPetLock)))
-        if config.petLockEnabled && !petLockAccessibilityTrusted {
-            stack.addArrangedSubview(separator())
-            stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
-        }
-        stack.addArrangedSubview(separator())
+        stack.addArrangedSubview(sectionTitle("Keep Awake"))
+        stack.addArrangedSubview(compactTextRow(title: "Smart watches", detail: "Codex, Claude, SSH, VS Code, Cursor"))
         stack.addArrangedSubview(compactSwitchRow(title: "Allow lid closed", switchKey: "lidClosed", action: #selector(switchLidClosedMode)))
         stack.addArrangedSubview(separator())
+
+        stack.addArrangedSubview(sectionTitle("Display"))
+        stack.addArrangedSubview(compactSwitchRow(title: "Let display sleep", switchKey: "displayIdleSleep", action: #selector(switchDisplayIdleSleep)))
+        stack.addArrangedSubview(compactPopupRow(title: "Display sleeps after", popupKey: "idle", titles: ["3 minutes", "5 minutes", "10 minutes", "15 minutes"], action: #selector(changeIdleDelay)))
+        stack.addArrangedSubview(compactButtonRow(title: "Sleep display now", buttonTitle: "Sleep", buttonKey: "displaySleep", action: #selector(displaySleepNow)))
+        stack.addArrangedSubview(separator())
+
+        stack.addArrangedSubview(sectionTitle("Battery"))
         stack.addArrangedSubview(compactSwitchRow(title: "Battery alerts", switchKey: "batteryAlerts", action: #selector(switchBatteryAlerts)))
-        stack.addArrangedSubview(separator())
+        stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
+        stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert", popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
         stack.addArrangedSubview(compactButtonRow(title: "Notification banners", buttonKey: "productNotification", action: #selector(notificationPermissionAction)))
-        stack.addArrangedSubview(separator())
         stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
+        stack.addArrangedSubview(separator())
+
+        stack.addArrangedSubview(sectionTitle("Keyboard"))
+        stack.addArrangedSubview(compactSwitchRow(title: "Pet keyboard lock", switchKey: "petLock", action: #selector(switchPetLock)))
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            stack.addArrangedSubview(compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction)))
+        }
 
         card.addSubview(stack)
         NSLayoutConstraint.activate([
@@ -212,6 +211,35 @@ extension AppDelegate {
             stack.bottomAnchor.constraint(equalTo: card.bottomAnchor)
         ])
         return card
+    }
+
+    func keepAwakeModeControl(width: CGFloat, controlSize: NSControl.ControlSize) -> NSSegmentedControl {
+        let control = NSSegmentedControl(
+            labels: ["Off", "Smart", "Always On"],
+            trackingMode: .selectOne,
+            target: self,
+            action: #selector(changeKeepAwakeMode)
+        )
+        control.segmentStyle = .rounded
+        control.controlSize = controlSize
+        control.widthAnchor.constraint(equalToConstant: width).isActive = true
+        segments["keepAwakeMode"] = control
+        selectKeepAwakeSegment(control)
+        return control
+    }
+
+    func sectionTitle(_ title: String) -> NSTextField {
+        let field = label(title, size: 12, weight: .semibold, color: .secondaryLabelColor)
+        field.stringValue = title.uppercased()
+        return field
+    }
+
+    func compactTextRow(title: String, detail: String) -> NSView {
+        let row = compactRow(title: title)
+        let text = label(detail, size: 12, color: .secondaryLabelColor)
+        text.alignment = .right
+        row.addArrangedSubview(text)
+        return row
     }
 
     func compactPopupRow(title: String, popupKey: String, titles: [String], action: Selector) -> NSView {

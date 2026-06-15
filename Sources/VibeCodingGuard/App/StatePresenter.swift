@@ -2,41 +2,39 @@ import AppKit
 
 extension AppDelegate {
     var needsSetupHelp: Bool {
-        lastPowerSettings?.batterySleepMinutes != 0 ||
+        keepAwakeShouldRun && (
+            lastPowerSettings?.batterySleepMinutes != 0 ||
             (config.lidClosedModeEnabled && lastPowerSettings?.sleepDisabled != true)
+        )
     }
 
     var masterGuardEnabled: Bool {
-        config.keepAwakeEnabled && config.displayIdleSleepEnabled && config.batteryAlertsEnabled
+        keepAwakeShouldRun
     }
 
-    func setMasterGuard(enabled: Bool, source: GuardChangeSource = .manual) {
-        if source == .manual {
-            config.smartGuardOwnsGuard = false
-            if enabled {
-                smartGuardAutoActive = false
-                smartGuardPausedUntilAgentStops = false
-            } else if lastAgentActivity != nil {
-                smartGuardAutoActive = false
-                smartGuardPausedUntilAgentStops = true
-            }
+    var keepAwakeShouldRun: Bool {
+        switch config.keepAwakeMode {
+        case .off:
+            return false
+        case .smart:
+            return lastAgentActivity != nil
+        case .alwaysOn:
+            return true
         }
+    }
 
-        if source == .smart {
-            config.smartGuardOwnsGuard = enabled
-        }
-
-        config.keepAwakeEnabled = enabled
-        config.displayIdleSleepEnabled = enabled
-        config.batteryAlertsEnabled = enabled
-        applyKeepAwakeState()
+    func setKeepAwakeMode(_ mode: KeepAwakeMode) {
+        config.keepAwakeMode = mode
+        smartModeActive = false
+        syncKeepAwakeMode()
+        syncPetLock()
     }
 
     func refreshWindow() {
-        switches["keepAwake"]?.state = config.keepAwakeEnabled ? .on : .off
-        switches["smartGuard"]?.state = config.smartGuardEnabled ? .on : .off
+        selectKeepAwakeSegment(segments["keepAwakeMode"])
         switches["petLock"]?.state = config.petLockEnabled ? .on : .off
         switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
+        switches["displayIdleSleep"]?.state = config.displayIdleSleepEnabled ? .on : .off
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
 
         if let battery = lastBatteryInfo {
@@ -48,10 +46,6 @@ extension AppDelegate {
         let product = productHealth()
         statusLabels["productHeroTitle"]?.stringValue = product.title
         statusLabels["productHeroMessage"]?.stringValue = product.message
-
-        if let primary = actionButtons["simplePrimary"] {
-            primary.title = simplePrimaryTitle()
-        }
 
         refreshNotificationButton()
         refreshPetLockPermissionButton()
@@ -100,52 +94,67 @@ extension AppDelegate {
         popup.selectItem(at: index)
     }
 
+    func selectKeepAwakeSegment(_ segment: NSSegmentedControl?) {
+        guard let segment else {
+            return
+        }
+        switch config.keepAwakeMode {
+        case .off:
+            segment.selectedSegment = 0
+        case .smart:
+            segment.selectedSegment = 1
+        case .alwaysOn:
+            segment.selectedSegment = 2
+        }
+    }
+
     func productHealth() -> (title: String, message: String, tone: Tone) {
-        if config.keepAwakeEnabled && caffeinateProcess?.isRunning != true {
+        if keepAwakeShouldRun && caffeinateProcess?.isRunning != true {
             return (
-                "Guard needs attention",
-                "The keep-awake helper is not running. Guard will keep trying, but long jobs may not be protected yet.",
+                "Keep Awake needs attention",
+                "The helper is not running yet. VCG will keep trying.",
                 .danger
             )
         }
         if needsSetupHelp {
             return (
-                "Allow & turn on",
-                "macOS will ask once so Guard can keep working with the lid closed.",
+                "Permission needed",
+                "macOS needs one approval before closed-lid work can run.",
                 .warning
             )
         }
-        if !masterGuardEnabled {
-            if smartGuardPausedUntilAgentStops {
+        switch config.keepAwakeMode {
+        case .off:
+            return (
+                "Keep Awake is Off",
+                "VCG is not keeping the Mac awake.",
+                .neutral
+            )
+        case .smart:
+            if let activity = lastAgentActivity {
                 return (
-                    "Guard is Paused",
-                    "Smart Guard will wait until this agent run ends.",
-                    .neutral
-                )
-            }
-            if config.smartGuardEnabled {
-                return (
-                    "Guard is Ready",
-                    "It turns on automatically when Codex or Claude starts working.",
-                    .blue
+                    "Smart is On",
+                    "\(activity.displayName) detected. Your Mac will keep working.",
+                    .good
                 )
             }
             return (
-                "Guard is Off",
-                "Turn it on before you step away from long-running work.",
-                .neutral
+                "Smart is Ready",
+                "VCG will keep awake when Codex, Claude, SSH, or a watched work app is active.",
+                .blue
+            )
+        case .alwaysOn:
+            return (
+                "Always On",
+                guardOnMessage(),
+                .good
             )
         }
-        return (
-            "Guard is On",
-            guardOnMessage(),
-            .good
-        )
     }
 
     func guardOnMessage() -> String {
-        if smartGuardAutoActive, let activity = lastAgentActivity {
-            return "\(activity.displayName) detected. Guard turned on automatically."
+        if smartModeActive, let activity = lastAgentActivity {
+            return "\(activity.displayName) detected. Keep Awake is on."
         }
         if config.petLockEnabled && petLockActive {
             return "Pet Lock is blocking accidental key presses."
@@ -168,14 +177,7 @@ extension AppDelegate {
         if !petLockAccessibilityTrusted {
             return "Pet Lock: permission needed"
         }
-        return masterGuardEnabled ? "Pet Lock: starting" : "Pet Lock: waits for Guard"
-    }
-
-    func simplePrimaryTitle() -> String {
-        if needsSetupHelp {
-            return "Allow & Turn On"
-        }
-        return masterGuardEnabled ? "Turn Off" : "Turn On"
+        return masterGuardEnabled ? "Pet Lock: starting" : "Pet Lock: waits for Keep Awake"
     }
 
     func friendlyBatteryStatus(_ status: String) -> String {

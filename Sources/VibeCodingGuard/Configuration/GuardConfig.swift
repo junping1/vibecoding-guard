@@ -1,5 +1,33 @@
 import Foundation
 
+enum KeepAwakeMode: String, CaseIterable {
+    case off
+    case smart
+    case alwaysOn
+
+    var title: String {
+        switch self {
+        case .off:
+            return "Off"
+        case .smart:
+            return "Smart"
+        case .alwaysOn:
+            return "Always On"
+        }
+    }
+
+    var menuTitle: String {
+        switch self {
+        case .off:
+            return "Off"
+        case .smart:
+            return "Smart"
+        case .alwaysOn:
+            return "Awake"
+        }
+    }
+}
+
 final class GuardConfig {
     private let defaults = UserDefaults.standard
 
@@ -18,9 +46,17 @@ final class GuardConfig {
         return value > 0 ? value : defaultValue
     }
 
-    var keepAwakeEnabled: Bool {
-        get { bool(forKey: "keepAwakeEnabled", default: true) }
-        set { defaults.set(newValue, forKey: "keepAwakeEnabled") }
+    var keepAwakeMode: KeepAwakeMode {
+        get {
+            guard
+                let value = defaults.string(forKey: "keepAwakeMode"),
+                let mode = KeepAwakeMode(rawValue: value)
+            else {
+                return .smart
+            }
+            return mode
+        }
+        set { defaults.set(newValue.rawValue, forKey: "keepAwakeMode") }
     }
 
     var displayIdleSleepEnabled: Bool {
@@ -41,16 +77,6 @@ final class GuardConfig {
     var petLockEnabled: Bool {
         get { bool(forKey: "petLockEnabled", default: false) }
         set { defaults.set(newValue, forKey: "petLockEnabled") }
-    }
-
-    var smartGuardEnabled: Bool {
-        get { bool(forKey: "smartGuardEnabled", default: true) }
-        set { defaults.set(newValue, forKey: "smartGuardEnabled") }
-    }
-
-    var smartGuardOwnsGuard: Bool {
-        get { bool(forKey: "smartGuardOwnsGuard", default: false) }
-        set { defaults.set(newValue, forKey: "smartGuardOwnsGuard") }
     }
 
     var onboardingCompleted: Bool {

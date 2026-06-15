@@ -18,8 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var displayTimer: Timer?
     var menuTimer: Timer?
     var lastAgentActivity: AgentActivity?
-    var smartGuardAutoActive = false
-    var smartGuardPausedUntilAgentStops = false
+    var smartModeActive = false
     var lastBatteryInfo: BatteryInfo?
     var lastPowerSettings: PowerSettings?
     var notificationStatus: UNAuthorizationStatus = .notDetermined
@@ -34,6 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var statusLabels: [String: NSTextField] = [:]
     var actionButtons: [String: NSButton] = [:]
     var popups: [String: NSPopUpButton] = [:]
+    var segments: [String: NSSegmentedControl] = [:]
     var switches: [String: NSSwitch] = [:]
     var advancedExpanded = false
 
@@ -41,7 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSApp.setActivationPolicy(.regular)
         setupStatusItem()
         refreshNotificationStatus()
-        applyKeepAwakeState()
+        syncKeepAwakeMode()
         syncPetLock()
         startTimers()
         runChecks()
@@ -72,6 +72,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         statusLabels.removeAll()
         actionButtons.removeAll()
         popups.removeAll()
+        segments.removeAll()
         switches.removeAll()
     }
 
@@ -88,7 +89,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func runChecks() {
-        syncSmartGuard()
+        syncKeepAwakeMode()
         lastPowerSettings = readPowerSettings()
         syncPetLock()
         refreshNotificationStatus()

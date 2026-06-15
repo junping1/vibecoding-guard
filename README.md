@@ -2,14 +2,18 @@
 
 A tiny local macOS menu bar app for keeping long-running work alive while the display rests.
 
-It can:
+The main control is Keep Awake:
 
-- Keep the Mac awake for long Codex sessions, builds, downloads, and remote work.
-- Turn on automatically when local Codex or Claude agent work is detected.
+- Off: VCG does nothing until you turn it back on.
+- Smart: turns on when Codex, Claude, SSH, VS Code, Cursor, or Terminal work is active.
+- Always On: keeps the Mac awake until you turn it off.
+
+It can also:
+
 - Let the display sleep after idle time.
 - Warn before the battery gets low.
 - Enable closed-lid work mode after macOS admin approval.
-- Block accidental keyboard input with Pet Lock while Guard is on.
+- Block accidental keyboard input with Pet Lock while Keep Awake is active.
 
 ## Project
 

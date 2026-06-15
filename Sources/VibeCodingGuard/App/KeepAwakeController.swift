@@ -2,7 +2,7 @@ import Foundation
 
 extension AppDelegate {
     func applyKeepAwakeState() {
-        if config.keepAwakeEnabled {
+        if keepAwakeShouldRun {
             startKeepAwake()
         } else {
             stopKeepAwake()

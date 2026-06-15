@@ -11,19 +11,20 @@ extension AppDelegate {
         showControlCenter(onboarding: false)
     }
 
-    @objc func toggleGuardFromMenu() {
-        let enabled = !masterGuardEnabled
-        setMasterGuard(enabled: enabled)
-        syncPetLock()
+    @objc func setKeepAwakeOffFromMenu() {
+        setKeepAwakeMode(.off)
         runChecks()
         rebuildControlCenterIfNeeded()
     }
 
-    @objc func toggleSmartGuardFromMenu() {
-        config.smartGuardEnabled.toggle()
-        if !config.smartGuardEnabled {
-            smartGuardPausedUntilAgentStops = false
-        }
+    @objc func setKeepAwakeSmartFromMenu() {
+        setKeepAwakeMode(.smart)
+        runChecks()
+        rebuildControlCenterIfNeeded()
+    }
+
+    @objc func setKeepAwakeAlwaysOnFromMenu() {
+        setKeepAwakeMode(.alwaysOn)
         runChecks()
         rebuildControlCenterIfNeeded()
     }
@@ -50,43 +51,22 @@ extension AppDelegate {
         NSApp.terminate(nil)
     }
 
-    @objc func simplePrimaryAction() {
-        if needsSetupHelp {
-            setMasterGuard(enabled: true)
-            setLidClosedMode(enabled: true)
-            if notificationStatus == .notDetermined {
-                requestNotificationPermission()
-            }
-            config.onboardingCompleted = true
-            runChecks()
-            rebuildControlCenterIfNeeded()
-            return
+    @objc func changeKeepAwakeMode() {
+        switch segments["keepAwakeMode"]?.selectedSegment ?? 1 {
+        case 0:
+            setKeepAwakeMode(.off)
+        case 2:
+            setKeepAwakeMode(.alwaysOn)
+        default:
+            setKeepAwakeMode(.smart)
         }
-
-        let enabled = !masterGuardEnabled
-        setMasterGuard(enabled: enabled)
-        if enabled && notificationStatus == .notDetermined {
-            requestNotificationPermission()
-        }
-        config.onboardingCompleted = true
         runChecks()
         rebuildControlCenterIfNeeded()
     }
 
-    @objc func switchKeepAwake() {
-        config.keepAwakeEnabled = switches["keepAwake"]?.state == .on
-        applyKeepAwakeState()
-        syncPetLock()
+    @objc func switchDisplayIdleSleep() {
+        config.displayIdleSleepEnabled = switches["displayIdleSleep"]?.state == .on
         runChecks()
-    }
-
-    @objc func switchSmartGuard() {
-        config.smartGuardEnabled = switches["smartGuard"]?.state == .on
-        if !config.smartGuardEnabled {
-            smartGuardPausedUntilAgentStops = false
-        }
-        runChecks()
-        rebuildControlCenterIfNeeded()
     }
 
     @objc func switchPetLock() {
