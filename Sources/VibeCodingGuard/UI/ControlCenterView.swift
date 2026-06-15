@@ -170,8 +170,8 @@ extension AppDelegate {
         row.alignment = .centerY
 
         row.addArrangedSubview(modeRadioButton(title: "Off", mode: .off))
-        row.addArrangedSubview(modeRadioButton(title: "Smart", mode: .smart))
-        row.addArrangedSubview(modeRadioButton(title: "Always On", mode: .alwaysOn))
+        row.addArrangedSubview(modeRadioButton(title: "Auto", mode: .smart))
+        row.addArrangedSubview(modeRadioButton(title: "Always", mode: .alwaysOn))
         selectKeepAwakeRadioButtons()
         return row
     }
@@ -232,15 +232,25 @@ extension AppDelegate {
         switch group {
         case .keepAwake:
             stack.addArrangedSubview(compactTextRow(
-                title: "Smart watches",
+                title: "Auto watches",
                 detail: "Codex and Claude Code"
             ))
             stack.addArrangedSubview(compactSwitchRow(
                 title: "Allow work with lid closed",
-                detail: "Keeps long jobs running when the MacBook is closed.",
+                detail: "macOS asks once before VCG can change this power setting.",
                 switchKey: "lidClosed",
                 action: #selector(switchLidClosedMode)
             ))
+            let powerPermissionRow = compactButtonRow(
+                title: "Saved power permission",
+                detail: "Allows only VCG's closed-lid power commands.",
+                buttonTitle: "Remove",
+                buttonKey: "powerPermission",
+                action: #selector(removePowerPermissionAction)
+            )
+            powerPermissionRow.isHidden = !powerPermissionInstalled
+            statusViews["powerPermissionRow"] = powerPermissionRow
+            stack.addArrangedSubview(powerPermissionRow)
         case .display:
             stack.addArrangedSubview(compactSwitchRow(
                 title: "Let display sleep",
@@ -259,7 +269,12 @@ extension AppDelegate {
             ))
             stack.addArrangedSubview(compactPopupRow(title: "Low battery alert", popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
             stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert", popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
-            stack.addArrangedSubview(compactButtonRow(title: "Notification banners", buttonKey: "productNotification", action: #selector(notificationPermissionAction)))
+            stack.addArrangedSubview(compactButtonRow(
+                title: "Notification banners",
+                detail: "Optional. Sound alerts still work without banners.",
+                buttonKey: "productNotification",
+                action: #selector(notificationPermissionAction)
+            ))
             stack.addArrangedSubview(compactButtonRow(title: "Test alert sound", buttonTitle: "Test", buttonKey: "testAlert", action: #selector(testBatteryAlert)))
         case .keyboard:
             stack.addArrangedSubview(compactSwitchRow(
@@ -274,7 +289,12 @@ extension AppDelegate {
             let info = compactInfoRow(status)
             statusLabels["keyboardLockInfo"] = info as? NSTextField
             stack.addArrangedSubview(info)
-            let permissionRow = compactButtonRow(title: "Keyboard permission", buttonKey: "petLockPermission", action: #selector(petLockPermissionAction))
+            let permissionRow = compactButtonRow(
+                title: "Accessibility permission",
+                detail: "Needed only to block accidental key presses.",
+                buttonKey: "petLockPermission",
+                action: #selector(petLockPermissionAction)
+            )
             permissionRow.isHidden = !(config.petLockEnabled && !petLockAccessibilityTrusted)
             statusViews["keyboardPermissionRow"] = permissionRow
             stack.addArrangedSubview(permissionRow)
@@ -313,8 +333,8 @@ extension AppDelegate {
         return row
     }
 
-    func compactButtonRow(title: String, buttonTitle: String = "Allow", buttonKey: String, action: Selector) -> NSView {
-        let row = compactRow(title: title)
+    func compactButtonRow(title: String, detail: String? = nil, buttonTitle: String = "Allow", buttonKey: String, action: Selector) -> NSView {
+        let row = compactRow(title: title, detail: detail)
         let button = NSButton(title: buttonTitle, target: self, action: action)
         button.bezelStyle = .rounded
         actionButtons[buttonKey] = button

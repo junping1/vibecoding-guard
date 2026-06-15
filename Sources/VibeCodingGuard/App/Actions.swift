@@ -95,9 +95,25 @@ extension AppDelegate {
     }
 
     @objc func petLockPermissionAction() {
-        requestPetLockPermission()
-        syncPetLock()
+        refreshPetLockPermissionStatus()
+        if petLockAccessibilityTrusted {
+            syncPetLock()
+            refreshWindow()
+            return
+        }
+
+        if petLockPermissionPrompted {
+            openAccessibilitySettings()
+        } else {
+            requestPetLockPermission()
+        }
         runChecks()
+    }
+
+    @objc func removePowerPermissionAction() {
+        _ = removeOneTimePmsetPermission()
+        refreshPowerPermissionStatus()
+        refreshWindow()
     }
 
     @objc func changeIdleDelay() {
@@ -154,28 +170,121 @@ extension AppDelegate {
             }
         }
 
-        let value = enabled ? "1" : "0"
-        let command = enabled
-            ? "/usr/bin/pmset -a sleep 0; /usr/bin/pmset -a disablesleep \(value)"
-            : "/usr/bin/pmset -a disablesleep \(value)"
-        let prompt = enabled
-            ? "Allow Vibe Coding Guard to keep working while the lid is closed. Keep the Mac on a desk, not in a bag."
-            : "Allow Vibe Coding Guard to turn off closed-lid work mode."
-        let script = """
-        do shell script "\(command)" with administrator privileges with prompt "\(appleScriptQuoted(prompt))"
-        """
-        withKeyboardInputTemporarilyAllowed {
-            _ = runCommand("/usr/bin/osascript", ["-e", script])
+        let commands = lidClosedPmsetCommands(enabled: enabled)
+        if runSavedPmsetCommands(commands) {
+            lastPowerSettings = readPowerSettings()
+            syncLidClosedConfigFromSystem()
+            return
         }
+
+        guard installOneTimePmsetPermission() else {
+            lastPowerSettings = readPowerSettings()
+            syncLidClosedConfigFromSystem()
+            refreshWindow()
+            return
+        }
+
+        _ = runSavedPmsetCommands(commands)
         lastPowerSettings = readPowerSettings()
+        syncLidClosedConfigFromSystem()
+    }
+
+    func syncLidClosedConfigFromSystem() {
+        config.lidClosedModeEnabled = lastPowerSettings?.sleepDisabled == true
+    }
+
+    var powerPermissionFilePath: String {
+        "/private/etc/sudoers.d/vibecodingguard"
+    }
+
+    func refreshPowerPermissionStatus() {
+        powerPermissionInstalled = FileManager.default.fileExists(atPath: powerPermissionFilePath)
+    }
+
+    func lidClosedPmsetCommands(enabled: Bool) -> [[String]] {
+        enabled
+            ? [["-a", "sleep", "0"], ["-a", "disablesleep", "1"]]
+            : [["-a", "disablesleep", "0"]]
+    }
+
+    func runSavedPmsetCommands(_ commands: [[String]]) -> Bool {
+        for arguments in commands {
+            guard runCommandStatus("/usr/bin/sudo", ["-n", "/usr/bin/pmset"] + arguments) == 0 else {
+                return false
+            }
+        }
+        return true
+    }
+
+    func installOneTimePmsetPermission() -> Bool {
+        let userName = NSUserName()
+        let allowedCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-")
+        guard userName.unicodeScalars.allSatisfy({ allowedCharacters.contains($0) }) else {
+            return false
+        }
+
+        let sudoersContent = """
+        # Vibe Coding Guard one-time power permission.
+        # Allows only the exact pmset commands needed for closed-lid work.
+        Cmnd_Alias VCG_PMSET = /usr/bin/pmset -a sleep 0, /usr/bin/pmset -a disablesleep 0, /usr/bin/pmset -a disablesleep 1, /usr/bin/pmset -b sleep 0
+        \(userName) ALL=(root) NOPASSWD: VCG_PMSET
+        """
+        let installScript = """
+        set -e
+        file=\(shellQuoted(powerPermissionFilePath))
+        tmp=$(/usr/bin/mktemp /tmp/vibecodingguard.sudoers.XXXXXX)
+        /bin/cat > "$tmp" <<'VCG_SUDOERS'
+        \(sudoersContent)
+        VCG_SUDOERS
+        /usr/sbin/visudo -cf "$tmp"
+        /usr/sbin/chown root:wheel "$tmp"
+        /bin/chmod 0440 "$tmp"
+        /bin/mv "$tmp" "$file"
+        if ! /usr/sbin/visudo -cf /private/etc/sudoers; then
+          /bin/rm -f "$file"
+          exit 1
+        fi
+        """
+        let command = "/bin/sh -c \(shellQuoted(installScript))"
+        let script = """
+        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "Allow Vibe Coding Guard to change its closed-lid power setting without asking again. This allows only VCG's exact pmset commands."
+        """
+        let installed = withKeyboardInputTemporarilyAllowed {
+            runCommandStatus("/usr/bin/osascript", ["-e", script]) == 0
+        }
+        refreshPowerPermissionStatus()
+        return installed
+    }
+
+    func removeOneTimePmsetPermission() -> Bool {
+        let removeScript = """
+        set -e
+        file=\(shellQuoted(powerPermissionFilePath))
+        if [ -e "$file" ]; then
+          /bin/rm -f "$file"
+        fi
+        /usr/sbin/visudo -cf /private/etc/sudoers
+        """
+        let command = "/bin/sh -c \(shellQuoted(removeScript))"
+        let script = """
+        do shell script "\(appleScriptQuoted(command))" with administrator privileges with prompt "Remove Vibe Coding Guard's saved closed-lid power permission."
+        """
+        let removed = withKeyboardInputTemporarilyAllowed {
+            runCommandStatus("/usr/bin/osascript", ["-e", script]) == 0
+        }
+        refreshPowerPermissionStatus()
+        return removed
     }
 
     func enableBatterySleepSetting() {
-        let script = """
-        do shell script "/usr/bin/pmset -b sleep 0" with administrator privileges with prompt "Allow Vibe Coding Guard to keep long-running work alive on battery."
-        """
-        withKeyboardInputTemporarilyAllowed {
-            _ = runCommand("/usr/bin/osascript", ["-e", script])
+        let commands = [["-b", "sleep", "0"]]
+        if !runSavedPmsetCommands(commands) {
+            guard installOneTimePmsetPermission() else {
+                lastPowerSettings = readPowerSettings()
+                refreshWindow()
+                return
+            }
+            _ = runSavedPmsetCommands(commands)
         }
         lastPowerSettings = readPowerSettings()
         refreshWindow()

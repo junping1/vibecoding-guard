@@ -8,7 +8,7 @@ extension AppDelegate {
             item.button?.image = image
             item.button?.imagePosition = .imageLeading
         }
-        item.button?.title = "Smart"
+        item.button?.title = "Auto"
         item.button?.toolTip = "Vibe Coding Guard keeps long-running work alive while your display can rest."
         statusItem = item
         rebuildMenu()
@@ -46,7 +46,7 @@ extension AppDelegate {
         menu.addItem(actionItem("Show Window", #selector(openControlCenter)))
         menu.addItem(toggleActionItem("Keyboard Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
         if config.petLockEnabled && !petLockAccessibilityTrusted {
-            menu.addItem(actionItem("Allow Keyboard Permission...", #selector(petLockPermissionAction)))
+            menu.addItem(actionItem(keyboardPermissionMenuTitle(), #selector(petLockPermissionAction)))
         }
         menu.addItem(actionItem("Customize...", #selector(openCustomize)))
         menu.addItem(NSMenuItem.separator())
@@ -62,21 +62,16 @@ extension AppDelegate {
     }
 
     func menuBarStateText() -> String {
-        if needsSetupHelp {
-            return "Setup"
-        }
-        if petLockActive {
-            return "Keys Locked"
-        }
-        if config.petLockEnabled && !petLockAccessibilityTrusted {
-            return "Key Setup"
-        }
         return config.keepAwakeMode.menuTitle
     }
 
+    func keyboardPermissionMenuTitle() -> String {
+        petLockPermissionPrompted ? "Open Accessibility Settings..." : "Allow Keyboard Permission..."
+    }
+
     func menuBarSymbolName() -> String {
-        if needsSetupHelp {
-            return "shield.lefthalf.filled"
+        if needsAttentionIndicator {
+            return "exclamationmark.triangle"
         }
         if config.keepAwakeMode == .off {
             return "shield.slash"
@@ -84,23 +79,20 @@ extension AppDelegate {
         if config.keepAwakeMode == .smart && !keepAwakeShouldRun {
             return "sparkles"
         }
-        if petLockActive {
-            return "lock.fill"
+        if config.keepAwakeMode == .alwaysOn {
+            return "bolt.fill"
         }
         return "shield.fill"
     }
 
     func menuHeadline() -> String {
-        if needsSetupHelp {
-            return "Setup Needed"
-        }
         switch config.keepAwakeMode {
         case .off:
-            return "Keep Awake Off"
+            return "Off"
         case .smart:
-            return keepAwakeShouldRun ? "Smart Keep Awake" : "Smart Ready"
+            return "Auto"
         case .alwaysOn:
-            return "Always On"
+            return "Always"
         }
     }
 
@@ -114,7 +106,7 @@ extension AppDelegate {
         if config.keepAwakeMode == .smart, let activity = lastAgentActivity {
             activityText = "\(activity.displayName) detected"
         } else if config.keepAwakeMode == .smart {
-            activityText = "Watching Codex and Claude Code"
+            activityText = "Ready for Codex or Claude Code"
         } else if config.keepAwakeMode == .alwaysOn {
             activityText = "Keeping Mac awake"
         } else {
@@ -159,8 +151,8 @@ extension AppDelegate {
         let item = NSMenuItem(title: "Keep Awake", action: nil, keyEquivalent: "")
         let submenu = NSMenu()
         submenu.addItem(modeActionItem("Off", mode: .off, action: #selector(setKeepAwakeOffFromMenu)))
-        submenu.addItem(modeActionItem("Smart", mode: .smart, action: #selector(setKeepAwakeSmartFromMenu)))
-        submenu.addItem(modeActionItem("Always On", mode: .alwaysOn, action: #selector(setKeepAwakeAlwaysOnFromMenu)))
+        submenu.addItem(modeActionItem("Auto", mode: .smart, action: #selector(setKeepAwakeSmartFromMenu)))
+        submenu.addItem(modeActionItem("Always", mode: .alwaysOn, action: #selector(setKeepAwakeAlwaysOnFromMenu)))
         item.submenu = submenu
         return item
     }

@@ -48,7 +48,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var petLockEventTap: CFMachPort?
     var petLockRunLoopSource: CFRunLoopSource?
     var petLockAccessibilityTrusted = false
+    var petLockPermissionPrompted = false
+    var accessibilityPermissionTimer: Timer?
+    var accessibilityPermissionPollCount = 0
     var petLockActive = false
+    var powerPermissionInstalled = false
     var controlWindow: NSWindow?
     var statusViews: [String: NSView] = [:]
     var imageViews: [String: NSImageView] = [:]
@@ -82,6 +86,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func applicationWillTerminate(_ notification: Notification) {
+        accessibilityPermissionTimer?.invalidate()
         stopKeepAwake()
         stopPetLock()
     }
@@ -116,6 +121,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func runChecks() {
         lastPowerSettings = readPowerSettings()
+        refreshPowerPermissionStatus()
         refreshNotificationStatus()
         runLiveChecks()
         checkDisplayIdle()

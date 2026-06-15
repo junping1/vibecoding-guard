@@ -106,6 +106,10 @@ extension AppDelegate {
             .replacingOccurrences(of: "\"", with: "\\\"")
     }
 
+    func shellQuoted(_ text: String) -> String {
+        "'\(text.replacingOccurrences(of: "'", with: "'\\''"))'"
+    }
+
     func checkDisplayIdle() {
         guard config.keepAwakeMode != .off, config.displayIdleSleepEnabled else {
             return
@@ -230,6 +234,27 @@ extension AppDelegate {
         } catch {
             NSLog("Vibe Coding Guard: command failed \(path): \(error)")
             return ""
+        }
+    }
+
+    @discardableResult
+    func runCommandStatus(_ path: String, _ arguments: [String]) -> Int32 {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: path)
+        process.arguments = arguments
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.standardError = pipe
+
+        do {
+            try process.run()
+            _ = pipe.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
+            return process.terminationStatus
+        } catch {
+            NSLog("Vibe Coding Guard: command failed \(path): \(error)")
+            return 1
         }
     }
 }

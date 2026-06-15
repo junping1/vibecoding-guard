@@ -38,17 +38,53 @@ extension AppDelegate {
     }
 
     func requestPetLockPermission() {
+        refreshPetLockPermissionStatus()
+        guard !petLockAccessibilityTrusted else {
+            syncPetLock()
+            refreshWindow()
+            return
+        }
+
+        petLockPermissionPrompted = true
         let promptKey = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String
         let options = [promptKey: true] as CFDictionary
         petLockAccessibilityTrusted = AXIsProcessTrustedWithOptions(options)
-        if !petLockAccessibilityTrusted {
-            openAccessibilitySettings()
-        }
+        startAccessibilityPermissionPolling()
+        refreshWindow()
     }
 
     func openAccessibilitySettings() {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility") {
             NSWorkspace.shared.open(url)
+        }
+        startAccessibilityPermissionPolling()
+    }
+
+    func startAccessibilityPermissionPolling() {
+        accessibilityPermissionTimer?.invalidate()
+        accessibilityPermissionPollCount = 0
+        accessibilityPermissionTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] timer in
+            guard let self else {
+                timer.invalidate()
+                return
+            }
+
+            accessibilityPermissionPollCount += 1
+            refreshPetLockPermissionStatus()
+            if petLockAccessibilityTrusted {
+                timer.invalidate()
+                accessibilityPermissionTimer = nil
+                syncPetLock()
+                refreshMenuStatus()
+                refreshWindow()
+                return
+            }
+
+            refreshWindow()
+            if accessibilityPermissionPollCount >= 60 {
+                timer.invalidate()
+                accessibilityPermissionTimer = nil
+            }
         }
     }
 
@@ -100,15 +136,16 @@ extension AppDelegate {
         petLockActive = false
     }
 
-    func withKeyboardInputTemporarilyAllowed(_ work: () -> Void) {
+    func withKeyboardInputTemporarilyAllowed<Result>(_ work: () -> Result) -> Result {
         let shouldRestore = petLockActive
         if shouldRestore {
             stopPetLock()
         }
-        work()
+        let result = work()
         if shouldRestore {
             syncPetLock()
         }
+        return result
     }
 
     func handlePetLockEvent(

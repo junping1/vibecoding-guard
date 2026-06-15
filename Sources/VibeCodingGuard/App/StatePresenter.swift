@@ -16,6 +16,14 @@ extension AppDelegate {
         keepAwakeShouldRun && lastBatteryInfo?.isDischarging == true
     }
 
+    var needsKeepAwakeHelperAttention: Bool {
+        keepAwakeShouldRun && caffeinateProcess?.isRunning != true
+    }
+
+    var needsAttentionIndicator: Bool {
+        needsKeepAwakeHelperAttention || needsSetupHelp || needsPowerAdapterTip
+    }
+
     var keepAwakeShouldRun: Bool {
         switch config.keepAwakeMode {
         case .off:
@@ -53,6 +61,7 @@ extension AppDelegate {
 
         refreshNotificationButton()
         refreshPetLockPermissionButton()
+        refreshPowerPermissionButton()
         refreshPopups()
     }
 
@@ -88,12 +97,20 @@ extension AppDelegate {
             statusViews["customize.\(group.rawValue)"]?.isHidden = group != activeCustomizeGroup
         }
         statusViews["keyboardPermissionRow"]?.isHidden = !(config.petLockEnabled && !petLockAccessibilityTrusted)
+        statusViews["powerPermissionRow"]?.isHidden = !powerPermissionInstalled
     }
 
     func refreshKeyboardLockInfo() {
-        let text = config.petLockEnabled
-            ? "When you turn Keep Awake off, the keyboard unlocks automatically."
-            : "Turn this on if something may press the keyboard during an agent run."
+        let text: String
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            text = petLockPermissionPrompted
+                ? "Turn on VCG in Accessibility, then come back here."
+                : "macOS will ask once so Keyboard Lock can block accidental key presses."
+        } else if config.petLockEnabled {
+            text = "When you turn Keep Awake off, the keyboard unlocks automatically."
+        } else {
+            text = "Turn this on if something may press the keyboard during an agent run."
+        }
         statusLabels["keyboardLockInfo"]?.stringValue = text
     }
 
@@ -101,8 +118,22 @@ extension AppDelegate {
         guard let button = actionButtons["petLockPermission"] else {
             return
         }
-        button.title = petLockAccessibilityTrusted ? "Allowed" : "Allow"
+        if petLockAccessibilityTrusted {
+            button.title = "Allowed"
+        } else if petLockPermissionPrompted {
+            button.title = "Open Settings"
+        } else {
+            button.title = "Allow"
+        }
         button.isEnabled = !petLockAccessibilityTrusted
+    }
+
+    func refreshPowerPermissionButton() {
+        guard let button = actionButtons["powerPermission"] else {
+            return
+        }
+        button.title = powerPermissionInstalled ? "Remove" : "Not Set"
+        button.isEnabled = powerPermissionInstalled
     }
 
     func refreshPopups() {
@@ -126,46 +157,59 @@ extension AppDelegate {
     }
 
     func productHealth() -> (title: String, message: String, tone: Tone) {
-        if keepAwakeShouldRun && caffeinateProcess?.isRunning != true {
+        let title = config.keepAwakeMode.title
+
+        if needsKeepAwakeHelperAttention {
             return (
-                "Needs Attention",
-                "Keep Awake helper is starting.",
-                .danger
+                title,
+                "Starting Keep Awake.",
+                .warning
             )
         }
         if needsSetupHelp {
             return (
-                "Permission Needed",
+                title,
                 "Approve closed-lid work once in macOS.",
                 .warning
             )
         }
+        if needsPowerAdapterTip {
+            return (
+                title,
+                productModeMessage(),
+                .warning
+            )
+        }
+
+        return (
+            title,
+            productModeMessage(),
+            productModeTone()
+        )
+    }
+
+    func productModeMessage() -> String {
         switch config.keepAwakeMode {
         case .off:
-            return (
-                "Off",
-                "VCG is idle.",
-                .neutral
-            )
+            return "VCG is idle."
         case .smart:
             if let activity = lastAgentActivity {
-                return (
-                    "Smart",
-                    "\(activity.displayName) detected.",
-                    .good
-                )
+                return "\(activity.displayName) detected."
             }
-            return (
-                "Smart",
-                "Watching Codex and Claude Code.",
-                .blue
-            )
+            return "Ready for Codex or Claude Code."
         case .alwaysOn:
-            return (
-                "Always On",
-                guardOnMessage(),
-                .good
-            )
+            return guardOnMessage()
+        }
+    }
+
+    func productModeTone() -> Tone {
+        switch config.keepAwakeMode {
+        case .off:
+            return .neutral
+        case .smart:
+            return keepAwakeShouldRun ? .good : .blue
+        case .alwaysOn:
+            return .good
         }
     }
 
@@ -180,11 +224,8 @@ extension AppDelegate {
     }
 
     func productStatusSymbolName() -> String {
-        if keepAwakeShouldRun && caffeinateProcess?.isRunning != true {
+        if needsAttentionIndicator {
             return "exclamationmark.triangle.fill"
-        }
-        if needsSetupHelp {
-            return "lock.open.fill"
         }
         switch config.keepAwakeMode {
         case .off:

@@ -10,21 +10,14 @@ enum KeepAwakeMode: String, CaseIterable {
         case .off:
             return "Off"
         case .smart:
-            return "Smart"
+            return "Auto"
         case .alwaysOn:
-            return "Always On"
+            return "Always"
         }
     }
 
     var menuTitle: String {
-        switch self {
-        case .off:
-            return "Off"
-        case .smart:
-            return "Smart"
-        case .alwaysOn:
-            return "Awake"
-        }
+        title
     }
 }
 
