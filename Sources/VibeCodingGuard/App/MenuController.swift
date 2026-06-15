@@ -19,16 +19,12 @@ extension AppDelegate {
             startKeepAwake()
         }
 
-        let menuState = needsSetupHelp ? "Setup" : (masterGuardEnabled ? "On" : "Off")
-        if let battery = lastBatteryInfo {
-            statusItem?.button?.title = "Guard \(menuState) \(battery.percent)%"
-        } else {
-            statusItem?.button?.title = "Guard \(menuState)"
-        }
+        statusItem?.button?.title = menuBarTitle()
+        statusItem?.button?.toolTip = menuTooltip()
 
         if let image = NSImage(
-            systemSymbolName: needsSetupHelp ? "shield.lefthalf.filled" : (masterGuardEnabled ? "shield.fill" : "shield.slash"),
-            accessibilityDescription: "Guard is \(menuState)"
+            systemSymbolName: menuBarSymbolName(),
+            accessibilityDescription: menuHeadline()
         ) {
             image.isTemplate = true
             statusItem?.button?.image = image
@@ -38,11 +34,16 @@ extension AppDelegate {
 
     func rebuildMenu() {
         let menu = NSMenu()
-        menu.addItem(statusLineItem())
+        menu.addItem(disabledItem(menuHeadline()))
+        menu.addItem(disabledItem(menuPowerLine()))
+        menu.addItem(disabledItem(menuProtectionLine()))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(actionItem("Open Vibe Coding Guard...", #selector(openControlCenter)))
-        menu.addItem(actionItem(masterGuardEnabled ? "Turn Guard Off" : "Turn Guard On", #selector(toggleGuardFromMenu)))
-        menu.addItem(actionItem(config.petLockEnabled ? "Turn Pet Lock Off" : "Turn Pet Lock On", #selector(togglePetLockFromMenu)))
+        menu.addItem(actionItem("Show Window", #selector(openControlCenter)))
+        menu.addItem(toggleActionItem("Guard", state: masterGuardEnabled, action: #selector(toggleGuardFromMenu)))
+        menu.addItem(toggleActionItem("Pet Lock", state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            menu.addItem(actionItem("Allow Keyboard Permission...", #selector(petLockPermissionAction)))
+        }
         menu.addItem(actionItem("Customize...", #selector(openCustomize)))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(actionItem("Sleep Display Now", #selector(displaySleepNow)))
@@ -52,7 +53,64 @@ extension AppDelegate {
         statusItem?.menu = menu
     }
 
-    func statusLineItem() -> NSMenuItem {
+    func menuBarTitle() -> String {
+        let state = menuBarStateText()
+        if let battery = lastBatteryInfo {
+            return "\(state) \(battery.percent)%"
+        }
+        return state
+    }
+
+    func menuBarStateText() -> String {
+        if needsSetupHelp {
+            return "Setup"
+        }
+        if !masterGuardEnabled {
+            return "Off"
+        }
+        if petLockActive {
+            return "Pet Lock"
+        }
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            return "Pet Setup"
+        }
+        return "On"
+    }
+
+    func menuBarSymbolName() -> String {
+        if needsSetupHelp {
+            return "shield.lefthalf.filled"
+        }
+        if !masterGuardEnabled {
+            return "shield.slash"
+        }
+        if petLockActive {
+            return "lock.fill"
+        }
+        return "shield.fill"
+    }
+
+    func menuHeadline() -> String {
+        if needsSetupHelp {
+            return "Setup Needed"
+        }
+        if !masterGuardEnabled {
+            return "Guard Off"
+        }
+        if petLockActive {
+            return "Pet Lock Active"
+        }
+        if config.petLockEnabled && !petLockAccessibilityTrusted {
+            return "Pet Lock Needs Permission"
+        }
+        return "Guard On"
+    }
+
+    func menuTooltip() -> String {
+        "\(menuHeadline())\n\(menuPowerLine())\n\(menuProtectionLine())"
+    }
+
+    func menuPowerLine() -> String {
         let batteryText: String
         if let battery = lastBatteryInfo {
             batteryText = "Battery: \(battery.percent)% \(friendlyBatteryStatus(battery.status))"
@@ -60,22 +118,24 @@ extension AppDelegate {
             batteryText = "Battery: checking..."
         }
 
-        let awakeText = masterGuardEnabled ? "Guard: On" : "Guard: Off"
+        let displayText = config.displayIdleSleepEnabled
+            ? "Display: sleeps after \(config.idleDisplaySeconds / 60) min"
+            : "Display: automation off"
+        return "\(batteryText) - \(displayText)"
+    }
+
+    func menuProtectionLine() -> String {
         let lidText: String
         if config.lidClosedModeEnabled {
-            lidText = lastPowerSettings?.sleepDisabled == true ? "Lid closed: allowed" : "Lid closed: setup needed"
+            lidText = lastPowerSettings?.sleepDisabled == true ? "Lid: closed allowed" : "Lid: setup needed"
         } else {
-            lidText = "Lid closed: off"
+            lidText = "Lid: open only"
         }
-        let petText = petLockSummary()
-        let displayText = config.displayIdleSleepEnabled
-            ? "Display sleeps after \(config.idleDisplaySeconds / 60) min"
-            : "Display sleep automation off"
-        let item = NSMenuItem(
-            title: "\(batteryText)\n\(awakeText)\n\(lidText)\n\(petText)\n\(displayText)",
-            action: nil,
-            keyEquivalent: ""
-        )
+        return "\(lidText) - \(petLockSummary())"
+    }
+
+    func disabledItem(_ title: String) -> NSMenuItem {
+        let item = NSMenuItem(title: title, action: nil, keyEquivalent: "")
         item.isEnabled = false
         return item
     }
@@ -83,6 +143,12 @@ extension AppDelegate {
     func actionItem(_ title: String, _ action: Selector, key: String = "") -> NSMenuItem {
         let item = NSMenuItem(title: title, action: action, keyEquivalent: key)
         item.target = self
+        return item
+    }
+
+    func toggleActionItem(_ title: String, state: Bool, action: Selector) -> NSMenuItem {
+        let item = actionItem(title, action)
+        item.state = state ? .on : .off
         return item
     }
 }
