@@ -1,0 +1,379 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		103E1B4AD6E6F4DDA1ED8040 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62560BEBA834C299253C992 /* main.swift */; };
+		11C63AF514A84558D62304F6 /* SystemServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB574F8B0168608648AF8F0 /* SystemServices.swift */; };
+		1E780841ED8B8E8BCFB4C0F5 /* GuardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E937C192F67BDA6B8B2AD26B /* GuardConfig.swift */; };
+		25C988D7ECBC71FAF9B9E8AC /* PowerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318EBC2DF6D346C697112C0 /* PowerState.swift */; };
+		3109243894DB566C45B70461 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6870E009B90A8797EAD5BB /* Actions.swift */; };
+		39E7F57E536D351EF1591C86 /* KeepAwakeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25395F53E3C6D41C757BFA2 /* KeepAwakeController.swift */; };
+		79413B54368C07AD870F2E29 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8F40F6B7B61BF5AECC0B54 /* MenuController.swift */; };
+		AA46BD2BA26CDA72A73ACAD3 /* ControlCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF29E6295D2F850B10BEB0CD /* ControlCenterView.swift */; };
+		AE70D2F3FFF1DF3ECBF88279 /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6B03B1906FEF46F6A7774 /* RoundedView.swift */; };
+		B27BDA2E5F41C0A0EA03D55F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B9E685A05C1EF71F09A9367 /* AppDelegate.swift */; };
+		BA9AF6BEDDF8CE7CED6C8C0E /* ViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50633594FA12D675AF971D09 /* ViewHelpers.swift */; };
+		FA9CBB2DEA256AE8852B11BC /* StatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F2B337EB6FCA9E985AE7FB /* StatePresenter.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B9E685A05C1EF71F09A9367 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0EC6B03B1906FEF46F6A7774 /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
+		1A6870E009B90A8797EAD5BB /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		50633594FA12D675AF971D09 /* ViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewHelpers.swift; sourceTree = "<group>"; };
+		5318EBC2DF6D346C697112C0 /* PowerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerState.swift; sourceTree = "<group>"; };
+		55F2B337EB6FCA9E985AE7FB /* StatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatePresenter.swift; sourceTree = "<group>"; };
+		5AB574F8B0168608648AF8F0 /* SystemServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemServices.swift; sourceTree = "<group>"; };
+		6C49C7C78CEBA84B68EF58C2 /* VibecodingGuard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VibecodingGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A8F40F6B7B61BF5AECC0B54 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		A62560BEBA834C299253C992 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		AF29E6295D2F850B10BEB0CD /* ControlCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlCenterView.swift; sourceTree = "<group>"; };
+		B25395F53E3C6D41C757BFA2 /* KeepAwakeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepAwakeController.swift; sourceTree = "<group>"; };
+		E937C192F67BDA6B8B2AD26B /* GuardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardConfig.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1B5A94FCD821965E8133D052 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				E937C192F67BDA6B8B2AD26B /* GuardConfig.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		503B11FDB6BBA9EFAD840407 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				AF29E6295D2F850B10BEB0CD /* ControlCenterView.swift */,
+				0EC6B03B1906FEF46F6A7774 /* RoundedView.swift */,
+				50633594FA12D675AF971D09 /* ViewHelpers.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		53804258113D8D5819A2BC6A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				1A6870E009B90A8797EAD5BB /* Actions.swift */,
+				0B9E685A05C1EF71F09A9367 /* AppDelegate.swift */,
+				B25395F53E3C6D41C757BFA2 /* KeepAwakeController.swift */,
+				A62560BEBA834C299253C992 /* main.swift */,
+				9A8F40F6B7B61BF5AECC0B54 /* MenuController.swift */,
+				55F2B337EB6FCA9E985AE7FB /* StatePresenter.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5A833F7A5493AE29CABDC190 = {
+			isa = PBXGroup;
+			children = (
+				8C6346D06A17739C7E825042 /* VibecodingGuard */,
+				E880C9968F46F7D2CF95A358 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8C6346D06A17739C7E825042 /* VibecodingGuard */ = {
+			isa = PBXGroup;
+			children = (
+				53804258113D8D5819A2BC6A /* App */,
+				1B5A94FCD821965E8133D052 /* Configuration */,
+				D66D944CE759EA040E417141 /* Models */,
+				BFC35594701C2109678EE2EC /* Services */,
+				503B11FDB6BBA9EFAD840407 /* UI */,
+			);
+			name = VibecodingGuard;
+			path = Sources/VibecodingGuard;
+			sourceTree = "<group>";
+		};
+		BFC35594701C2109678EE2EC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5AB574F8B0168608648AF8F0 /* SystemServices.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D66D944CE759EA040E417141 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5318EBC2DF6D346C697112C0 /* PowerState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E880C9968F46F7D2CF95A358 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C49C7C78CEBA84B68EF58C2 /* VibecodingGuard.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		62D2C7B8D2E283EA827386B8 /* VibecodingGuard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8FD18131EF43A597FC7F7052 /* Build configuration list for PBXNativeTarget "VibecodingGuard" */;
+			buildPhases = (
+				DF4E0F581F8C890A0CEB562D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VibecodingGuard;
+			packageProductDependencies = (
+			);
+			productName = VibecodingGuard;
+			productReference = 6C49C7C78CEBA84B68EF58C2 /* VibecodingGuard.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D8E1656BF30F0CF329048307 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					62D2C7B8D2E283EA827386B8 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 242644609D6FE389306A4631 /* Build configuration list for PBXProject "VibecodingGuard" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 5A833F7A5493AE29CABDC190;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				62D2C7B8D2E283EA827386B8 /* VibecodingGuard */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DF4E0F581F8C890A0CEB562D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3109243894DB566C45B70461 /* Actions.swift in Sources */,
+				B27BDA2E5F41C0A0EA03D55F /* AppDelegate.swift in Sources */,
+				AA46BD2BA26CDA72A73ACAD3 /* ControlCenterView.swift in Sources */,
+				1E780841ED8B8E8BCFB4C0F5 /* GuardConfig.swift in Sources */,
+				39E7F57E536D351EF1591C86 /* KeepAwakeController.swift in Sources */,
+				79413B54368C07AD870F2E29 /* MenuController.swift in Sources */,
+				25C988D7ECBC71FAF9B9E8AC /* PowerState.swift in Sources */,
+				AE70D2F3FFF1DF3ECBF88279 /* RoundedView.swift in Sources */,
+				FA9CBB2DEA256AE8852B11BC /* StatePresenter.swift in Sources */,
+				11C63AF514A84558D62304F6 /* SystemServices.swift in Sources */,
+				BA9AF6BEDDF8CE7CED6C8C0E /* ViewHelpers.swift in Sources */,
+				103E1B4AD6E6F4DDA1ED8040 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		5C0CD408C710F0F1DD024A5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		71F99E881CF6EE65C91B38B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = VibecodingGuard;
+				INFOPLIST_FILE = packaging/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jpy.vibecodingguard;
+				PRODUCT_NAME = "Vibecoding Guard";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9DE731BE2F1D39D5C50F5646 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				EXECUTABLE_NAME = VibecodingGuard;
+				INFOPLIST_FILE = packaging/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jpy.vibecodingguard;
+				PRODUCT_NAME = "Vibecoding Guard";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A84CC52766D226A775CC6A5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		242644609D6FE389306A4631 /* Build configuration list for PBXProject "VibecodingGuard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0CD408C710F0F1DD024A5B /* Debug */,
+				A84CC52766D226A775CC6A5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8FD18131EF43A597FC7F7052 /* Build configuration list for PBXNativeTarget "VibecodingGuard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DE731BE2F1D39D5C50F5646 /* Debug */,
+				71F99E881CF6EE65C91B38B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D8E1656BF30F0CF329048307 /* Project object */;
+}

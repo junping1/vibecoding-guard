@@ -9,6 +9,15 @@ It can:
 - Warn before the battery gets low.
 - Enable closed-lid work mode after macOS admin approval.
 
+## Project
+
+This is a native AppKit project generated from `project.yml` with XcodeGen.
+
+```sh
+xcodegen generate
+open VibecodingGuard.xcodeproj
+```
+
 ## Build And Install
 
 Run:
@@ -32,4 +41,3 @@ It also installs the launch agent at:
 ## Safety
 
 Closed-lid work mode is for a Mac sitting on a desk. Do not run long jobs with the Mac closed inside a bag.
-
