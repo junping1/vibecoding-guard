@@ -3,8 +3,7 @@ import AppKit
 extension AppDelegate {
     func setupStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let image = NSImage(systemSymbolName: "bolt", accessibilityDescription: "Vibe Coding Guard".localized) {
-            image.isTemplate = true
+        if let image = menuBarIcon() {
             item.button?.image = image
             item.button?.imagePosition = .imageOnly
         }
@@ -20,11 +19,7 @@ extension AppDelegate {
 
         statusItem?.button?.toolTip = menuTooltip()
 
-        if let image = NSImage(
-            systemSymbolName: menuBarSymbolName(),
-            accessibilityDescription: statusHeadline()
-        ) {
-            image.isTemplate = true
+        if let image = menuBarIcon() {
             statusItem?.button?.image = image
         }
         rebuildMenu()
@@ -65,10 +60,23 @@ extension AppDelegate {
     }
 
     func menuBarSymbolName() -> String {
-        if needsAttentionIndicator {
+        if needsMenuBarWarningIndicator {
             return "exclamationmark.triangle"
         }
-        return keepAwakeShouldRun ? "bolt" : "bolt.slash"
+        return keepAwakeShouldRun ? "checkmark.circle" : "bolt.slash"
+    }
+
+    var needsMenuBarWarningIndicator: Bool {
+        thermalThrottled || needsKeepAwakeHelperAttention || needsSetupHelp
+    }
+
+    func menuBarIcon() -> NSImage? {
+        let image = NSImage(
+            systemSymbolName: menuBarSymbolName(),
+            accessibilityDescription: statusHeadline()
+        )
+        image?.isTemplate = true
+        return image
     }
 
     func menuTooltip() -> String {

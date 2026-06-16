@@ -17,6 +17,12 @@ preferred_sign_team="5W738VH83V"
 
 cd "$project_dir"
 
+certificate_team_id() {
+  printf '%s\n' "$1" |
+    openssl x509 -noout -subject 2>/dev/null |
+    sed -n 's|.*OU=\([^,/]*\).*|\1|p'
+}
+
 if [[ -z "$sign_identity" ]]; then
   while IFS= read -r candidate_identity; do
     cert_pem="$(security find-certificate -c "$candidate_identity" -p 2>/dev/null || true)"
@@ -26,7 +32,7 @@ if [[ -z "$sign_identity" ]]; then
     if ! printf '%s\n' "$cert_pem" | openssl x509 -checkend 0 -noout >/dev/null 2>&1; then
       continue
     fi
-    candidate_team="$(printf '%s\n' "$cert_pem" | openssl x509 -noout -subject 2>/dev/null | sed -n 's/.*OU=\([^,]*\).*/\1/p')"
+    candidate_team="$(certificate_team_id "$cert_pem")"
     if [[ "$candidate_team" == "$preferred_sign_team" ]]; then
       sign_identity="$candidate_identity"
       break
@@ -50,9 +56,7 @@ fi
 
 if [[ -n "$sign_identity" ]]; then
   sign_team="$(
-    security find-certificate -c "$sign_identity" -p 2>/dev/null |
-      openssl x509 -noout -subject 2>/dev/null |
-      sed -n 's/.*OU=\([^,]*\).*/\1/p'
+    certificate_team_id "$(security find-certificate -c "$sign_identity" -p 2>/dev/null)"
   )"
 fi
 

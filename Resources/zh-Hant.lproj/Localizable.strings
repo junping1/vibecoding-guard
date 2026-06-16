@@ -29,7 +29,7 @@
 "Open Accessibility Settings..." = "打開輔助功能設定...";
 
 /* Welcome */
-"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "我住在選單列裡，會在 Codex 或 Claude Code 執行時讓你的 Mac 保持喚醒，工作結束後再讓它睡眠。\n\n無需任何設定。在選單列中找閃電圖示即可。";
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nA checkmark in the menu bar means Keep Awake is on." = "我住在選單列裡，會在 Codex 或 Claude Code 執行時讓你的 Mac 保持喚醒，工作結束後再讓它睡眠。\n\n選單列中的勾選標記表示 Keep Awake 已開啟。";
 
 /* About manual */
 "Keeps your Mac awake so long coding jobs finish while you're away." = "讓你的 Mac 保持喚醒，這樣即使你離開，長時間的編碼工作也能完成。";

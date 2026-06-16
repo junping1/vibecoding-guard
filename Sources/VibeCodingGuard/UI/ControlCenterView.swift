@@ -63,9 +63,9 @@ extension AppDelegate {
         content.edgeInsets = NSEdgeInsets(top: 22, left: 24, bottom: 20, right: 24)
         content.translatesAutoresizingMaskIntoConstraints = false
 
-        let title = label("Settings".localized, size: 18, weight: .bold)
-        content.addArrangedSubview(title)
-        content.setCustomSpacing(18, after: title)
+//        let title = label("Settings".localized, size: 18, weight: .bold)
+//        content.addArrangedSubview(title)
+//        content.setCustomSpacing(18, after: title)
 
         // Battery
         content.addArrangedSubview(sectionHeader("Battery".localized))

@@ -12,7 +12,7 @@ extension AppDelegate {
         config.onboardingCompleted = true
         let alert = NSAlert()
         alert.messageText = "Vibe Coding Guard".localized
-        alert.informativeText = "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar.".localized
+        alert.informativeText = "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nA checkmark in the menu bar means Keep Awake is on.".localized
         alert.alertStyle = .informational
         alert.addButton(withTitle: "Get Started".localized)
         NSApp.activate(ignoringOtherApps: true)

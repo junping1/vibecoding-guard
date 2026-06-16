@@ -29,7 +29,7 @@
 "Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
 
 /* Welcome */
-"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "私はメニューバーに常駐し、Codex または Claude Code の作業中は Mac をスリープさせず、作業が終わるとスリープを許可します。\n\n設定は不要です。メニューバーの稲妻アイコンを探してください。";
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nA checkmark in the menu bar means Keep Awake is on." = "私はメニューバーに常駐し、Codex または Claude Code の作業中は Mac をスリープさせず、作業が終わるとスリープを許可します。\n\nメニューバーのチェックマークは、Keep Awake がオンであることを示します。";
 
 /* About manual */
 "Keeps your Mac awake so long coding jobs finish while you're away." = "Mac をスリープさせず、離席中でも長いコーディング作業が完了するようにします。";
