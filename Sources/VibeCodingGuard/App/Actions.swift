@@ -2,14 +2,21 @@ import AppKit
 import UserNotifications
 
 extension AppDelegate {
-    @objc func openControlCenter() {
-        showControlCenter(onboarding: false)
+    // MARK: - Surfaces
+
+    @objc func showAdvanced() {
+        showControlCenter()
     }
 
-    @objc func dismissOnboardingIntro() {
+    func showWelcome() {
         config.onboardingCompleted = true
-        showingOnboarding = false
-        refreshWindow()
+        let alert = NSAlert()
+        alert.messageText = "Vibe Coding Guard".localized
+        alert.informativeText = "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar.".localized
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Get Started".localized)
+        NSApp.activate(ignoringOtherApps: true)
+        alert.runModal()
     }
 
     @objc func showAbout() {
@@ -20,7 +27,7 @@ extension AppDelegate {
         let alert = NSAlert()
         alert.messageText = "Vibe Coding Guard".localized
         alert.informativeText = String(
-            format: "Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab.".localized,
+            format: "Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced.".localized,
             versionLine
         )
         alert.alertStyle = .informational
@@ -29,18 +36,37 @@ extension AppDelegate {
         alert.runModal()
     }
 
-    @objc func setKeepAwakeOffFromMenu() {
-        setKeepAwakeMode(.off)
+    // MARK: - Keep awake override
+
+    @objc func keepAwakeForTwoHours() {
+        setOverride(hours: 2)
+    }
+
+    @objc func keepAwakeForFourHours() {
+        setOverride(hours: 4)
+    }
+
+    @objc func keepAwakeUntilStopped() {
+        config.manualOverrideUntil = Date.distantFuture
         runChecks()
     }
 
-    @objc func setKeepAwakeSmartFromMenu() {
-        setKeepAwakeMode(.smart)
+    @objc func stopKeepAwakeOverride() {
+        config.manualOverrideUntil = nil
+        syncKeepAwakeMode()
+        syncPetLock()
         runChecks()
     }
 
-    @objc func setKeepAwakeAlwaysOnFromMenu() {
-        setKeepAwakeMode(.alwaysOn)
+    func setOverride(hours: Double) {
+        config.manualOverrideUntil = Date().addingTimeInterval(hours * 3600)
+        runChecks()
+    }
+
+    // MARK: - Gestures and actions
+
+    @objc func toggleLidClosedFromMenu() {
+        setLidClosedMode(enabled: !config.lidClosedModeEnabled)
         runChecks()
     }
 
@@ -66,38 +92,15 @@ extension AppDelegate {
         NSApp.terminate(nil)
     }
 
-    @objc func changeKeepAwakeRadioMode(_ sender: NSButton) {
-        let rawMode = sender.identifier?.rawValue.replacingOccurrences(of: "keepAwake.", with: "") ?? KeepAwakeMode.smart.rawValue
-        setKeepAwakeMode(KeepAwakeMode(rawValue: rawMode) ?? .smart)
-        runChecks()
-    }
-
-    @objc func changeCustomizeGroup() {
-        let selected = segments["customizeGroup"]?.selectedSegment ?? 0
-        activeCustomizeGroup = CustomizeGroup(rawValue: selected) ?? .keepAwake
-        refreshWindow()
-    }
+    // MARK: - Advanced panel controls
 
     @objc func switchDisplayIdleSleep() {
         config.displayIdleSleepEnabled = switches["displayIdleSleep"]?.state == .on
         runChecks()
     }
 
-    @objc func switchPetLock() {
-        let enabled = switches["petLock"]?.state == .on
-        setPetLock(enabled: enabled, promptIfNeeded: true)
-        runChecks()
-    }
-
-    @objc func switchLidClosedMode() {
-        let enabled = switches["lidClosed"]?.state == .on
-        setLidClosedMode(enabled: enabled)
-        runChecks()
-    }
-
     @objc func switchBatteryAlerts() {
         config.batteryAlertsEnabled = switches["batteryAlerts"]?.state == .on
-        syncPetLock()
         runChecks()
     }
 
@@ -178,8 +181,9 @@ extension AppDelegate {
         }
     }
 
+    // MARK: - Lid-closed power management
+
     func setLidClosedMode(enabled: Bool) {
-        lidClosedApprovalFailed = false
         config.lidClosedModeEnabled = enabled
         if enabled {
             guard lastPowerSettings?.sleepDisabled != true else {
@@ -201,7 +205,12 @@ extension AppDelegate {
         guard installOneTimePmsetPermission() else {
             lastPowerSettings = readPowerSettings()
             syncLidClosedConfigFromSystem()
-            lidClosedApprovalFailed = enabled && !config.lidClosedModeEnabled
+            if enabled && !config.lidClosedModeEnabled {
+                sendUserNotification(
+                    title: "Lid-closed mode not enabled".localized,
+                    message: "It needs a one-time admin approval. Try again when you're ready.".localized
+                )
+            }
             refreshWindow()
             return
         }
@@ -209,7 +218,6 @@ extension AppDelegate {
         _ = runSavedPmsetCommands(commands)
         lastPowerSettings = readPowerSettings()
         syncLidClosedConfigFromSystem()
-        lidClosedApprovalFailed = enabled && !config.lidClosedModeEnabled
     }
 
     func syncLidClosedConfigFromSystem() {
@@ -297,19 +305,5 @@ extension AppDelegate {
         }
         refreshPowerPermissionStatus()
         return removed
-    }
-
-    func enableBatterySleepSetting() {
-        let commands = [["-b", "sleep", "0"]]
-        if !runSavedPmsetCommands(commands) {
-            guard installOneTimePmsetPermission() else {
-                lastPowerSettings = readPowerSettings()
-                refreshWindow()
-                return
-            }
-            _ = runSavedPmsetCommands(commands)
-        }
-        lastPowerSettings = readPowerSettings()
-        refreshWindow()
     }
 }

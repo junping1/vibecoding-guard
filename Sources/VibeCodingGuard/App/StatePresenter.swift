@@ -1,14 +1,39 @@
 import AppKit
 
 extension AppDelegate {
-    var needsSetupHelp: Bool {
-        keepAwakeShouldRun &&
-            config.lidClosedModeEnabled &&
-            lastPowerSettings?.sleepDisabled != true
+    // MARK: - Core state
+
+    var agentDetected: Bool {
+        lastAgentActivity != nil
+    }
+
+    var manualOverrideActive: Bool {
+        guard let until = config.manualOverrideUntil else {
+            return false
+        }
+        return until.timeIntervalSinceNow > 0
+    }
+
+    var overrideIsIndefinite: Bool {
+        guard let until = config.manualOverrideUntil else {
+            return false
+        }
+        // "Until I stop" is stored as a far-future sentinel.
+        return until.timeIntervalSinceNow > 60 * 60 * 24 * 365 * 5
+    }
+
+    var keepAwakeShouldRun: Bool {
+        agentDetected || manualOverrideActive
     }
 
     var masterGuardEnabled: Bool {
         keepAwakeShouldRun
+    }
+
+    var needsSetupHelp: Bool {
+        keepAwakeShouldRun &&
+            config.lidClosedModeEnabled &&
+            lastPowerSettings?.sleepDisabled != true
     }
 
     var needsPowerAdapterTip: Bool {
@@ -16,56 +41,79 @@ extension AppDelegate {
     }
 
     var needsKeepAwakeHelperAttention: Bool {
-        keepAwakeShouldRun && caffeinateProcess?.isRunning != true
+        keepAwakeShouldRun && caffeinateProcess?.isRunning != true && !thermalThrottled
     }
 
     var needsAttentionIndicator: Bool {
-        needsKeepAwakeHelperAttention || needsSetupHelp || needsPowerAdapterTip
+        thermalThrottled || needsKeepAwakeHelperAttention || needsSetupHelp || needsPowerAdapterTip
     }
 
-    var keepAwakeShouldRun: Bool {
-        switch config.keepAwakeMode {
-        case .off:
-            return false
-        case .smart:
-            return lastAgentActivity != nil
-        case .alwaysOn:
-            return true
+    // MARK: - Status copy (shared by the menu today, the popover later)
+
+    func statusHeadline() -> String {
+        if thermalThrottled {
+            return "Cooling down".localized
         }
+        if let activity = lastAgentActivity {
+            return String(format: "%@ is working".localized, activity.kind.rawValue)
+        }
+        if manualOverrideActive {
+            return "Keeping your Mac awake".localized
+        }
+        return "Standing by".localized
     }
 
-    func setKeepAwakeMode(_ mode: KeepAwakeMode) {
-        config.keepAwakeMode = mode
-        smartModeActive = false
-        syncKeepAwakeMode()
-        syncPetLock()
+    func statusDetail() -> String {
+        if thermalThrottled {
+            return "Paused lid-closed work to cool down.".localized
+        }
+        if needsKeepAwakeHelperAttention {
+            return "Starting…".localized
+        }
+        if agentDetected {
+            return "Your Mac will stay awake.".localized
+        }
+        if manualOverrideActive {
+            return overrideRemainingText()
+        }
+        return "Ready for Codex or Claude Code.".localized
     }
+
+    func statusTone() -> Tone {
+        if needsAttentionIndicator {
+            return .warning
+        }
+        return keepAwakeShouldRun ? .good : .neutral
+    }
+
+    func overrideRemainingText() -> String {
+        guard manualOverrideActive else {
+            return ""
+        }
+        if overrideIsIndefinite {
+            return "On until you turn it off.".localized
+        }
+        let seconds = max(0, Int(config.manualOverrideUntil?.timeIntervalSinceNow ?? 0))
+        let hours = seconds / 3600
+        let minutes = (seconds % 3600) / 60
+        if hours > 0 {
+            return String(format: "%dh %dm left.".localized, hours, minutes)
+        }
+        return String(format: "%dm left.".localized, max(1, minutes))
+    }
+
+    // MARK: - Advanced window refresh (no-op when closed)
 
     func refreshWindow() {
-        selectKeepAwakeRadioButtons()
-        selectCustomizeSegment(segments["customizeGroup"])
-        switches["petLock"]?.state = config.petLockEnabled ? .on : .off
-        switches["lidClosed"]?.state = config.lidClosedModeEnabled ? .on : .off
+        guard controlWindow != nil else {
+            return
+        }
         switches["displayIdleSleep"]?.state = config.displayIdleSleepEnabled ? .on : .off
         switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
-
-        let product = productHealth()
-        statusLabels["productHeroTitle"]?.stringValue = "Vibe Coding Guard"
-        statusLabels["productHeroMessage"]?.stringValue = product.message
-        statusLabels["modeDescription"]?.stringValue = modeDescriptionText()
-        updateStatusIcon(tone: product.tone)
-        (statusViews["productStatusBadge"] as? RoundedView)?.toolTip = product.message
-        statusViews["powerHint"]?.isHidden = !needsPowerAdapterTip
-        statusViews["setupHint"]?.isHidden = !needsSetupHelp
-        statusViews["onboardingIntro"]?.isHidden = !showingOnboarding
-        statusLabels["lidClosedInfo"]?.isHidden = !lidClosedApprovalFailed
-        refreshCustomizeGroupVisibility()
-        refreshKeyboardLockInfo()
-
         refreshNotificationButton()
-        refreshPetLockPermissionButton()
         refreshPowerPermissionButton()
         refreshPopups()
+        statusViews["powerPermissionRow"]?.isHidden = !powerPermissionInstalled
         fitWindowToContent()
     }
 
@@ -75,7 +123,6 @@ extension AppDelegate {
         }
         switch notificationStatus {
         case .authorized, .provisional, .ephemeral:
-            // Banners are on; the row isn't needed (use "Test alert sound" to verify).
             statusViews["notificationRow"]?.isHidden = true
         case .denied:
             statusViews["notificationRow"]?.isHidden = false
@@ -90,51 +137,6 @@ extension AppDelegate {
             button.title = "Open Settings".localized
             button.isEnabled = true
         }
-    }
-
-    func selectCustomizeSegment(_ segment: NSSegmentedControl?) {
-        guard let segment else {
-            return
-        }
-        segment.selectedSegment = activeCustomizeGroup.rawValue
-    }
-
-    func refreshCustomizeGroupVisibility() {
-        for group in CustomizeGroup.allCases {
-            statusViews["customize.\(group.rawValue)"]?.isHidden = group != activeCustomizeGroup
-        }
-        statusViews["keyboardPermissionRow"]?.isHidden = !(config.petLockEnabled && !petLockAccessibilityTrusted)
-        statusViews["powerPermissionRow"]?.isHidden = !powerPermissionInstalled
-    }
-
-    func refreshKeyboardLockInfo() {
-        let text: String
-        if config.petLockEnabled && !petLockAccessibilityTrusted {
-            text = petLockPermissionPrompted
-                ? "Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back.".localized
-                : "macOS will ask for permission once so the keyboard can be locked.".localized
-        } else if config.petLockEnabled && !masterGuardEnabled {
-            text = "Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it.".localized
-        } else if config.petLockEnabled {
-            text = "When you turn Keep Awake off, the keyboard unlocks automatically.".localized
-        } else {
-            text = "Turn this on if a pet or kid might step on the keyboard while a job runs.".localized
-        }
-        statusLabels["keyboardLockInfo"]?.stringValue = text
-    }
-
-    func refreshPetLockPermissionButton() {
-        guard let button = actionButtons["petLockPermission"] else {
-            return
-        }
-        if petLockAccessibilityTrusted {
-            button.title = "Allowed".localized
-        } else if petLockPermissionPrompted {
-            button.title = "Open Settings".localized
-        } else {
-            button.title = "Allow".localized
-        }
-        button.isEnabled = !petLockAccessibilityTrusted
     }
 
     func refreshPowerPermissionButton() {
@@ -157,134 +159,5 @@ extension AppDelegate {
         }
         let index = values.firstIndex(of: value) ?? 0
         popup.selectItem(at: index)
-    }
-
-    func selectKeepAwakeRadioButtons() {
-        radioButtons["keepAwake.off"]?.state = config.keepAwakeMode == .off ? .on : .off
-        radioButtons["keepAwake.smart"]?.state = config.keepAwakeMode == .smart ? .on : .off
-        radioButtons["keepAwake.alwaysOn"]?.state = config.keepAwakeMode == .alwaysOn ? .on : .off
-    }
-
-    func productHealth() -> (title: String, message: String, tone: Tone) {
-        let title = config.keepAwakeMode.title
-
-        if needsKeepAwakeHelperAttention {
-            return (
-                title,
-                "Starting up…".localized,
-                .warning
-            )
-        }
-        if needsSetupHelp {
-            return (
-                title,
-                "macOS needs a one-time approval for lid-closed mode.".localized,
-                .warning
-            )
-        }
-        if needsPowerAdapterTip {
-            return (
-                title,
-                productModeMessage(),
-                .warning
-            )
-        }
-
-        return (
-            title,
-            productModeMessage(),
-            productModeTone()
-        )
-    }
-
-    func productModeMessage() -> String {
-        switch config.keepAwakeMode {
-        case .off:
-            return "Standing by.".localized
-        case .smart:
-            if let activity = lastAgentActivity {
-                return String(format: "%@ detected.".localized, activity.displayName)
-            }
-            return "Ready for Codex or Claude Code.".localized
-        case .alwaysOn:
-            return guardOnMessage()
-        }
-    }
-
-    func productModeTone() -> Tone {
-        switch config.keepAwakeMode {
-        case .off:
-            return .neutral
-        case .smart:
-            return keepAwakeShouldRun ? .good : .blue
-        case .alwaysOn:
-            return .good
-        }
-    }
-
-    func updateStatusIcon(tone: Tone) {
-        guard let imageView = imageViews["productStatusIcon"] else {
-            return
-        }
-        let colors = toneColors(tone)
-        imageView.image = NSImage(systemSymbolName: productStatusSymbolName(), accessibilityDescription: nil)
-        imageView.contentTintColor = colors.foreground
-        (statusViews["productStatusBadge"] as? RoundedView)?.update(fill: colors.background)
-    }
-
-    func productStatusSymbolName() -> String {
-        if needsAttentionIndicator {
-            return "exclamationmark.triangle.fill"
-        }
-        switch config.keepAwakeMode {
-        case .off:
-            return "power.circle"
-        case .smart:
-            return keepAwakeShouldRun ? "shield.fill" : "sparkles"
-        case .alwaysOn:
-            return "bolt.fill"
-        }
-    }
-
-    func guardOnMessage() -> String {
-        if smartModeActive, let activity = lastAgentActivity {
-            return String(format: "%@ detected. Keep Awake is on.".localized, activity.displayName)
-        }
-        if config.petLockEnabled && petLockActive {
-            return "Keyboard is locked.".localized
-        }
-        if config.petLockEnabled && !petLockAccessibilityTrusted {
-            return "Keyboard Lock needs permission. Open the Keyboard tab.".localized
-        }
-        return config.lidClosedModeEnabled
-            ? "You can close the lid. Keep it on a desk, not in a bag.".localized
-            : "Keep the lid open. Your work keeps going even when the screen turns off.".localized
-    }
-
-    func petLockSummary() -> String {
-        if !config.petLockEnabled {
-            return "Keyboard Lock: off".localized
-        }
-        if petLockActive {
-            return "Keyboard Lock: blocking keys".localized
-        }
-        if !petLockAccessibilityTrusted {
-            return "Keyboard Lock: permission needed".localized
-        }
-        return masterGuardEnabled ? "Keyboard Lock: starting".localized : "Keyboard Lock: waits for Keep Awake".localized
-    }
-
-    func friendlyBatteryStatus(_ status: String) -> String {
-        let lower = status.lowercased()
-        if lower.contains("charging") {
-            return "Charging".localized
-        }
-        if lower.contains("discharging") {
-            return "On battery".localized
-        }
-        if lower.contains("charged") || lower.contains("finishing") {
-            return "Charged".localized
-        }
-        return status.capitalized
     }
 }

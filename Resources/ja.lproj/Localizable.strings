@@ -1,31 +1,63 @@
-/* General / Window Title */
+/* General */
 "Vibe Coding Guard" = "Vibe Coding Guard";
-"Set Up Vibe Coding Guard" = "Vibe Coding Guard の設定";
-"Choose when your Mac should keep working." = "Mac のスリープを防止するタイミングを選択します。";
-"Power adapter not connected. Plug in before leaving a long run." = "電源アダプタが接続されていません。長時間の実行を開始する前に電源を接続してください。";
-"macOS will ask for your password once to allow lid-closed mode." = "macOS がパスワードを一度だけ求めます。蓋を閉じたまま動作するための許可です。";
+"Advanced" = "詳細";
+"Fine-tuning most people never need." = "ほとんどの人には不要な微調整。";
 
-/* Keep Awake Modes */
-"Off" = "オフ";
-"Auto" = "自動";
-"Always" = "常時";
+/* Status (menu header) */
+"%@ is working" = "%@ が作業中";
+"Keeping your Mac awake" = "Mac をスリープさせていません";
+"Standing by" = "待機中";
+"Your Mac will stay awake." = "Mac はスリープしません。";
+"Ready for Codex or Claude Code." = "Codex または Claude Code の検出準備完了。";
+"Starting…" = "起動中…";
+"Paused lid-closed work to cool down." = "冷却のため蓋を閉じた作業を一時停止しました。";
+"On until you turn it off." = "オフにするまで継続します。";
+"%dh %dm left." = "残り %d 時間 %d 分。";
+"%dm left." = "残り %d 分。";
 
-/* Customize Tabs */
-"Keep Awake" = "スリープ防止";
-"Display" = "ディスプレイ";
-"Battery" = "バッテリー";
-"Keyboard" = "キーボード";
-
-/* Keep Awake Tab */
-"Watches for" = "監視対象";
-"Codex and Claude Code" = "Codex および Claude Code";
+/* Menu */
+"Keeps your Mac awake while your coding agents work." = "コーディングエージェントの作業中、Mac をスリープさせません。";
+"On battery — plug in for long runs" = "バッテリー駆動中 — 長時間の実行は電源を接続してください";
+"Lid-closed needs a one-time approval" = "蓋を閉じたモードには一度きりの承認が必要です";
+"Keep awake" = "スリープ防止";
+"Stop" = "停止";
+"For 2 hours" = "2 時間";
+"For 4 hours" = "4 時間";
+"Until I stop" = "停止するまで";
+"Keyboard Lock" = "キーボードロック";
 "Keep running with lid closed" = "蓋を閉じても実行を継続";
-"Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat." = "管理者パスワードの入力が一度だけ必要です。必ずデスク上で使用してください。バッグに入れると過熱のおそれがあります。";
-"Lid-closed admin access" = "蓋を閉じた状態の管理者権限";
-"Allows the app to change lid settings without asking for your password. Your password is not stored." = "パスワードを毎回入力することなく、アプリが蓋を閉じた状態の設定を変更できるようにします。パスワードは保存されません。";
-"Remove" = "削除";
+"Sleep Display Now" = "今すぐディスプレイをスリープ";
+"Advanced…" = "詳細…";
+"About Vibe Coding Guard" = "Vibe Coding Guard について";
+"Quit Vibe Coding Guard" = "Vibe Coding Guard を終了";
+"Allow Keyboard Permission..." = "キーボードの権限を許可...";
+"Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
 
-/* Display Tab */
+/* Environment line */
+"Lid closed allowed" = "合蓋動作 許可済み";
+"Lid setup needed" = "合蓋動作 設定未完了";
+"Lid open only" = "開蓋状態のみ";
+"Display sleeps after %d min" = "ディスプレイのスリープ: %d分後";
+"Display stays on" = "ディスプレイは常時オン";
+
+/* Welcome / About */
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "私はメニューバーに常駐し、Codex または Claude Code の作業中は Mac をスリープさせず、作業が終わるとスリープを許可します。\n\n設定は不要です。メニューバーの稲妻アイコンを探してください。";
+"Get Started" = "はじめる";
+"Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced." = "バージョン %@\n\nCodex または Claude Code の作業中、Mac をスリープさせません。\n\n蓋を閉じたモードは、必要な特定の pmset コマンドだけを許可する狭い範囲の sudoers ルールを 1 つ追加し、Mac が熱くなりすぎると自動的に停止します。「詳細」からいつでも削除できます。";
+"OK" = "OK";
+
+/* Advanced panel */
+"Battery" = "バッテリー";
+"Low battery warnings" = "バッテリー残量の警告";
+"Warns you out loud when battery gets low." = "バッテリーが少なくなると音声で知らせます。";
+"Low battery alert" = "低バッテリー警告";
+"Critical battery alert" = "バッテリー残量少（重大）";
+"The warning level always stays above the critical level." = "警告レベルは常に重大レベルより高く保たれます。";
+"Notification banners" = "通知バナー";
+"Optional. Sound alerts still work without banners." = "オプション。バナーがなくても音声警告は機能します。";
+"Test alert sound" = "警告音のテスト";
+"Test" = "テスト";
+"Display" = "ディスプレイ";
 "Turn off screen when idle" = "操作がないときに画面をオフ";
 "Screen turns off after idle time, but your work keeps running." = "一定時間操作がないと画面はオフになりますが、作業は続きます。";
 "Screen off after" = "画面オフまでの時間";
@@ -33,85 +65,35 @@
 "5 minutes" = "5分";
 "10 minutes" = "10分";
 "15 minutes" = "15分";
-"Sleep display now" = "今すぐディスプレイをスリープ";
-"Sleep" = "ディスプレイ消灯";
+"Lid closed" = "蓋を閉じる";
+"Lid-closed work pauses automatically if your Mac gets too warm." = "Mac が熱くなりすぎると、蓋を閉じた作業は自動的に一時停止します。";
+"Lid-closed admin access" = "蓋を閉じた状態の管理者権限";
+"Lets the app change lid settings without asking for your password. Your password is not stored." = "パスワードを毎回入力することなく、アプリが蓋を閉じた状態の設定を変更できるようにします。パスワードは保存されません。";
+"Remove" = "削除";
 
-/* Battery Tab */
-"Low battery warnings" = "バッテリー残量の警告";
-"Warns you out loud when battery gets low." = "バッテリーが少なくなると音声で知らせます。";
-"Low battery alert" = "低バッテリー警告";
-"Critical battery alert" = "バッテリー残量少（重大）";
-"Notification banners" = "通知バナー";
-"Optional. Sound alerts still work without banners." = "オプション。バナーがなくても音声警告は機能します。";
-"Test alert sound" = "警告音のテスト";
-"Test" = "テスト";
-
-/* Keyboard Tab */
-"Lock Keyboard" = "キーボードのロック";
-"Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime." = "作業中にキーボードをロックします。猫が歩いても安心。⌘⌥⌃L でいつでも解除できます。";
-"Accessibility permission" = "アクセシビリティの権限";
-"Required so macOS can intercept keyboard input." = "macOS がキーボード入力を制御するために必要です。";
-
-/* Button Actions / States */
+/* Button states */
 "Allow" = "許可";
 "Open Settings" = "設定を開く";
-"Allowed" = "許可済み";
 "Not Set" = "未設定";
 
-/* Accessibility/Keyboard Messages */
-"Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back." = "システム設定 ▸ アクセシビリティで Vibe Coding Guard をオンにしてから、ここに戻ってください。";
-"macOS will ask for permission once so the keyboard can be locked." = "キーボードをロックするために、macOS が一度だけ許可を求めます。";
-"When you turn Keep Awake off, the keyboard unlocks automatically." = "スリープ防止をオフにすると、キーボードは自動的にロック解除されます。";
-"Turn this on if a pet or kid might step on the keyboard while a job runs." = "作業中にペットやお子さんがキーボードを踏む可能性がある場合は、オンにしてください。";
+/* Lid-closed failure */
+"Lid-closed mode not enabled" = "蓋を閉じたモードは有効になっていません";
+"It needs a one-time admin approval. Try again when you're ready." = "一度きりの管理者承認が必要です。準備ができたら再度お試しください。";
 
-/* Dynamic Status Messages (Hero Subtitle) */
-"Starting up…" = "起動中…";
-"macOS needs a one-time approval for lid-closed mode." = "蓋を閉じたモードの使用には、macOS の一度きりの承認が必要です。";
-"Standing by." = "待機中。";
-"Ready for Codex or Claude Code." = "Codex または Claude Code の検出準備完了。";
-"%@ detected." = "%@ が検出されました。";
-"Keyboard is locked." = "キーボードはロック中です。";
-"Keyboard Lock needs permission. Open the Keyboard tab." = "キーボードロックには権限が必要です。キーボードタブを開いてください。";
-"You can close the lid. Keep it on a desk, not in a bag." = "蓋を閉じることができます。バッグの中ではなく、デスク上に置いてください。";
-"Keep the lid open. Your work keeps going even when the screen turns off." = "蓋は開けたままにしてください。画面がオフになっても作業は続きます。";
+/* Thermal back-off */
+"Cooling down" = "冷却中";
+"Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools." = "Mac が熱くなってきたので、保護のため蓋を閉じた作業を一時停止しました。冷えると自動的に再開します。";
 
-/* Keyboard Lock Status Summary */
-"Keyboard Lock: off" = "キーボードロック: オフ";
-"Keyboard Lock: blocking keys" = "キーボードロック: キー入力をブロック中";
-"Keyboard Lock: permission needed" = "キーボードロック: 権限が必要です";
-"Keyboard Lock: starting" = "キーボードロック: 起動中";
-"Keyboard Lock: waits for Keep Awake" = "キーボードロック: スリープ防止の起動待ち";
+/* Keyboard lock notification */
+"Keyboard locked" = "キーボードをロックしました";
+"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard がキーボードをブロックしています。⌘⌥⌃L を押すと解除できます。";
 
-/* Battery Status */
-"Charging" = "充電中";
-"On battery" = "バッテリー動作中";
-"Charged" = "充電完了";
-
-/* Menu Bar Status */
-"Keeps your Mac awake during long coding sessions." = "長時間のコーディング中、Mac をスリープさせません。";
-"Power adapter not connected" = "電源アダプタが接続されていません";
-"Lid closed allowed" = "合蓋動作 許可済み";
-"Lid setup needed" = "合蓋動作 設定未完了";
-"Lid open only" = "開蓋状態のみ";
-"Display sleeps after %d min" = "ディスプレイのスリープ: %d分後";
-"Display stays on" = "ディスプレイは常時オン";
-
-/* Menu Items */
-"Show Window" = "ウィンドウを表示";
-"Keyboard Lock" = "キーボードをロック";
-"Allow Keyboard Permission..." = "キーボードの権限を許可...";
-"Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
-"Customize..." = "カスタマイズ...";
-"Sleep Display Now" = "今すぐディスプレイをスリープ";
-"Test Battery Alert" = "バッテリー警告をテスト";
-"Quit Vibe Coding Guard" = "Vibe Coding Guard を終了";
-
-/* Agent Details */
+/* Agent detail */
 "tool session" = "ツールセッション";
 "task" = "タスク";
 "work" = "作業";
 
-/* Battery Alerts / System Notifications */
+/* Battery alerts / system notifications */
 "Battery low" = "低バッテリー";
 "Battery is at %d percent. Please plug in power." = "バッテリー残量が %d%% です。電源を接続してください。";
 "Battery critical" = "バッテリー警告（重大）";
@@ -125,32 +107,3 @@
 /* AppleScript / VISUDO prompts */
 "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "パスワードを入力することなく、Vibe Coding Guard が蓋を閉じた状態の設定を変更できるようにします。";
 "Remove the admin permission for lid-closed settings." = "蓋を閉じた状態の設定に関する管理者権限を削除します。";
-
-/* Customize tab (renamed) */
-"Agents" = "エージェント";
-
-/* Onboarding */
-"Welcome to Vibe Coding Guard" = "Vibe Coding Guard へようこそ";
-"It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar." = "Codex または Claude Code の動作中は Mac をスリープさせないので、離席していても長いジョブが完了します。下からモードを選んでください。メニューバーからいつでも変更できます。";
-"Get Started" = "はじめる";
-
-/* Mode descriptions */
-"Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on." = "オフ — Mac は通常どおりスリープします。オンにするまで Vibe Coding Guard は何もしません。";
-"Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep." = "自動 — Codex または Claude Code の実行中のみスリープを防止し、その後は Mac をスリープさせます。";
-"Always — keeps your Mac awake until you turn this off." = "常時 — オフにするまで Mac をスリープさせません。";
-
-/* Inline feedback */
-"Lid-closed mode needs admin approval — not enabled." = "蓋を閉じたモードには管理者の承認が必要です — 有効になっていません。";
-"Turns the screen off right away. Your work keeps running." = "画面をすぐにオフにします。作業はそのまま続きます。";
-"The warning level always stays above the critical level." = "警告レベルは常に重大レベルより高く保たれます。";
-"Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it." = "準備完了ですが、キーボードはスリープ防止がオンのときのみロックされます。使用するにはモードを「自動」または「常時」に設定してください。";
-
-/* Menu / About */
-"Settings…" = "設定…";
-"About Vibe Coding Guard" = "Vibe Coding Guard について";
-"OK" = "OK";
-"Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab." = "バージョン %@\n\nCodex または Claude Code の動作中、Mac をスリープさせません。\n\n蓋を閉じたモードは、必要な特定の pmset コマンドだけを許可する狭い範囲の sudoers ルールを 1 つ追加します。「エージェント」タブからいつでも削除できます。";
-
-/* Keyboard lock notification */
-"Keyboard locked" = "キーボードをロックしました";
-"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard がキーボードをブロックしています。⌘⌥⌃L を押すと解除できます。";

@@ -2,26 +2,6 @@ import AppKit
 import Foundation
 import UserNotifications
 
-enum CustomizeGroup: Int, CaseIterable {
-    case keepAwake
-    case display
-    case battery
-    case keyboard
-
-    var title: String {
-        switch self {
-        case .keepAwake:
-            return "Agents".localized
-        case .display:
-            return "Display".localized
-        case .battery:
-            return "Battery".localized
-        case .keyboard:
-            return "Keyboard".localized
-        }
-    }
-}
-
 final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     enum Tone {
         case good
@@ -38,7 +18,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var displayTimer: Timer?
     var menuTimer: Timer?
     var lastAgentActivity: AgentActivity?
-    var smartModeActive = false
     var lastBatteryInfo: BatteryInfo?
     var lastPowerSettings: PowerSettings?
     var notificationStatus: UNAuthorizationStatus = .notDetermined
@@ -53,8 +32,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var accessibilityPermissionPollCount = 0
     var petLockActive = false
     var powerPermissionInstalled = false
-    var showingOnboarding = false
-    var lidClosedApprovalFailed = false
+    var thermalThrottled = false
     var controlWindow: NSWindow?
     var statusViews: [String: NSView] = [:]
     var imageViews: [String: NSImageView] = [:]
@@ -64,26 +42,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var popups: [String: NSPopUpButton] = [:]
     var segments: [String: NSSegmentedControl] = [:]
     var switches: [String: NSSwitch] = [:]
-    var activeCustomizeGroup: CustomizeGroup = .keepAwake
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApp.setActivationPolicy(.regular)
+        NSApp.setActivationPolicy(.accessory)
         setupStatusItem()
         refreshNotificationStatus()
         syncKeepAwakeMode()
         syncPetLock()
+        registerThermalObserver()
         startTimers()
         runChecks()
 
         if !config.onboardingCompleted {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                self?.showControlCenter(onboarding: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
+                self?.showWelcome()
             }
         }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        showControlCenter(onboarding: !config.onboardingCompleted)
+        showAdvanced()
         return true
     }
 
@@ -96,10 +74,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         guard notification.object as? NSWindow === controlWindow else {
             return
-        }
-
-        if !config.onboardingCompleted {
-            config.onboardingCompleted = true
         }
 
         controlWindow = nil
@@ -135,6 +109,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
 
     func runLiveChecks() {
         syncKeepAwakeMode()
+        evaluateThermalState()
         syncPetLock()
         checkBattery()
         refreshMenuStatus()

@@ -2,7 +2,7 @@ import Foundation
 
 extension AppDelegate {
     func applyKeepAwakeState() {
-        if keepAwakeShouldRun {
+        if keepAwakeShouldRun && !thermalThrottled {
             startKeepAwake()
         } else {
             stopKeepAwake()

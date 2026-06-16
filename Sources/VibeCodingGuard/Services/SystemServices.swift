@@ -9,7 +9,7 @@ extension AppDelegate {
         }
         lastBatteryInfo = battery
 
-        guard config.keepAwakeMode != .off, config.batteryAlertsEnabled, battery.isDischarging else {
+        guard keepAwakeShouldRun, config.batteryAlertsEnabled, battery.isDischarging else {
             lastWarningAlert = nil
             lastCriticalAlert = nil
             return
@@ -115,7 +115,7 @@ extension AppDelegate {
     }
 
     func checkDisplayIdle() {
-        guard config.keepAwakeMode != .off, config.displayIdleSleepEnabled else {
+        guard keepAwakeShouldRun, config.displayIdleSleepEnabled else {
             return
         }
         guard let idleSeconds = readIdleSeconds() else {

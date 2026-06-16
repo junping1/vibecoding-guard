@@ -1,31 +1,63 @@
-/* General / Window Title */
+/* General */
 "Vibe Coding Guard" = "Vibe Coding Guard";
-"Set Up Vibe Coding Guard" = "设置 Vibe Coding Guard";
-"Choose when your Mac should keep working." = "选择您的 Mac 何时应保持工作状态。";
-"Power adapter not connected. Plug in before leaving a long run." = "未连接电源适配器。在离开进行长时间运行前请接通电源。";
-"macOS will ask for your password once to allow lid-closed mode." = "macOS 会要求输入一次密码，以启用合盖模式。";
+"Advanced" = "高级";
+"Fine-tuning most people never need." = "大多数人用不到的精细设置。";
 
-/* Keep Awake Modes */
-"Off" = "关闭";
-"Auto" = "自动";
-"Always" = "始终";
+/* Status (menu header) */
+"%@ is working" = "%@ 正在工作";
+"Keeping your Mac awake" = "正在让你的 Mac 保持唤醒";
+"Standing by" = "待命中";
+"Your Mac will stay awake." = "你的 Mac 将保持唤醒。";
+"Ready for Codex or Claude Code." = "已准备好检测 Codex 或 Claude Code。";
+"Starting…" = "正在启动…";
+"Paused lid-closed work to cool down." = "已暂停合盖运行以降温。";
+"On until you turn it off." = "保持开启，直到你关闭它。";
+"%dh %dm left." = "还剩 %d 小时 %d 分钟。";
+"%dm left." = "还剩 %d 分钟。";
 
-/* Customize Tabs */
-"Keep Awake" = "防休眠";
-"Display" = "显示器";
-"Battery" = "电池";
-"Keyboard" = "键盘";
-
-/* Keep Awake Tab */
-"Watches for" = "监控对象";
-"Codex and Claude Code" = "Codex 和 Claude Code";
+/* Menu */
+"Keeps your Mac awake while your coding agents work." = "在编码代理工作时让你的 Mac 保持唤醒。";
+"On battery — plug in for long runs" = "正在使用电池——长时间运行请接通电源";
+"Lid-closed needs a one-time approval" = "合盖模式需要一次性授权";
+"Keep awake" = "保持唤醒";
+"Stop" = "停止";
+"For 2 hours" = "2 小时";
+"For 4 hours" = "4 小时";
+"Until I stop" = "直到我停止";
+"Keyboard Lock" = "键盘锁";
 "Keep running with lid closed" = "合盖后继续运行";
-"Needs your admin password once. Only use on a desk, never in a bag, or your Mac could overheat." = "需要输入一次管理员密码。仅限在桌面上使用，切勿放进包里，否则可能过热。";
-"Lid-closed admin access" = "合盖模式管理员权限";
-"Allows the app to change lid settings without asking for your password. Your password is not stored." = "允许应用更改合盖设置而无需询问密码。您的密码不会被保存。";
-"Remove" = "移除";
+"Sleep Display Now" = "立即关闭显示器";
+"Advanced…" = "高级…";
+"About Vibe Coding Guard" = "关于 Vibe Coding Guard";
+"Quit Vibe Coding Guard" = "退出 Vibe Coding Guard";
+"Allow Keyboard Permission..." = "允许键盘权限...";
+"Open Accessibility Settings..." = "打开辅助功能设置...";
 
-/* Display Tab */
+/* Environment line */
+"Lid closed allowed" = "允许合盖工作";
+"Lid setup needed" = "合盖设置未完成";
+"Lid open only" = "仅限开盖工作";
+"Display sleeps after %d min" = "显示器在 %d 分钟后关闭";
+"Display stays on" = "显示器保持常亮";
+
+/* Welcome / About */
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "我住在菜单栏里，会在 Codex 或 Claude Code 工作时让你的 Mac 保持唤醒，工作结束后再让它休眠。\n\n无需任何设置。在菜单栏中找闪电图标即可。";
+"Get Started" = "开始使用";
+"Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced." = "版本 %@\n\n在 Codex 或 Claude Code 工作时让你的 Mac 保持唤醒。\n\n合盖模式只会为其所需的特定 pmset 命令添加一条范围很窄的 sudoers 规则，并在 Mac 过热时自动停止。你可以随时在“高级”中移除它。";
+"OK" = "好";
+
+/* Advanced panel */
+"Battery" = "电池";
+"Low battery warnings" = "低电量提醒";
+"Warns you out loud when battery gets low." = "电量不足时通过声音提醒你。";
+"Low battery alert" = "低电量警报";
+"Critical battery alert" = "严重低电量警报";
+"The warning level always stays above the critical level." = "警告值始终高于严重值。";
+"Notification banners" = "通知横幅";
+"Optional. Sound alerts still work without banners." = "可选。即使没有横幅，声音警报仍会工作。";
+"Test alert sound" = "测试警报声音";
+"Test" = "测试";
+"Display" = "显示器";
 "Turn off screen when idle" = "闲置时关闭屏幕";
 "Screen turns off after idle time, but your work keeps running." = "闲置一段时间后屏幕会关闭，但任务继续运行。";
 "Screen off after" = "屏幕关闭时间";
@@ -33,85 +65,35 @@
 "5 minutes" = "5 分钟";
 "10 minutes" = "10 分钟";
 "15 minutes" = "15 分钟";
-"Sleep display now" = "立即关闭显示器";
-"Sleep" = "关闭屏幕";
+"Lid closed" = "合盖";
+"Lid-closed work pauses automatically if your Mac gets too warm." = "如果 Mac 过热，合盖运行会自动暂停。";
+"Lid-closed admin access" = "合盖模式管理员权限";
+"Lets the app change lid settings without asking for your password. Your password is not stored." = "允许应用更改合盖设置而无需询问密码。你的密码不会被保存。";
+"Remove" = "移除";
 
-/* Battery Tab */
-"Low battery warnings" = "低电量提醒";
-"Warns you out loud when battery gets low." = "电量不足时通过声音提醒您。";
-"Low battery alert" = "低电量警报";
-"Critical battery alert" = "严重低电量警报";
-"Notification banners" = "通知横幅";
-"Optional. Sound alerts still work without banners." = "可选。即使没有横幅，声音警报仍会工作。";
-"Test alert sound" = "测试警报声音";
-"Test" = "测试";
-
-/* Keyboard Tab */
-"Lock Keyboard" = "锁定键盘";
-"Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime." = "任务运行时锁定键盘，防止猫咪踩到。随时按 ⌘⌥⌃L 解锁。";
-"Accessibility permission" = "辅助功能权限";
-"Required so macOS can intercept keyboard input." = "macOS 需要此权限来拦截键盘输入。";
-
-/* Button Actions / States */
+/* Button states */
 "Allow" = "允许";
 "Open Settings" = "打开设置";
-"Allowed" = "已允许";
 "Not Set" = "未设置";
 
-/* Accessibility/Keyboard Messages */
-"Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back." = "在系统设置 ▸ 辅助功能中开启 Vibe Coding Guard，然后返回这里。";
-"macOS will ask for permission once so the keyboard can be locked." = "macOS 会要求一次权限，以便锁定键盘。";
-"When you turn Keep Awake off, the keyboard unlocks automatically." = "当您关闭防休眠时，键盘将自动解锁。";
-"Turn this on if a pet or kid might step on the keyboard while a job runs." = "如果宠物或小孩可能在任务运行时踩到键盘，请打开此选项。";
+/* Lid-closed failure */
+"Lid-closed mode not enabled" = "合盖模式未启用";
+"It needs a one-time admin approval. Try again when you're ready." = "它需要一次性的管理员授权。准备好后请再试一次。";
 
-/* Dynamic Status Messages (Hero Subtitle) */
-"Starting up…" = "正在启动…";
-"macOS needs a one-time approval for lid-closed mode." = "macOS 需要一次性授权以启用合盖模式。";
-"Standing by." = "待命中。";
-"Ready for Codex or Claude Code." = "准备好检测 Codex 或 Claude Code。";
-"%@ detected." = "检测到 %@。";
-"Keyboard is locked." = "键盘已锁定。";
-"Keyboard Lock needs permission. Open the Keyboard tab." = "键盘锁需要权限，请打开键盘选项卡。";
-"You can close the lid. Keep it on a desk, not in a bag." = "您可以合上盖子。请将其放在桌上，不要放在包里。";
-"Keep the lid open. Your work keeps going even when the screen turns off." = "请保持盖子打开。即使屏幕关闭，任务仍会继续运行。";
+/* Thermal back-off */
+"Cooling down" = "正在降温";
+"Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools." = "你的 Mac 有点热，我已暂停合盖运行以保护它。降温后会自动恢复。";
 
-/* Keyboard Lock Status Summary */
-"Keyboard Lock: off" = "键盘锁：已关闭";
-"Keyboard Lock: blocking keys" = "键盘锁：正在锁定键盘";
-"Keyboard Lock: permission needed" = "键盘锁：需要权限";
-"Keyboard Lock: starting" = "键盘锁：正在启动";
-"Keyboard Lock: waits for Keep Awake" = "键盘锁：等待防休眠开启";
+/* Keyboard lock notification */
+"Keyboard locked" = "键盘已锁定";
+"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard 正在锁定键盘。按 ⌘⌥⌃L 解锁。";
 
-/* Battery Status */
-"Charging" = "正在充电";
-"On battery" = "使用电池";
-"Charged" = "已充满";
-
-/* Menu Bar Status */
-"Keeps your Mac awake during long coding sessions." = "在长时间编码期间让你的 Mac 保持唤醒。";
-"Power adapter not connected" = "未连接电源适配器";
-"Lid closed allowed" = "允许合盖工作";
-"Lid setup needed" = "合盖设置未完成";
-"Lid open only" = "仅限开盖工作";
-"Display sleeps after %d min" = "显示器在 %d 分钟后关闭";
-"Display stays on" = "显示器保持常亮";
-
-/* Menu Items */
-"Show Window" = "显示窗口";
-"Keyboard Lock" = "锁定键盘";
-"Allow Keyboard Permission..." = "允许键盘权限...";
-"Open Accessibility Settings..." = "打开辅助功能设置...";
-"Customize..." = "自定...";
-"Sleep Display Now" = "立即关闭显示器";
-"Test Battery Alert" = "测试电池警报";
-"Quit Vibe Coding Guard" = "退出 Vibe Coding Guard";
-
-/* Agent Details */
+/* Agent detail */
 "tool session" = "工具会话";
 "task" = "任务";
 "work" = "工作";
 
-/* Battery Alerts / System Notifications */
+/* Battery alerts / system notifications */
 "Battery low" = "电量低";
 "Battery is at %d percent. Please plug in power." = "电量仅剩 %d%%。请连接电源。";
 "Battery critical" = "电量极低";
@@ -125,32 +107,3 @@
 /* AppleScript / VISUDO prompts */
 "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "允许 Vibe Coding Guard 更改合盖设置，之后不再询问密码。";
 "Remove the admin permission for lid-closed settings." = "移除合盖设置的管理员权限。";
-
-/* Customize tab (renamed) */
-"Agents" = "代理";
-
-/* Onboarding */
-"Welcome to Vibe Coding Guard" = "欢迎使用 Vibe Coding Guard";
-"It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar." = "当 Codex 或 Claude Code 正在工作时，它会让你的 Mac 保持唤醒，这样即使你离开，长时间的任务也能完成。请在下方选择一个模式——随时可以从菜单栏更改。";
-"Get Started" = "开始使用";
-
-/* Mode descriptions */
-"Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on." = "关闭——你的 Mac 正常休眠。在你重新开启之前，Vibe Coding Guard 不会做任何事。";
-"Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep." = "自动——仅在 Codex 或 Claude Code 运行时保持唤醒，之后让 Mac 休眠。";
-"Always — keeps your Mac awake until you turn this off." = "始终——让你的 Mac 保持唤醒，直到你将其关闭。";
-
-/* Inline feedback */
-"Lid-closed mode needs admin approval — not enabled." = "合盖模式需要管理员授权——尚未启用。";
-"Turns the screen off right away. Your work keeps running." = "立即关闭屏幕。你的任务会继续运行。";
-"The warning level always stays above the critical level." = "警告值始终高于严重值。";
-"Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it." = "已就绪，但键盘仅在防休眠开启时才会锁定。请将模式设为“自动”或“始终”以使用此功能。";
-
-/* Menu / About */
-"Settings…" = "设置…";
-"About Vibe Coding Guard" = "关于 Vibe Coding Guard";
-"OK" = "好";
-"Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab." = "版本 %@\n\n当 Codex 或 Claude Code 正在工作时，让你的 Mac 保持唤醒。\n\n合盖模式只会为其所需的特定 pmset 命令添加一条范围很窄的 sudoers 规则。你可以随时在“代理”选项卡中移除它。";
-
-/* Keyboard lock notification */
-"Keyboard locked" = "键盘已锁定";
-"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard 正在锁定键盘。按 ⌘⌥⌃L 解锁。";

@@ -17,9 +17,7 @@ struct AgentActivity {
 
 extension AppDelegate {
     func syncKeepAwakeMode() {
-        let activity = config.keepAwakeMode == .smart ? detectAgentActivity() : nil
-        lastAgentActivity = activity
-        smartModeActive = config.keepAwakeMode == .smart && activity != nil
+        lastAgentActivity = detectAgentActivity()
         applyKeepAwakeState()
     }
 

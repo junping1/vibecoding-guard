@@ -1,22 +1,5 @@
 import Foundation
 
-enum KeepAwakeMode: String, CaseIterable {
-    case off
-    case smart
-    case alwaysOn
-
-    var title: String {
-        switch self {
-        case .off:
-            return "Off".localized
-        case .smart:
-            return "Auto".localized
-        case .alwaysOn:
-            return "Always".localized
-        }
-    }
-}
-
 final class GuardConfig {
     private let defaults = UserDefaults.standard
 
@@ -35,17 +18,20 @@ final class GuardConfig {
         return value > 0 ? value : defaultValue
     }
 
-    var keepAwakeMode: KeepAwakeMode {
+    // Manual override: keep awake even when no agent is running.
+    // nil = no override; .distantFuture = "until I stop".
+    var manualOverrideUntil: Date? {
         get {
-            guard
-                let value = defaults.string(forKey: "keepAwakeMode"),
-                let mode = KeepAwakeMode(rawValue: value)
-            else {
-                return .smart
-            }
-            return mode
+            let timestamp = defaults.double(forKey: "manualOverrideUntil")
+            return timestamp > 0 ? Date(timeIntervalSince1970: timestamp) : nil
         }
-        set { defaults.set(newValue.rawValue, forKey: "keepAwakeMode") }
+        set {
+            if let newValue {
+                defaults.set(newValue.timeIntervalSince1970, forKey: "manualOverrideUntil")
+            } else {
+                defaults.removeObject(forKey: "manualOverrideUntil")
+            }
+        }
     }
 
     var displayIdleSleepEnabled: Bool {
@@ -59,7 +45,7 @@ final class GuardConfig {
     }
 
     var lidClosedModeEnabled: Bool {
-        get { bool(forKey: "lidClosedModeEnabled", default: true) }
+        get { bool(forKey: "lidClosedModeEnabled", default: false) }
         set { defaults.set(newValue, forKey: "lidClosedModeEnabled") }
     }
 
@@ -74,7 +60,7 @@ final class GuardConfig {
     }
 
     var idleDisplaySeconds: Int {
-        get { integer(forKey: "idleDisplaySeconds", default: 300) }
+        get { integer(forKey: "idleDisplaySeconds", default: 600) }
         set { defaults.set(max(60, newValue), forKey: "idleDisplaySeconds") }
     }
 
