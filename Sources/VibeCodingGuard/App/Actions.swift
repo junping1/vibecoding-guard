@@ -36,30 +36,12 @@ extension AppDelegate {
         alert.runModal()
     }
 
-    // MARK: - Keep awake override
+    // MARK: - Keep awake (always)
 
-    @objc func keepAwakeForTwoHours() {
-        setOverride(hours: 2)
-    }
-
-    @objc func keepAwakeForFourHours() {
-        setOverride(hours: 4)
-    }
-
-    @objc func keepAwakeUntilStopped() {
-        config.manualOverrideUntil = Date.distantFuture
-        runChecks()
-    }
-
-    @objc func stopKeepAwakeOverride() {
-        config.manualOverrideUntil = nil
+    @objc func toggleAlwaysKeepAwake() {
+        config.alwaysKeepAwake.toggle()
         syncKeepAwakeMode()
         syncPetLock()
-        runChecks()
-    }
-
-    func setOverride(hours: Double) {
-        config.manualOverrideUntil = Date().addingTimeInterval(hours * 3600)
         runChecks()
     }
 

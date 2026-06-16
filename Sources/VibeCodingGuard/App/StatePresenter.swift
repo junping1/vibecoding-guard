@@ -7,23 +7,8 @@ extension AppDelegate {
         lastAgentActivity != nil
     }
 
-    var manualOverrideActive: Bool {
-        guard let until = config.manualOverrideUntil else {
-            return false
-        }
-        return until.timeIntervalSinceNow > 0
-    }
-
-    var overrideIsIndefinite: Bool {
-        guard let until = config.manualOverrideUntil else {
-            return false
-        }
-        // "Until I stop" is stored as a far-future sentinel.
-        return until.timeIntervalSinceNow > 60 * 60 * 24 * 365 * 5
-    }
-
     var keepAwakeShouldRun: Bool {
-        agentDetected || manualOverrideActive
+        agentDetected || config.alwaysKeepAwake
     }
 
     var masterGuardEnabled: Bool {
@@ -57,7 +42,7 @@ extension AppDelegate {
         if let activity = lastAgentActivity {
             return String(format: "%@ is working".localized, activity.kind.rawValue)
         }
-        if manualOverrideActive {
+        if config.alwaysKeepAwake {
             return "Keeping your Mac awake".localized
         }
         return "Standing by".localized
@@ -73,10 +58,10 @@ extension AppDelegate {
         if agentDetected {
             return "Your Mac will stay awake.".localized
         }
-        if manualOverrideActive {
-            return overrideRemainingText()
+        if config.alwaysKeepAwake {
+            return "Always on, until you turn it off.".localized
         }
-        return "Ready for Codex or Claude Code.".localized
+        return "Sleeps normally. I wake up automatically when an agent runs.".localized
     }
 
     func statusTone() -> Tone {
@@ -84,22 +69,6 @@ extension AppDelegate {
             return .warning
         }
         return keepAwakeShouldRun ? .good : .neutral
-    }
-
-    func overrideRemainingText() -> String {
-        guard manualOverrideActive else {
-            return ""
-        }
-        if overrideIsIndefinite {
-            return "On until you turn it off.".localized
-        }
-        let seconds = max(0, Int(config.manualOverrideUntil?.timeIntervalSinceNow ?? 0))
-        let hours = seconds / 3600
-        let minutes = (seconds % 3600) / 60
-        if hours > 0 {
-            return String(format: "%dh %dm left.".localized, hours, minutes)
-        }
-        return String(format: "%dm left.".localized, max(1, minutes))
     }
 
     // MARK: - Advanced window refresh (no-op when closed)

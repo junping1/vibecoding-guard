@@ -18,20 +18,11 @@ final class GuardConfig {
         return value > 0 ? value : defaultValue
     }
 
-    // Manual override: keep awake even when no agent is running.
-    // nil = no override; .distantFuture = "until I stop".
-    var manualOverrideUntil: Date? {
-        get {
-            let timestamp = defaults.double(forKey: "manualOverrideUntil")
-            return timestamp > 0 ? Date(timeIntervalSince1970: timestamp) : nil
-        }
-        set {
-            if let newValue {
-                defaults.set(newValue.timeIntervalSince1970, forKey: "manualOverrideUntil")
-            } else {
-                defaults.removeObject(forKey: "manualOverrideUntil")
-            }
-        }
+    // Default behavior is automatic (awake while an agent runs). When this is on,
+    // the Mac stays awake until the user turns it off — no duration to choose.
+    var alwaysKeepAwake: Bool {
+        get { bool(forKey: "alwaysKeepAwake", default: false) }
+        set { defaults.set(newValue, forKey: "alwaysKeepAwake") }
     }
 
     var displayIdleSleepEnabled: Bool {

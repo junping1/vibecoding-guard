@@ -8,22 +8,16 @@
 "Keeping your Mac awake" = "正在让你的 Mac 保持唤醒";
 "Standing by" = "待命中";
 "Your Mac will stay awake." = "你的 Mac 将保持唤醒。";
-"Ready for Codex or Claude Code." = "已准备好检测 Codex 或 Claude Code。";
+"Always on, until you turn it off." = "始终开启，直到你关闭它。";
+"Sleeps normally. I wake up automatically when an agent runs." = "正常休眠。有代理运行时我会自动唤醒。";
 "Starting…" = "正在启动…";
 "Paused lid-closed work to cool down." = "已暂停合盖运行以降温。";
-"On until you turn it off." = "保持开启，直到你关闭它。";
-"%dh %dm left." = "还剩 %d 小时 %d 分钟。";
-"%dm left." = "还剩 %d 分钟。";
 
 /* Menu */
 "Keeps your Mac awake while your coding agents work." = "在编码代理工作时让你的 Mac 保持唤醒。";
 "On battery — plug in for long runs" = "正在使用电池——长时间运行请接通电源";
 "Lid-closed needs a one-time approval" = "合盖模式需要一次性授权";
-"Keep awake" = "保持唤醒";
-"Stop" = "停止";
-"For 2 hours" = "2 小时";
-"For 4 hours" = "4 小时";
-"Until I stop" = "直到我停止";
+"Always keep awake" = "始终保持唤醒";
 "Keyboard Lock" = "键盘锁";
 "Keep running with lid closed" = "合盖后继续运行";
 "Sleep Display Now" = "立即关闭显示器";

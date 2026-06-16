@@ -43,7 +43,7 @@ extension AppDelegate {
         menu.addItem(disabledItem(menuEnvironmentLine()))
         menu.addItem(NSMenuItem.separator())
 
-        menu.addItem(keepAwakeOverrideMenuItem())
+        menu.addItem(toggleActionItem("Always keep awake".localized, state: config.alwaysKeepAwake, action: #selector(toggleAlwaysKeepAwake)))
         menu.addItem(NSMenuItem.separator())
 
         menu.addItem(toggleActionItem("Keyboard Lock".localized, state: config.petLockEnabled, action: #selector(togglePetLockFromMenu)))
@@ -58,26 +58,6 @@ extension AppDelegate {
         menu.addItem(actionItem("About Vibe Coding Guard".localized, #selector(showAbout)))
         menu.addItem(actionItem("Quit Vibe Coding Guard".localized, #selector(quit), key: "q"))
         statusItem?.menu = menu
-    }
-
-    func keepAwakeOverrideMenuItem() -> NSMenuItem {
-        let item = NSMenuItem(title: "Keep awake".localized, action: nil, keyEquivalent: "")
-        let submenu = NSMenu()
-
-        if manualOverrideActive {
-            submenu.addItem(disabledItem(overrideRemainingText()))
-            submenu.addItem(actionItem("Stop".localized, #selector(stopKeepAwakeOverride)))
-            submenu.addItem(NSMenuItem.separator())
-        }
-
-        submenu.addItem(actionItem("For 2 hours".localized, #selector(keepAwakeForTwoHours)))
-        submenu.addItem(actionItem("For 4 hours".localized, #selector(keepAwakeForFourHours)))
-        let untilStop = actionItem("Until I stop".localized, #selector(keepAwakeUntilStopped))
-        untilStop.state = overrideIsIndefinite ? .on : .off
-        submenu.addItem(untilStop)
-
-        item.submenu = submenu
-        return item
     }
 
     func keyboardPermissionMenuTitle() -> String {

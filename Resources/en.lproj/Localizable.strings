@@ -8,22 +8,16 @@
 "Keeping your Mac awake" = "Keeping your Mac awake";
 "Standing by" = "Standing by";
 "Your Mac will stay awake." = "Your Mac will stay awake.";
-"Ready for Codex or Claude Code." = "Ready for Codex or Claude Code.";
+"Always on, until you turn it off." = "Always on, until you turn it off.";
+"Sleeps normally. I wake up automatically when an agent runs." = "Sleeps normally. I wake up automatically when an agent runs.";
 "Starting…" = "Starting…";
 "Paused lid-closed work to cool down." = "Paused lid-closed work to cool down.";
-"On until you turn it off." = "On until you turn it off.";
-"%dh %dm left." = "%dh %dm left.";
-"%dm left." = "%dm left.";
 
 /* Menu */
 "Keeps your Mac awake while your coding agents work." = "Keeps your Mac awake while your coding agents work.";
 "On battery — plug in for long runs" = "On battery — plug in for long runs";
 "Lid-closed needs a one-time approval" = "Lid-closed needs a one-time approval";
-"Keep awake" = "Keep awake";
-"Stop" = "Stop";
-"For 2 hours" = "For 2 hours";
-"For 4 hours" = "For 4 hours";
-"Until I stop" = "Until I stop";
+"Always keep awake" = "Always keep awake";
 "Keyboard Lock" = "Keyboard Lock";
 "Keep running with lid closed" = "Keep running with lid closed";
 "Sleep Display Now" = "Sleep Display Now";

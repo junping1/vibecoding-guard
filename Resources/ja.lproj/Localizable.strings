@@ -8,22 +8,16 @@
 "Keeping your Mac awake" = "Mac をスリープさせていません";
 "Standing by" = "待機中";
 "Your Mac will stay awake." = "Mac はスリープしません。";
-"Ready for Codex or Claude Code." = "Codex または Claude Code の検出準備完了。";
+"Always on, until you turn it off." = "オフにするまで常にオンです。";
+"Sleeps normally. I wake up automatically when an agent runs." = "通常どおりスリープします。エージェントが実行されると自動的に起動します。";
 "Starting…" = "起動中…";
 "Paused lid-closed work to cool down." = "冷却のため蓋を閉じた作業を一時停止しました。";
-"On until you turn it off." = "オフにするまで継続します。";
-"%dh %dm left." = "残り %d 時間 %d 分。";
-"%dm left." = "残り %d 分。";
 
 /* Menu */
 "Keeps your Mac awake while your coding agents work." = "コーディングエージェントの作業中、Mac をスリープさせません。";
 "On battery — plug in for long runs" = "バッテリー駆動中 — 長時間の実行は電源を接続してください";
 "Lid-closed needs a one-time approval" = "蓋を閉じたモードには一度きりの承認が必要です";
-"Keep awake" = "スリープ防止";
-"Stop" = "停止";
-"For 2 hours" = "2 時間";
-"For 4 hours" = "4 時間";
-"Until I stop" = "停止するまで";
+"Always keep awake" = "常にスリープさせない";
 "Keyboard Lock" = "キーボードロック";
 "Keep running with lid closed" = "蓋を閉じても実行を継続";
 "Sleep Display Now" = "今すぐディスプレイをスリープ";
