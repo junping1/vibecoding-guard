@@ -8,6 +8,7 @@ extension AppDelegate {
             return
         }
 
+        showingOnboarding = onboarding && !config.onboardingCompleted
         statusLabels.removeAll()
         actionButtons.removeAll()
         statusViews.removeAll()
@@ -19,12 +20,11 @@ extension AppDelegate {
 
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 560, height: 400),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable],
+            styleMask: [.titled, .closable, .miniaturizable],
             backing: .buffered,
             defer: false
         )
-        window.title = onboarding ? "Set Up Vibe Coding Guard".localized : "Vibe Coding Guard".localized
-        window.minSize = NSSize(width: 520, height: 360)
+        window.title = showingOnboarding ? "Set Up Vibe Coding Guard".localized : "Vibe Coding Guard".localized
         position(window, previousFrame: previousFrame)
         window.delegate = self
         window.isReleasedWhenClosed = false
@@ -33,9 +33,27 @@ extension AppDelegate {
         window.contentView = productRootView()
         controlWindow = window
         refreshWindow()
+        fitWindowToContent()
         NSApp.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
+    }
+
+    func fitWindowToContent() {
+        guard let window = controlWindow, let content = window.contentView else {
+            return
+        }
+        content.layoutSubtreeIfNeeded()
+        let target = content.fittingSize
+        guard target.height > 0 else {
+            return
+        }
+        var frame = window.frame
+        let delta = target.height - frame.size.height
+        frame.origin.y -= delta
+        frame.size.height = target.height
+        frame.size.width = max(target.width, 552)
+        window.setFrame(frame, display: true, animate: false)
     }
 
     func productRootView() -> NSView {
@@ -45,6 +63,8 @@ extension AppDelegate {
         content.alignment = .centerX
         content.edgeInsets = NSEdgeInsets(top: 24, left: 26, bottom: 18, right: 26)
         content.translatesAutoresizingMaskIntoConstraints = false
+        let intro = simpleOnboardingIntro()
+        content.addArrangedSubview(intro)
         content.addArrangedSubview(simpleHero())
         content.addArrangedSubview(simplePowerHint())
         content.addArrangedSubview(simpleSetupHint())
@@ -62,6 +82,43 @@ extension AppDelegate {
             content.bottomAnchor.constraint(lessThanOrEqualTo: container.bottomAnchor)
         ])
         return container
+    }
+
+    func simpleOnboardingIntro() -> NSView {
+        let card = RoundedView(fill: NSColor.controlAccentColor.withAlphaComponent(0.12), stroke: nil, radius: 12)
+        card.translatesAutoresizingMaskIntoConstraints = false
+        card.widthAnchor.constraint(equalToConstant: 500).isActive = true
+
+        let stack = NSStackView()
+        stack.orientation = .vertical
+        stack.spacing = 8
+        stack.alignment = .leading
+        stack.translatesAutoresizingMaskIntoConstraints = false
+
+        let title = label("Welcome to Vibe Coding Guard".localized, size: 15, weight: .semibold)
+        stack.addArrangedSubview(title)
+
+        let body = label("It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar.".localized, size: 12, color: .secondaryLabelColor)
+        body.maximumNumberOfLines = 4
+        body.widthAnchor.constraint(equalToConstant: 460).isActive = true
+        stack.addArrangedSubview(body)
+
+        let getStarted = NSButton(title: "Get Started".localized, target: self, action: #selector(dismissOnboardingIntro))
+        getStarted.bezelStyle = .rounded
+        getStarted.keyEquivalent = "\r"
+        stack.addArrangedSubview(getStarted)
+
+        card.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.topAnchor.constraint(equalTo: card.topAnchor, constant: 14),
+            stack.leadingAnchor.constraint(equalTo: card.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: card.trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -14)
+        ])
+
+        card.isHidden = !showingOnboarding
+        statusViews["onboardingIntro"] = card
+        return card
     }
 
     func simpleHero() -> NSView {
@@ -115,7 +172,24 @@ extension AppDelegate {
         stack.addArrangedSubview(statusRow)
 
         stack.addArrangedSubview(keepAwakeModeRadioGroup())
+
+        let modeDescription = label(modeDescriptionText(), size: 12, color: .secondaryLabelColor)
+        modeDescription.maximumNumberOfLines = 2
+        modeDescription.widthAnchor.constraint(equalToConstant: 500).isActive = true
+        statusLabels["modeDescription"] = modeDescription
+        stack.addArrangedSubview(modeDescription)
         return stack
+    }
+
+    func modeDescriptionText() -> String {
+        switch config.keepAwakeMode {
+        case .off:
+            return "Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on.".localized
+        case .smart:
+            return "Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep.".localized
+        case .alwaysOn:
+            return "Always — keeps your Mac awake until you turn this off.".localized
+        }
     }
 
     func simplePowerHint() -> NSView {
@@ -241,6 +315,12 @@ extension AppDelegate {
                 switchKey: "lidClosed",
                 action: #selector(switchLidClosedMode)
             ))
+            let lidClosedInfo = label("Lid-closed mode needs admin approval — not enabled.".localized, size: 12, color: .systemOrange)
+            lidClosedInfo.maximumNumberOfLines = 2
+            lidClosedInfo.widthAnchor.constraint(equalToConstant: 440).isActive = true
+            lidClosedInfo.isHidden = !lidClosedApprovalFailed
+            statusLabels["lidClosedInfo"] = lidClosedInfo
+            stack.addArrangedSubview(lidClosedInfo)
             let powerPermissionRow = compactButtonRow(
                 title: "Lid-closed admin access".localized,
                 detail: "Allows the app to change lid settings without asking for your password. Your password is not stored.".localized,
@@ -259,7 +339,7 @@ extension AppDelegate {
                 action: #selector(switchDisplayIdleSleep)
             ))
             stack.addArrangedSubview(compactPopupRow(title: "Screen off after".localized, popupKey: "idle", titles: ["3 minutes".localized, "5 minutes".localized, "10 minutes".localized, "15 minutes".localized], action: #selector(changeIdleDelay)))
-            stack.addArrangedSubview(compactButtonRow(title: "Sleep display now".localized, buttonTitle: "Sleep".localized, buttonKey: "displaySleep", action: #selector(displaySleepNow)))
+            stack.addArrangedSubview(compactButtonRow(title: "Sleep display now".localized, detail: "Turns the screen off right away. Your work keeps running.".localized, buttonTitle: "Sleep".localized, buttonKey: "displaySleep", action: #selector(displaySleepNow)))
         case .battery:
             stack.addArrangedSubview(compactSwitchRow(
                 title: "Low battery warnings".localized,
@@ -269,16 +349,19 @@ extension AppDelegate {
             ))
             stack.addArrangedSubview(compactPopupRow(title: "Low battery alert".localized, popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
             stack.addArrangedSubview(compactPopupRow(title: "Critical battery alert".localized, popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
-            stack.addArrangedSubview(compactButtonRow(
+            stack.addArrangedSubview(compactInfoRow("The warning level always stays above the critical level.".localized))
+            let notificationRow = compactButtonRow(
                 title: "Notification banners".localized,
                 detail: "Optional. Sound alerts still work without banners.".localized,
                 buttonKey: "productNotification",
                 action: #selector(notificationPermissionAction)
-            ))
+            )
+            statusViews["notificationRow"] = notificationRow
+            stack.addArrangedSubview(notificationRow)
             stack.addArrangedSubview(compactButtonRow(title: "Test alert sound".localized, buttonTitle: "Test".localized, buttonKey: "testAlert", action: #selector(testBatteryAlert)))
         case .keyboard:
             stack.addArrangedSubview(compactSwitchRow(
-                title: "Lock Keyboard".localized,
+                title: "Keyboard Lock".localized,
                 detail: "Stops the keyboard while a job is running. Handy if a cat might walk across it. Press ⌘⌥⌃L to unlock anytime.".localized,
                 switchKey: "petLock",
                 action: #selector(switchPetLock)

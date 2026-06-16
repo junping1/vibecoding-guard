@@ -11,7 +11,7 @@ enum CustomizeGroup: Int, CaseIterable {
     var title: String {
         switch self {
         case .keepAwake:
-            return "Keep Awake".localized
+            return "Agents".localized
         case .display:
             return "Display".localized
         case .battery:
@@ -53,6 +53,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var accessibilityPermissionPollCount = 0
     var petLockActive = false
     var powerPermissionInstalled = false
+    var showingOnboarding = false
+    var lidClosedApprovalFailed = false
     var controlWindow: NSWindow?
     var statusViews: [String: NSView] = [:]
     var imageViews: [String: NSImageView] = [:]

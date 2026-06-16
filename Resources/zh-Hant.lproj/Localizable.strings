@@ -125,3 +125,32 @@
 /* AppleScript / VISUDO prompts */
 "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "允許 Vibe Coding Guard 變更合蓋設定，之後不再詢問密碼。";
 "Remove the admin permission for lid-closed settings." = "移除合蓋設定的管理員權限。";
+
+/* Customize tab (renamed) */
+"Agents" = "代理程式";
+
+/* Onboarding */
+"Welcome to Vibe Coding Guard" = "歡迎使用 Vibe Coding Guard";
+"It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar." = "當 Codex 或 Claude Code 正在執行時，它會讓你的 Mac 保持喚醒，這樣即使你離開，長時間的工作也能完成。請在下方選擇一個模式——隨時可以從選單列更改。";
+"Get Started" = "開始使用";
+
+/* Mode descriptions */
+"Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on." = "關閉——你的 Mac 正常睡眠。在你重新開啟之前，Vibe Coding Guard 不會做任何事。";
+"Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep." = "自動——僅在 Codex 或 Claude Code 執行時保持喚醒，之後讓 Mac 睡眠。";
+"Always — keeps your Mac awake until you turn this off." = "始終——讓你的 Mac 保持喚醒，直到你將其關閉。";
+
+/* Inline feedback */
+"Lid-closed mode needs admin approval — not enabled." = "合蓋模式需要管理員授權——尚未啟用。";
+"Turns the screen off right away. Your work keeps running." = "立即關閉螢幕。你的工作會繼續執行。";
+"The warning level always stays above the critical level." = "警告值始終高於嚴重值。";
+"Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it." = "已就緒，但鍵盤僅在防睡眠開啟時才會鎖定。請將模式設為「自動」或「始終」以使用此功能。";
+
+/* Menu / About */
+"Settings…" = "設定…";
+"About Vibe Coding Guard" = "關於 Vibe Coding Guard";
+"OK" = "好";
+"Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab." = "版本 %@\n\n當 Codex 或 Claude Code 正在執行時，讓你的 Mac 保持喚醒。\n\n合蓋模式只會為其所需的特定 pmset 指令新增一條範圍很窄的 sudoers 規則。你可以隨時在「代理程式」分頁中移除它。";
+
+/* Keyboard lock notification */
+"Keyboard locked" = "鍵盤已鎖定";
+"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard 正在鎖定鍵盤。按 ⌘⌥⌃L 解鎖。";

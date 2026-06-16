@@ -125,3 +125,32 @@
 /* AppleScript / VISUDO prompts */
 "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "パスワードを入力することなく、Vibe Coding Guard が蓋を閉じた状態の設定を変更できるようにします。";
 "Remove the admin permission for lid-closed settings." = "蓋を閉じた状態の設定に関する管理者権限を削除します。";
+
+/* Customize tab (renamed) */
+"Agents" = "エージェント";
+
+/* Onboarding */
+"Welcome to Vibe Coding Guard" = "Vibe Coding Guard へようこそ";
+"It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar." = "Codex または Claude Code の動作中は Mac をスリープさせないので、離席していても長いジョブが完了します。下からモードを選んでください。メニューバーからいつでも変更できます。";
+"Get Started" = "はじめる";
+
+/* Mode descriptions */
+"Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on." = "オフ — Mac は通常どおりスリープします。オンにするまで Vibe Coding Guard は何もしません。";
+"Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep." = "自動 — Codex または Claude Code の実行中のみスリープを防止し、その後は Mac をスリープさせます。";
+"Always — keeps your Mac awake until you turn this off." = "常時 — オフにするまで Mac をスリープさせません。";
+
+/* Inline feedback */
+"Lid-closed mode needs admin approval — not enabled." = "蓋を閉じたモードには管理者の承認が必要です — 有効になっていません。";
+"Turns the screen off right away. Your work keeps running." = "画面をすぐにオフにします。作業はそのまま続きます。";
+"The warning level always stays above the critical level." = "警告レベルは常に重大レベルより高く保たれます。";
+"Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it." = "準備完了ですが、キーボードはスリープ防止がオンのときのみロックされます。使用するにはモードを「自動」または「常時」に設定してください。";
+
+/* Menu / About */
+"Settings…" = "設定…";
+"About Vibe Coding Guard" = "Vibe Coding Guard について";
+"OK" = "OK";
+"Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab." = "バージョン %@\n\nCodex または Claude Code の動作中、Mac をスリープさせません。\n\n蓋を閉じたモードは、必要な特定の pmset コマンドだけを許可する狭い範囲の sudoers ルールを 1 つ追加します。「エージェント」タブからいつでも削除できます。";
+
+/* Keyboard lock notification */
+"Keyboard locked" = "キーボードをロックしました";
+"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard がキーボードをブロックしています。⌘⌥⌃L を押すと解除できます。";

@@ -125,3 +125,32 @@
 /* AppleScript / VISUDO prompts */
 "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again." = "Allow Vibe Coding Guard to change lid-closed settings without asking for your password again.";
 "Remove the admin permission for lid-closed settings." = "Remove the admin permission for lid-closed settings.";
+
+/* Customize tab (renamed) */
+"Agents" = "Agents";
+
+/* Onboarding */
+"Welcome to Vibe Coding Guard" = "Welcome to Vibe Coding Guard";
+"It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar." = "It keeps your Mac awake while Codex or Claude Code is working, so long jobs finish even when you step away. Pick a mode below — you can change it anytime from the menu bar.";
+"Get Started" = "Get Started";
+
+/* Mode descriptions */
+"Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on." = "Off — your Mac sleeps normally. Vibe Coding Guard does nothing until you switch it on.";
+"Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep." = "Auto — stays awake only while Codex or Claude Code is running, then lets your Mac sleep.";
+"Always — keeps your Mac awake until you turn this off." = "Always — keeps your Mac awake until you turn this off.";
+
+/* Inline feedback */
+"Lid-closed mode needs admin approval — not enabled." = "Lid-closed mode needs admin approval — not enabled.";
+"Turns the screen off right away. Your work keeps running." = "Turns the screen off right away. Your work keeps running.";
+"The warning level always stays above the critical level." = "The warning level always stays above the critical level.";
+"Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it." = "Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it.";
+
+/* Menu / About */
+"Settings…" = "Settings…";
+"About Vibe Coding Guard" = "About Vibe Coding Guard";
+"OK" = "OK";
+"Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab." = "Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab.";
+
+/* Keyboard lock notification */
+"Keyboard locked" = "Keyboard locked";
+"Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock." = "Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock.";

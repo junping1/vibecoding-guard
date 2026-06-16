@@ -120,6 +120,11 @@ extension AppDelegate {
         petLockEventTap = eventTap
         petLockRunLoopSource = runLoopSource
         petLockActive = true
+
+        sendUserNotification(
+            title: "Keyboard locked".localized,
+            message: "Vibe Coding Guard is blocking the keyboard. Press ⌘⌥⌃L to unlock.".localized
+        )
     }
 
     func stopPetLock() {

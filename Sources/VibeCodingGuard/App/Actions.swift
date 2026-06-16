@@ -6,8 +6,27 @@ extension AppDelegate {
         showControlCenter(onboarding: false)
     }
 
-    @objc func openCustomize() {
-        showControlCenter(onboarding: false)
+    @objc func dismissOnboardingIntro() {
+        config.onboardingCompleted = true
+        showingOnboarding = false
+        refreshWindow()
+    }
+
+    @objc func showAbout() {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
+        let versionLine = build.isEmpty ? version : "\(version) (\(build))"
+
+        let alert = NSAlert()
+        alert.messageText = "Vibe Coding Guard".localized
+        alert.informativeText = String(
+            format: "Version %@\n\nKeeps your Mac awake while Codex or Claude Code is working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs. Remove it anytime from the Agents tab.".localized,
+            versionLine
+        )
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "OK".localized)
+        NSApp.activate(ignoringOtherApps: true)
+        alert.runModal()
     }
 
     @objc func setKeepAwakeOffFromMenu() {
@@ -160,6 +179,7 @@ extension AppDelegate {
     }
 
     func setLidClosedMode(enabled: Bool) {
+        lidClosedApprovalFailed = false
         config.lidClosedModeEnabled = enabled
         if enabled {
             guard lastPowerSettings?.sleepDisabled != true else {
@@ -181,6 +201,7 @@ extension AppDelegate {
         guard installOneTimePmsetPermission() else {
             lastPowerSettings = readPowerSettings()
             syncLidClosedConfigFromSystem()
+            lidClosedApprovalFailed = enabled && !config.lidClosedModeEnabled
             refreshWindow()
             return
         }
@@ -188,6 +209,7 @@ extension AppDelegate {
         _ = runSavedPmsetCommands(commands)
         lastPowerSettings = readPowerSettings()
         syncLidClosedConfigFromSystem()
+        lidClosedApprovalFailed = enabled && !config.lidClosedModeEnabled
     }
 
     func syncLidClosedConfigFromSystem() {

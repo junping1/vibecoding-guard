@@ -15,10 +15,6 @@ enum KeepAwakeMode: String, CaseIterable {
             return "Always".localized
         }
     }
-
-    var menuTitle: String {
-        title
-    }
 }
 
 final class GuardConfig {

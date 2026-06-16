@@ -2,10 +2,9 @@ import AppKit
 
 extension AppDelegate {
     var needsSetupHelp: Bool {
-        keepAwakeShouldRun && (
-            lastPowerSettings?.batterySleepMinutes != 0 ||
-            (config.lidClosedModeEnabled && lastPowerSettings?.sleepDisabled != true)
-        )
+        keepAwakeShouldRun &&
+            config.lidClosedModeEnabled &&
+            lastPowerSettings?.sleepDisabled != true
     }
 
     var masterGuardEnabled: Bool {
@@ -53,9 +52,13 @@ extension AppDelegate {
         let product = productHealth()
         statusLabels["productHeroTitle"]?.stringValue = "Vibe Coding Guard"
         statusLabels["productHeroMessage"]?.stringValue = product.message
+        statusLabels["modeDescription"]?.stringValue = modeDescriptionText()
         updateStatusIcon(tone: product.tone)
+        (statusViews["productStatusBadge"] as? RoundedView)?.toolTip = product.message
         statusViews["powerHint"]?.isHidden = !needsPowerAdapterTip
         statusViews["setupHint"]?.isHidden = !needsSetupHelp
+        statusViews["onboardingIntro"]?.isHidden = !showingOnboarding
+        statusLabels["lidClosedInfo"]?.isHidden = !lidClosedApprovalFailed
         refreshCustomizeGroupVisibility()
         refreshKeyboardLockInfo()
 
@@ -63,6 +66,7 @@ extension AppDelegate {
         refreshPetLockPermissionButton()
         refreshPowerPermissionButton()
         refreshPopups()
+        fitWindowToContent()
     }
 
     func refreshNotificationButton() {
@@ -71,15 +75,18 @@ extension AppDelegate {
         }
         switch notificationStatus {
         case .authorized, .provisional, .ephemeral:
-            button.title = "Allowed".localized
-            button.isEnabled = false
+            // Banners are on; the row isn't needed (use "Test alert sound" to verify).
+            statusViews["notificationRow"]?.isHidden = true
         case .denied:
+            statusViews["notificationRow"]?.isHidden = false
             button.title = "Open Settings".localized
             button.isEnabled = true
         case .notDetermined:
+            statusViews["notificationRow"]?.isHidden = false
             button.title = "Allow".localized
             button.isEnabled = true
         @unknown default:
+            statusViews["notificationRow"]?.isHidden = false
             button.title = "Open Settings".localized
             button.isEnabled = true
         }
@@ -106,6 +113,8 @@ extension AppDelegate {
             text = petLockPermissionPrompted
                 ? "Turn on Vibe Coding Guard in System Settings ▸ Accessibility, then come back.".localized
                 : "macOS will ask for permission once so the keyboard can be locked.".localized
+        } else if config.petLockEnabled && !masterGuardEnabled {
+            text = "Ready, but the keyboard only locks while Keep Awake is on. Set the mode to Auto or Always to use it.".localized
         } else if config.petLockEnabled {
             text = "When you turn Keep Awake off, the keyboard unlocks automatically.".localized
         } else {
