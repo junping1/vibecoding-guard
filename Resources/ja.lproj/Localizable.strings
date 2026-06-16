@@ -6,7 +6,7 @@
 "Get Started" = "はじめる";
 
 /* Status (menu header) */
-"%@ is working" = "%@ が作業中";
+"%@ is running" = "%@ が実行中";
 "Keeping your Mac awake" = "Mac をスリープさせていません";
 "Standing by" = "待機中";
 "Your Mac will stay awake." = "Mac はスリープしません。";
@@ -17,7 +17,7 @@
 "Paused lid-closed work to cool down." = "冷却のため蓋を閉じた作業を一時停止しました。";
 
 /* Menu */
-"Keeps your Mac awake while your coding agents work." = "コーディングエージェントの作業中、Mac をスリープさせません。";
+"Keeps your Mac awake while your coding agents are open." = "コーディングエージェントが開いている間、Mac をスリープさせません。";
 "On battery — plug in for long runs" = "バッテリー駆動中 — 長時間の実行は電源を接続してください";
 "Lid-closed needs a one-time approval" = "蓋を閉じたモードには一度きりの承認が必要です";
 "Always keep awake" = "常にスリープさせない";
@@ -29,13 +29,13 @@
 "Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
 
 /* Welcome */
-"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nA checkmark in the menu bar means Keep Awake is on." = "私はメニューバーに常駐し、Codex または Claude Code の作業中は Mac をスリープさせず、作業が終わるとスリープを許可します。\n\nメニューバーのチェックマークは、Keep Awake がオンであることを示します。";
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code is open — then let your Mac sleep once you quit them.\n\nA checkmark in the menu bar means Keep Awake is on." = "私はメニューバーに常駐し、Codex または Claude Code が開いている間は Mac をスリープさせず、終了するとスリープを許可します。\n\nメニューバーのチェックマークは、Keep Awake がオンであることを示します。";
 
 /* About manual */
-"Keeps your Mac awake so long coding jobs finish while you're away." = "Mac をスリープさせず、離席中でも長いコーディング作業が完了するようにします。";
+"Keeps your Mac awake while Codex or Claude Code is open, so long runs finish while you're away." = "Codex または Claude Code が開いている間 Mac をスリープさせず、離席中でも長い処理が完了するようにします。";
 "How it works" = "仕組み";
 "It's automatic" = "全自動";
-"While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything." = "Codex または Claude Code の作業中は Mac がスリープしません。作業が終わると通常どおりスリープします。何もする必要はありません。";
+"While Codex or Claude Code is open, your Mac stays awake — and sleeps again once you quit them. It watches whether they're running, not whether they're actively working." = "Codex または Claude Code が開いている間は Mac がスリープせず、終了すると再びスリープします。アプリが起動しているかどうかを見ており、実際に作業中かどうかは判別しません。";
 "Turn this on to keep your Mac awake no matter what, until you turn it off." = "これをオンにすると、オフにするまで Mac を常にスリープさせません。";
 "Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock." = "実行中にキーボードをロックし、ペットや子どもが邪魔できないようにします。⌘⌥⌃L で解除できます。";
 "Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot." = "蓋を閉じたまま作業を続けられます。デスク上でのみ使用してください — 熱くなりすぎると一時停止します。";

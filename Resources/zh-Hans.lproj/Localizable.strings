@@ -6,7 +6,7 @@
 "Get Started" = "开始使用";
 
 /* Status (menu header) */
-"%@ is working" = "%@ 正在工作";
+"%@ is running" = "%@ 正在运行";
 "Keeping your Mac awake" = "正在让你的 Mac 保持唤醒";
 "Standing by" = "待命中";
 "Your Mac will stay awake." = "你的 Mac 将保持唤醒。";
@@ -17,7 +17,7 @@
 "Paused lid-closed work to cool down." = "已暂停合盖运行以降温。";
 
 /* Menu */
-"Keeps your Mac awake while your coding agents work." = "在编码代理工作时让你的 Mac 保持唤醒。";
+"Keeps your Mac awake while your coding agents are open." = "在编码代理打开期间让你的 Mac 保持唤醒。";
 "On battery — plug in for long runs" = "正在使用电池——长时间运行请接通电源";
 "Lid-closed needs a one-time approval" = "合盖模式需要一次性授权";
 "Always keep awake" = "始终保持唤醒";
@@ -29,13 +29,13 @@
 "Open Accessibility Settings..." = "打开辅助功能设置...";
 
 /* Welcome */
-"I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nA checkmark in the menu bar means Keep Awake is on." = "我住在菜单栏里，会在 Codex 或 Claude Code 工作时让你的 Mac 保持唤醒，工作结束后再让它休眠。\n\n菜单栏中的勾选标记表示 Keep Awake 已开启。";
+"I live in the menu bar and keep your Mac awake while Codex or Claude Code is open — then let your Mac sleep once you quit them.\n\nA checkmark in the menu bar means Keep Awake is on." = "我住在菜单栏里，会在 Codex 或 Claude Code 打开期间让你的 Mac 保持唤醒——你退出它们后再让 Mac 休眠。\n\n菜单栏中的勾选标记表示 Keep Awake 已开启。";
 
 /* About manual */
-"Keeps your Mac awake so long coding jobs finish while you're away." = "让你的 Mac 保持唤醒，这样即使你离开，长时间的编码任务也能完成。";
+"Keeps your Mac awake while Codex or Claude Code is open, so long runs finish while you're away." = "在 Codex 或 Claude Code 打开期间让 Mac 保持唤醒，这样即使你离开，长时间的任务也能跑完。";
 "How it works" = "工作原理";
 "It's automatic" = "全自动";
-"While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything." = "当 Codex 或 Claude Code 工作时，你的 Mac 会保持唤醒；它们结束后，Mac 会照常休眠。你无需做任何事。";
+"While Codex or Claude Code is open, your Mac stays awake — and sleeps again once you quit them. It watches whether they're running, not whether they're actively working." = "只要 Codex 或 Claude Code 处于打开状态，Mac 就保持唤醒；你退出后它会再次休眠。它检测的是它们是否在运行，而不是是否正在工作。";
 "Turn this on to keep your Mac awake no matter what, until you turn it off." = "开启此项可让 Mac 始终保持唤醒，直到你将其关闭。";
 "Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock." = "在任务运行时锁定键盘，防止宠物或小孩打断它。按 ⌘⌥⌃L 解锁。";
 "Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot." = "合上盖子也能继续工作。仅限在桌面上使用——如果 Mac 过热会自动暂停。";

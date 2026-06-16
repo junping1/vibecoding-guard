@@ -65,7 +65,7 @@ extension AppDelegate {
         titleRow.addArrangedSubview(titleText)
         content.addArrangedSubview(titleRow)
 
-        let tagline = label("Keeps your Mac awake so long coding jobs finish while you're away.".localized, size: 13, color: .secondaryLabelColor)
+        let tagline = label("Keeps your Mac awake while Codex or Claude Code is open, so long runs finish while you're away.".localized, size: 13, color: .secondaryLabelColor)
         tagline.maximumNumberOfLines = 3
         tagline.widthAnchor.constraint(equalToConstant: 388).isActive = true
         content.addArrangedSubview(tagline)
@@ -76,7 +76,7 @@ extension AppDelegate {
         content.addArrangedSubview(manualEntry(
             symbol: "sparkles",
             title: "It's automatic".localized,
-            body: "While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything.".localized
+            body: "While Codex or Claude Code is open, your Mac stays awake — and sleeps again once you quit them. It watches whether they're running, not whether they're actively working.".localized
         ))
         content.addArrangedSubview(manualEntry(
             symbol: "bolt.fill",

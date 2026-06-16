@@ -40,7 +40,7 @@ extension AppDelegate {
             return "Cooling down".localized
         }
         if let activity = lastAgentActivity {
-            return String(format: "%@ is working".localized, activity.kind.rawValue)
+            return String(format: "%@ is running".localized, activity.kind.rawValue)
         }
         if config.alwaysKeepAwake {
             return "Keeping your Mac awake".localized

@@ -7,7 +7,7 @@ extension AppDelegate {
             item.button?.image = image
             item.button?.imagePosition = .imageOnly
         }
-        item.button?.toolTip = "Keeps your Mac awake while your coding agents work.".localized
+        item.button?.toolTip = "Keeps your Mac awake while your coding agents are open.".localized
         statusItem = item
         rebuildMenu()
     }

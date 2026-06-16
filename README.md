@@ -1,19 +1,21 @@
 # Vibe Coding Guard
 
-A tiny local macOS menu bar app for keeping long-running work alive while the display rests.
+A tiny macOS menu bar app that keeps your Mac awake while Codex or Claude Code is open, so long agent runs finish even when you step away.
 
-The main control is Keep Awake:
-
-- Off: VCG does nothing until you turn it back on.
-- Auto: turns on when Codex or Claude Code is active.
-- Always: keeps the Mac awake until you turn it off.
+It works automatically. Whenever Codex or Claude Code is running, your Mac stays awake; once you quit them, it sleeps as usual. It detects whether those tools are **open** — it can't tell whether they're actively working — so it keeps the Mac awake the whole time they're running. There's nothing to set up.
 
 It can also:
 
-- Let the display sleep after idle time.
-- Warn before the battery gets low.
-- Enable closed-lid work mode after macOS admin approval.
-- Block accidental keyboard input with Keyboard Lock while Keep Awake is active.
+- **Always keep awake** — one toggle to keep the Mac awake no matter what, until you turn it off.
+- **Keyboard Lock** — block the keyboard during a run so a pet or child can't interrupt it (press ⌘⌥⌃L to unlock).
+- **Keep running with lid closed** — keep working with the lid shut (desk only; it pauses automatically if the Mac gets too hot).
+- Let the display sleep after idle time, and warn before the battery gets low.
+
+VCG asks only when a feature needs help from macOS:
+
+- Notification banners are optional for battery alerts.
+- Accessibility is needed only for Keyboard Lock.
+- Closed-lid work installs a one-time, narrow permission for VCG's exact `pmset` commands, with a Remove button shown afterward.
 
 VCG asks only when a feature needs help from macOS:
 
