@@ -42,24 +42,22 @@
 
 /* Settings panel */
 "Battery" = "电池";
-"Low battery warnings" = "低电量提醒";
-"Warns you out loud when battery gets low." = "电量不足时通过声音提醒你。";
-"Warn me at" = "提醒电量";
+"Low battery warning" = "低电量提醒";
+"Off" = "关闭";
 "Notification banners" = "通知横幅";
 "Optional. Sound alerts still work without banners." = "可选。即使没有横幅，声音警报仍会工作。";
 "Test alert sound" = "测试警报声音";
 "Test" = "测试";
 "Display" = "显示器";
-"Turn off screen when idle" = "闲置时关闭屏幕";
-"Screen turns off after idle time, but your work keeps running." = "闲置一段时间后屏幕会关闭，但任务继续运行。";
-"Screen off after" = "屏幕关闭时间";
+"Turn off screen after" = "关闭屏幕时间";
+"Never" = "永不";
 "3 minutes" = "3 分钟";
 "5 minutes" = "5 分钟";
 "10 minutes" = "10 分钟";
 "15 minutes" = "15 分钟";
 "Lid closed" = "合盖";
-"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "仅限在桌面上使用。合盖后放进包里可能使 Mac 过热——这并不安全。如果过热，它会自动暂停。";
-"Disable lid-closed and remove its admin permission." = "关闭合盖模式并移除其管理员权限。";
+"Run this only with your Mac on a desk. In a bag it can't shed heat and may overheat. It pauses on its own if it gets too hot, but don't rely on that." = "仅在 Mac 放在桌面上时使用。放进包里会无法散热，可能过热。它会在过热时自动暂停，但请不要依赖这一点。";
+"Turn off lid-closed and remove its admin access." = "关闭合盖模式并移除其管理员权限。";
 "Remove" = "移除";
 
 /* Button states */

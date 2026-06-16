@@ -42,24 +42,22 @@
 
 /* Settings panel */
 "Battery" = "Battery";
-"Low battery warnings" = "Low battery warnings";
-"Warns you out loud when battery gets low." = "Warns you out loud when battery gets low.";
-"Warn me at" = "Warn me at";
+"Low battery warning" = "Low battery warning";
+"Off" = "Off";
 "Notification banners" = "Notification banners";
 "Optional. Sound alerts still work without banners." = "Optional. Sound alerts still work without banners.";
 "Test alert sound" = "Test alert sound";
 "Test" = "Test";
 "Display" = "Display";
-"Turn off screen when idle" = "Turn off screen when idle";
-"Screen turns off after idle time, but your work keeps running." = "Screen turns off after idle time, but your work keeps running.";
-"Screen off after" = "Screen off after";
+"Turn off screen after" = "Turn off screen after";
+"Never" = "Never";
 "3 minutes" = "3 minutes";
 "5 minutes" = "5 minutes";
 "10 minutes" = "10 minutes";
 "15 minutes" = "15 minutes";
 "Lid closed" = "Lid closed";
-"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot.";
-"Disable lid-closed and remove its admin permission." = "Disable lid-closed and remove its admin permission.";
+"Run this only with your Mac on a desk. In a bag it can't shed heat and may overheat. It pauses on its own if it gets too hot, but don't rely on that." = "Run this only with your Mac on a desk. In a bag it can't shed heat and may overheat. It pauses on its own if it gets too hot, but don't rely on that.";
+"Turn off lid-closed and remove its admin access." = "Turn off lid-closed and remove its admin access.";
 "Remove" = "Remove";
 
 /* Button states */

@@ -42,24 +42,22 @@
 
 /* Settings panel */
 "Battery" = "バッテリー";
-"Low battery warnings" = "バッテリー残量の警告";
-"Warns you out loud when battery gets low." = "バッテリーが少なくなると音声で知らせます。";
-"Warn me at" = "警告する残量";
+"Low battery warning" = "バッテリー残量の警告";
+"Off" = "オフ";
 "Notification banners" = "通知バナー";
 "Optional. Sound alerts still work without banners." = "オプション。バナーがなくても音声警告は機能します。";
 "Test alert sound" = "警告音のテスト";
 "Test" = "テスト";
 "Display" = "ディスプレイ";
-"Turn off screen when idle" = "操作がないときに画面をオフ";
-"Screen turns off after idle time, but your work keeps running." = "一定時間操作がないと画面はオフになりますが、作業は続きます。";
-"Screen off after" = "画面オフまでの時間";
+"Turn off screen after" = "画面をオフにするまで";
+"Never" = "しない";
 "3 minutes" = "3分";
 "5 minutes" = "5分";
 "10 minutes" = "10分";
 "15 minutes" = "15分";
 "Lid closed" = "蓋を閉じる";
-"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "デスク上でのみ使用してください。蓋を閉じてバッグに入れると Mac が過熱するおそれがあり、安全ではありません。熱くなりすぎると自動的に一時停止します。";
-"Disable lid-closed and remove its admin permission." = "蓋を閉じたモードを無効にし、その管理者権限を削除します。";
+"Run this only with your Mac on a desk. In a bag it can't shed heat and may overheat. It pauses on its own if it gets too hot, but don't rely on that." = "Mac をデスク上に置いているときだけ使用してください。バッグの中では熱を逃がせず、過熱するおそれがあります。熱くなりすぎると自動的に一時停止しますが、それに頼らないでください。";
+"Turn off lid-closed and remove its admin access." = "蓋を閉じたモードを無効にし、その管理者権限を削除します。";
 "Remove" = "削除";
 
 /* Button states */

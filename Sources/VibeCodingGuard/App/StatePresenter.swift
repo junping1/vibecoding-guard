@@ -71,14 +71,12 @@ extension AppDelegate {
         return keepAwakeShouldRun ? .good : .neutral
     }
 
-    // MARK: - Advanced window refresh (no-op when closed)
+    // MARK: - Settings window refresh (no-op when closed)
 
     func refreshWindow() {
         guard controlWindow != nil else {
             return
         }
-        switches["displayIdleSleep"]?.state = config.displayIdleSleepEnabled ? .on : .off
-        switches["batteryAlerts"]?.state = config.batteryAlertsEnabled ? .on : .off
         refreshNotificationButton()
         refreshPowerPermissionButton()
         refreshPopups()
@@ -117,15 +115,24 @@ extension AppDelegate {
     }
 
     func refreshPopups() {
-        selectPopup(popups["idle"], value: config.idleDisplaySeconds / 60, values: [3, 5, 10, 15])
-        selectPopup(popups["warning"], value: config.warningPercent, values: [15, 20, 25, 30])
+        // Index 0 in each popup is the "off" choice (Never / Off).
+        if config.displayIdleSleepEnabled {
+            selectPopup(popups["idle"], value: config.idleDisplaySeconds / 60, values: [3, 5, 10, 15], offset: 1)
+        } else {
+            popups["idle"]?.selectItem(at: 0)
+        }
+        if config.batteryAlertsEnabled {
+            selectPopup(popups["warning"], value: config.warningPercent, values: [15, 20, 25, 30], offset: 1)
+        } else {
+            popups["warning"]?.selectItem(at: 0)
+        }
     }
 
-    func selectPopup(_ popup: NSPopUpButton?, value: Int, values: [Int]) {
+    func selectPopup(_ popup: NSPopUpButton?, value: Int, values: [Int], offset: Int = 0) {
         guard let popup else {
             return
         }
-        let index = values.firstIndex(of: value) ?? 0
-        popup.selectItem(at: index)
+        let index = (values.firstIndex(of: value) ?? 0) + offset
+        popup.selectItem(at: min(index, popup.numberOfItems - 1))
     }
 }

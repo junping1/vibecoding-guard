@@ -69,13 +69,7 @@ extension AppDelegate {
 
         // Battery
         content.addArrangedSubview(sectionHeader("Battery".localized))
-        content.addArrangedSubview(compactSwitchRow(
-            title: "Low battery warnings".localized,
-            detail: "Warns you out loud when battery gets low.".localized,
-            switchKey: "batteryAlerts",
-            action: #selector(switchBatteryAlerts)
-        ))
-        content.addArrangedSubview(compactPopupRow(title: "Warn me at".localized, popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
+        content.addArrangedSubview(compactPopupRow(title: "Low battery warning".localized, popupKey: "warning", titles: ["Off".localized, "15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
         let notificationRow = compactButtonRow(
             title: "Notification banners".localized,
             detail: "Optional. Sound alerts still work without banners.".localized,
@@ -90,21 +84,15 @@ extension AppDelegate {
 
         // Display
         content.addArrangedSubview(sectionHeader("Display".localized))
-        content.addArrangedSubview(compactSwitchRow(
-            title: "Turn off screen when idle".localized,
-            detail: "Screen turns off after idle time, but your work keeps running.".localized,
-            switchKey: "displayIdleSleep",
-            action: #selector(switchDisplayIdleSleep)
-        ))
-        content.addArrangedSubview(compactPopupRow(title: "Screen off after".localized, popupKey: "idle", titles: ["3 minutes".localized, "5 minutes".localized, "10 minutes".localized, "15 minutes".localized], action: #selector(changeIdleDelay)))
+        content.addArrangedSubview(compactPopupRow(title: "Turn off screen after".localized, popupKey: "idle", titles: ["Never".localized, "3 minutes".localized, "5 minutes".localized, "10 minutes".localized, "15 minutes".localized], action: #selector(changeIdleDelay)))
 
         content.addArrangedSubview(separator())
 
         // Lid-closed
         content.addArrangedSubview(sectionHeader("Lid closed".localized))
-        content.addArrangedSubview(cautionRow("Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot.".localized))
+        content.addArrangedSubview(cautionRow("Run this only with your Mac on a desk. In a bag it can't shed heat and may overheat. It pauses on its own if it gets too hot, but don't rely on that.".localized))
         let powerPermissionRow = compactButtonRow(
-            title: "Disable lid-closed and remove its admin permission.".localized,
+            title: "Turn off lid-closed and remove its admin access.".localized,
             buttonTitle: "Remove".localized,
             buttonKey: "powerPermission",
             action: #selector(removePowerPermissionAction)
@@ -159,16 +147,6 @@ extension AppDelegate {
         popup.controlSize = .regular
         popups[popupKey] = popup
         row.addArrangedSubview(popup)
-        return row
-    }
-
-    func compactSwitchRow(title: String, detail: String? = nil, switchKey: String, action: Selector) -> NSView {
-        let row = compactRow(title: title, detail: detail)
-        let switchControl = NSSwitch()
-        switchControl.target = self
-        switchControl.action = action
-        switches[switchKey] = switchControl
-        row.addArrangedSubview(switchControl)
         return row
     }
 

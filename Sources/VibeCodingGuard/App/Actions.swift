@@ -57,17 +57,7 @@ extension AppDelegate {
         NSApp.terminate(nil)
     }
 
-    // MARK: - Advanced panel controls
-
-    @objc func switchDisplayIdleSleep() {
-        config.displayIdleSleepEnabled = switches["displayIdleSleep"]?.state == .on
-        runChecks()
-    }
-
-    @objc func switchBatteryAlerts() {
-        config.batteryAlertsEnabled = switches["batteryAlerts"]?.state == .on
-        runChecks()
-    }
+    // MARK: - Settings controls
 
     @objc func notificationPermissionAction() {
         switch notificationStatus {
@@ -110,16 +100,28 @@ extension AppDelegate {
     }
 
     @objc func changeIdleDelay() {
+        // Index 0 = Never (off); the rest map to minute values.
         let values = [3, 5, 10, 15]
-        let index = popups["idle"]?.indexOfSelectedItem ?? 1
-        config.idleDisplaySeconds = values[min(max(index, 0), values.count - 1)] * 60
+        let index = popups["idle"]?.indexOfSelectedItem ?? 0
+        if index <= 0 {
+            config.displayIdleSleepEnabled = false
+        } else {
+            config.displayIdleSleepEnabled = true
+            config.idleDisplaySeconds = values[min(index - 1, values.count - 1)] * 60
+        }
         runChecks()
     }
 
     @objc func changeWarningLevel() {
+        // Index 0 = Off; the rest map to battery percentages.
         let values = [15, 20, 25, 30]
-        let index = popups["warning"]?.indexOfSelectedItem ?? 1
-        config.warningPercent = values[min(max(index, 0), values.count - 1)]
+        let index = popups["warning"]?.indexOfSelectedItem ?? 0
+        if index <= 0 {
+            config.batteryAlertsEnabled = false
+        } else {
+            config.batteryAlertsEnabled = true
+            config.warningPercent = values[min(index - 1, values.count - 1)]
+        }
         runChecks()
     }
 
