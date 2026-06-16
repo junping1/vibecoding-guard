@@ -59,9 +59,4 @@ final class GuardConfig {
         get { integer(forKey: "warningPercent", default: 20) }
         set { defaults.set(min(80, max(5, newValue)), forKey: "warningPercent") }
     }
-
-    var criticalPercent: Int {
-        get { integer(forKey: "criticalPercent", default: 10) }
-        set { defaults.set(min(40, max(1, newValue)), forKey: "criticalPercent") }
-    }
 }

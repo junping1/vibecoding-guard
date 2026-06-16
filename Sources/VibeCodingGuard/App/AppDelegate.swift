@@ -34,6 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var powerPermissionInstalled = false
     var thermalThrottled = false
     var controlWindow: NSWindow?
+    var aboutWindow: NSWindow?
     var statusViews: [String: NSView] = [:]
     var imageViews: [String: NSImageView] = [:]
     var statusLabels: [String: NSTextField] = [:]
@@ -61,7 +62,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        showAdvanced()
+        openSettings()
         return true
     }
 
@@ -72,7 +73,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
 
     func windowWillClose(_ notification: Notification) {
-        guard notification.object as? NSWindow === controlWindow else {
+        let closing = notification.object as? NSWindow
+        if closing === aboutWindow {
+            aboutWindow = nil
+            return
+        }
+        guard closing === controlWindow else {
             return
         }
 

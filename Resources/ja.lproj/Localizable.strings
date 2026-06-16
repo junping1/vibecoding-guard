@@ -1,16 +1,19 @@
 /* General */
 "Vibe Coding Guard" = "Vibe Coding Guard";
-"Advanced" = "詳細";
-"Fine-tuning most people never need." = "ほとんどの人には不要な微調整。";
+"Settings" = "設定";
+"About" = "情報";
+"Version %@" = "バージョン %@";
+"Get Started" = "はじめる";
 
 /* Status (menu header) */
 "%@ is working" = "%@ が作業中";
 "Keeping your Mac awake" = "Mac をスリープさせていません";
 "Standing by" = "待機中";
 "Your Mac will stay awake." = "Mac はスリープしません。";
-"Always on, until you turn it off." = "オフにするまで常にオンです。";
-"Sleeps normally. I wake up automatically when an agent runs." = "通常どおりスリープします。エージェントが実行されると自動的に起動します。";
+"Sleeps normally. I wake up automatically when an agent runs." = "通常どおりスリープします。エージェントが動き出すと自動的に起動します。";
+"Always on, until you turn it off." = "オフにするまで、ずっとオンのままです。";
 "Starting…" = "起動中…";
+"Cooling down" = "冷却中";
 "Paused lid-closed work to cool down." = "冷却のため蓋を閉じた作業を一時停止しました。";
 
 /* Menu */
@@ -20,33 +23,28 @@
 "Always keep awake" = "常にスリープさせない";
 "Keyboard Lock" = "キーボードロック";
 "Keep running with lid closed" = "蓋を閉じても実行を継続";
-"Sleep Display Now" = "今すぐディスプレイをスリープ";
-"Advanced…" = "詳細…";
-"About Vibe Coding Guard" = "Vibe Coding Guard について";
-"Quit Vibe Coding Guard" = "Vibe Coding Guard を終了";
+"Settings…" = "設定…";
+"Quit" = "終了";
 "Allow Keyboard Permission..." = "キーボードの権限を許可...";
 "Open Accessibility Settings..." = "アクセシビリティ設定を開く...";
 
-/* Environment line */
-"Lid closed allowed" = "合蓋動作 許可済み";
-"Lid setup needed" = "合蓋動作 設定未完了";
-"Lid open only" = "開蓋状態のみ";
-"Display sleeps after %d min" = "ディスプレイのスリープ: %d分後";
-"Display stays on" = "ディスプレイは常時オン";
-
-/* Welcome / About */
+/* Welcome */
 "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "私はメニューバーに常駐し、Codex または Claude Code の作業中は Mac をスリープさせず、作業が終わるとスリープを許可します。\n\n設定は不要です。メニューバーの稲妻アイコンを探してください。";
-"Get Started" = "はじめる";
-"Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced." = "バージョン %@\n\nCodex または Claude Code の作業中、Mac をスリープさせません。\n\n蓋を閉じたモードは、必要な特定の pmset コマンドだけを許可する狭い範囲の sudoers ルールを 1 つ追加し、Mac が熱くなりすぎると自動的に停止します。「詳細」からいつでも削除できます。";
-"OK" = "OK";
 
-/* Advanced panel */
+/* About manual */
+"Keeps your Mac awake so long coding jobs finish while you're away." = "Mac をスリープさせず、離席中でも長いコーディング作業が完了するようにします。";
+"How it works" = "仕組み";
+"It's automatic" = "全自動";
+"While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything." = "Codex または Claude Code の作業中は Mac がスリープしません。作業が終わると通常どおりスリープします。何もする必要はありません。";
+"Turn this on to keep your Mac awake no matter what, until you turn it off." = "これをオンにすると、オフにするまで Mac を常にスリープさせません。";
+"Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock." = "実行中にキーボードをロックし、ペットや子どもが邪魔できないようにします。⌘⌥⌃L で解除できます。";
+"Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot." = "蓋を閉じたまま作業を続けられます。デスク上でのみ使用してください — 熱くなりすぎると一時停止します。";
+
+/* Settings panel */
 "Battery" = "バッテリー";
 "Low battery warnings" = "バッテリー残量の警告";
 "Warns you out loud when battery gets low." = "バッテリーが少なくなると音声で知らせます。";
-"Low battery alert" = "低バッテリー警告";
-"Critical battery alert" = "バッテリー残量少（重大）";
-"The warning level always stays above the critical level." = "警告レベルは常に重大レベルより高く保たれます。";
+"Warn me at" = "警告する残量";
 "Notification banners" = "通知バナー";
 "Optional. Sound alerts still work without banners." = "オプション。バナーがなくても音声警告は機能します。";
 "Test alert sound" = "警告音のテスト";
@@ -60,9 +58,8 @@
 "10 minutes" = "10分";
 "15 minutes" = "15分";
 "Lid closed" = "蓋を閉じる";
-"Lid-closed work pauses automatically if your Mac gets too warm." = "Mac が熱くなりすぎると、蓋を閉じた作業は自動的に一時停止します。";
-"Lid-closed admin access" = "蓋を閉じた状態の管理者権限";
-"Lets the app change lid settings without asking for your password. Your password is not stored." = "パスワードを毎回入力することなく、アプリが蓋を閉じた状態の設定を変更できるようにします。パスワードは保存されません。";
+"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "デスク上でのみ使用してください。蓋を閉じてバッグに入れると Mac が過熱するおそれがあり、安全ではありません。熱くなりすぎると自動的に一時停止します。";
+"Disable lid-closed and remove its admin permission." = "蓋を閉じたモードを無効にし、その管理者権限を削除します。";
 "Remove" = "削除";
 
 /* Button states */
@@ -75,7 +72,6 @@
 "It needs a one-time admin approval. Try again when you're ready." = "一度きりの管理者承認が必要です。準備ができたら再度お試しください。";
 
 /* Thermal back-off */
-"Cooling down" = "冷却中";
 "Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools." = "Mac が熱くなってきたので、保護のため蓋を閉じた作業を一時停止しました。冷えると自動的に再開します。";
 
 /* Keyboard lock notification */
@@ -90,8 +86,6 @@
 /* Battery alerts / system notifications */
 "Battery low" = "低バッテリー";
 "Battery is at %d percent. Please plug in power." = "バッテリー残量が %d%% です。電源を接続してください。";
-"Battery critical" = "バッテリー警告（重大）";
-"Battery is at %d percent. Plug in power now." = "バッテリー残量が %d%% です。今すぐ電源を接続してください。";
 "Battery is getting low. Plug in your charger." = "バッテリーが減ってきました。充電器を接続してください。";
 "Battery is almost dead. Plug in now." = "バッテリーがほとんどありません。今すぐ電源を接続してください。";
 "Vibe Coding Guard test" = "Vibe Coding Guard テスト";

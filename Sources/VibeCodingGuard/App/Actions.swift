@@ -4,7 +4,7 @@ import UserNotifications
 extension AppDelegate {
     // MARK: - Surfaces
 
-    @objc func showAdvanced() {
+    @objc func openSettings() {
         showControlCenter()
     }
 
@@ -15,23 +15,6 @@ extension AppDelegate {
         alert.informativeText = "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar.".localized
         alert.alertStyle = .informational
         alert.addButton(withTitle: "Get Started".localized)
-        NSApp.activate(ignoringOtherApps: true)
-        alert.runModal()
-    }
-
-    @objc func showAbout() {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
-        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
-        let versionLine = build.isEmpty ? version : "\(version) (\(build))"
-
-        let alert = NSAlert()
-        alert.messageText = "Vibe Coding Guard".localized
-        alert.informativeText = String(
-            format: "Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced.".localized,
-            versionLine
-        )
-        alert.alertStyle = .informational
-        alert.addButton(withTitle: "OK".localized)
         NSApp.activate(ignoringOtherApps: true)
         alert.runModal()
     }
@@ -116,6 +99,11 @@ extension AppDelegate {
     }
 
     @objc func removePowerPermissionAction() {
+        // Turn lid-closed back off first (uses the still-present permission),
+        // then remove the admin permission entirely.
+        if config.lidClosedModeEnabled || lastPowerSettings?.sleepDisabled == true {
+            setLidClosedMode(enabled: false)
+        }
         _ = removeOneTimePmsetPermission()
         refreshPowerPermissionStatus()
         refreshWindow()
@@ -132,19 +120,6 @@ extension AppDelegate {
         let values = [15, 20, 25, 30]
         let index = popups["warning"]?.indexOfSelectedItem ?? 1
         config.warningPercent = values[min(max(index, 0), values.count - 1)]
-        if config.criticalPercent >= config.warningPercent {
-            config.criticalPercent = max(5, config.warningPercent - 10)
-        }
-        runChecks()
-    }
-
-    @objc func changeCriticalLevel() {
-        let values = [5, 10, 15]
-        let index = popups["critical"]?.indexOfSelectedItem ?? 1
-        config.criticalPercent = values[min(max(index, 0), values.count - 1)]
-        if config.criticalPercent >= config.warningPercent {
-            config.warningPercent = min(30, config.criticalPercent + 10)
-        }
         runChecks()
     }
 

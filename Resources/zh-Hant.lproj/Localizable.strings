@@ -1,16 +1,19 @@
 /* General */
 "Vibe Coding Guard" = "Vibe Coding Guard";
-"Advanced" = "進階";
-"Fine-tuning most people never need." = "大多數人用不到的精細設定。";
+"Settings" = "設定";
+"About" = "關於";
+"Version %@" = "版本 %@";
+"Get Started" = "開始使用";
 
 /* Status (menu header) */
 "%@ is working" = "%@ 正在執行";
 "Keeping your Mac awake" = "正在讓你的 Mac 保持喚醒";
 "Standing by" = "待命中";
 "Your Mac will stay awake." = "你的 Mac 將保持喚醒。";
-"Always on, until you turn it off." = "始終開啟，直到你關閉它。";
-"Sleeps normally. I wake up automatically when an agent runs." = "正常睡眠。有代理程式執行時我會自動喚醒。";
+"Sleeps normally. I wake up automatically when an agent runs." = "正常睡眠。當有代理程式執行時，我會自動喚醒。";
+"Always on, until you turn it off." = "一直開啟，直到你關閉它。";
 "Starting…" = "正在啟動…";
+"Cooling down" = "正在降溫";
 "Paused lid-closed work to cool down." = "已暫停合蓋執行以降溫。";
 
 /* Menu */
@@ -20,33 +23,28 @@
 "Always keep awake" = "始終保持喚醒";
 "Keyboard Lock" = "鍵盤鎖";
 "Keep running with lid closed" = "合蓋後繼續執行";
-"Sleep Display Now" = "立即關閉顯示器";
-"Advanced…" = "進階…";
-"About Vibe Coding Guard" = "關於 Vibe Coding Guard";
-"Quit Vibe Coding Guard" = "退出 Vibe Coding Guard";
+"Settings…" = "設定…";
+"Quit" = "退出";
 "Allow Keyboard Permission..." = "允許鍵盤權限...";
 "Open Accessibility Settings..." = "打開輔助功能設定...";
 
-/* Environment line */
-"Lid closed allowed" = "允許合蓋工作";
-"Lid setup needed" = "合蓋設定未完成";
-"Lid open only" = "僅限開蓋工作";
-"Display sleeps after %d min" = "顯示器在 %d 分鐘後關閉";
-"Display stays on" = "顯示器保持常亮";
-
-/* Welcome / About */
+/* Welcome */
 "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "我住在選單列裡，會在 Codex 或 Claude Code 執行時讓你的 Mac 保持喚醒，工作結束後再讓它睡眠。\n\n無需任何設定。在選單列中找閃電圖示即可。";
-"Get Started" = "開始使用";
-"Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced." = "版本 %@\n\n在 Codex 或 Claude Code 執行時讓你的 Mac 保持喚醒。\n\n合蓋模式只會為其所需的特定 pmset 指令新增一條範圍很窄的 sudoers 規則，並在 Mac 過熱時自動停止。你可以隨時在「進階」中移除它。";
-"OK" = "好";
 
-/* Advanced panel */
+/* About manual */
+"Keeps your Mac awake so long coding jobs finish while you're away." = "讓你的 Mac 保持喚醒，這樣即使你離開，長時間的編碼工作也能完成。";
+"How it works" = "運作方式";
+"It's automatic" = "全自動";
+"While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything." = "當 Codex 或 Claude Code 執行時，你的 Mac 會保持喚醒；它們結束後，Mac 會照常睡眠。你無需做任何事。";
+"Turn this on to keep your Mac awake no matter what, until you turn it off." = "開啟此項可讓 Mac 始終保持喚醒，直到你將其關閉。";
+"Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock." = "在工作執行時鎖定鍵盤，防止寵物或小孩打斷它。按 ⌘⌥⌃L 解鎖。";
+"Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot." = "合上蓋子也能繼續工作。僅限在桌面上使用——如果 Mac 過熱會自動暫停。";
+
+/* Settings panel */
 "Battery" = "電池";
 "Low battery warnings" = "低電量提醒";
 "Warns you out loud when battery gets low." = "電量不足時透過聲音提醒你。";
-"Low battery alert" = "低電量警報";
-"Critical battery alert" = "嚴重低電量警報";
-"The warning level always stays above the critical level." = "警告值始終高於嚴重值。";
+"Warn me at" = "提醒電量";
 "Notification banners" = "通知橫幅";
 "Optional. Sound alerts still work without banners." = "可選。即使沒有橫幅，聲音警報仍會運作。";
 "Test alert sound" = "測試警報聲音";
@@ -60,9 +58,8 @@
 "10 minutes" = "10 分鐘";
 "15 minutes" = "15 分鐘";
 "Lid closed" = "合蓋";
-"Lid-closed work pauses automatically if your Mac gets too warm." = "如果 Mac 過熱，合蓋執行會自動暫停。";
-"Lid-closed admin access" = "合蓋模式管理員權限";
-"Lets the app change lid settings without asking for your password. Your password is not stored." = "允許應用程式變更合蓋設定而無需詢問密碼。你的密碼不會被儲存。";
+"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "僅限在桌面上使用。合蓋後放進包包裡可能使 Mac 過熱——這並不安全。如果過熱，它會自動暫停。";
+"Disable lid-closed and remove its admin permission." = "關閉合蓋模式並移除其管理員權限。";
 "Remove" = "移除";
 
 /* Button states */
@@ -75,7 +72,6 @@
 "It needs a one-time admin approval. Try again when you're ready." = "它需要一次性的管理員授權。準備好後請再試一次。";
 
 /* Thermal back-off */
-"Cooling down" = "正在降溫";
 "Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools." = "你的 Mac 有點熱，我已暫停合蓋執行以保護它。降溫後會自動恢復。";
 
 /* Keyboard lock notification */
@@ -90,8 +86,6 @@
 /* Battery alerts / system notifications */
 "Battery low" = "電量低";
 "Battery is at %d percent. Please plug in power." = "電量僅剩 %d%%。請連接電源。";
-"Battery critical" = "電量極低";
-"Battery is at %d percent. Plug in power now." = "電量僅剩 %d%%。請立即連接電源。";
 "Battery is getting low. Plug in your charger." = "電量不多了，請插上充電器。";
 "Battery is almost dead. Plug in now." = "電量即將耗盡，請立即插上電源。";
 "Vibe Coding Guard test" = "Vibe Coding Guard 測試";

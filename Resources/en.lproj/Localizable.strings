@@ -1,16 +1,19 @@
 /* General */
 "Vibe Coding Guard" = "Vibe Coding Guard";
-"Advanced" = "Advanced";
-"Fine-tuning most people never need." = "Fine-tuning most people never need.";
+"Settings" = "Settings";
+"About" = "About";
+"Version %@" = "Version %@";
+"Get Started" = "Get Started";
 
 /* Status (menu header) */
 "%@ is working" = "%@ is working";
 "Keeping your Mac awake" = "Keeping your Mac awake";
 "Standing by" = "Standing by";
 "Your Mac will stay awake." = "Your Mac will stay awake.";
-"Always on, until you turn it off." = "Always on, until you turn it off.";
 "Sleeps normally. I wake up automatically when an agent runs." = "Sleeps normally. I wake up automatically when an agent runs.";
+"Always on, until you turn it off." = "Always on, until you turn it off.";
 "Starting…" = "Starting…";
+"Cooling down" = "Cooling down";
 "Paused lid-closed work to cool down." = "Paused lid-closed work to cool down.";
 
 /* Menu */
@@ -20,33 +23,28 @@
 "Always keep awake" = "Always keep awake";
 "Keyboard Lock" = "Keyboard Lock";
 "Keep running with lid closed" = "Keep running with lid closed";
-"Sleep Display Now" = "Sleep Display Now";
-"Advanced…" = "Advanced…";
-"About Vibe Coding Guard" = "About Vibe Coding Guard";
-"Quit Vibe Coding Guard" = "Quit Vibe Coding Guard";
+"Settings…" = "Settings…";
+"Quit" = "Quit";
 "Allow Keyboard Permission..." = "Allow Keyboard Permission...";
 "Open Accessibility Settings..." = "Open Accessibility Settings...";
 
-/* Environment line */
-"Lid closed allowed" = "Lid closed allowed";
-"Lid setup needed" = "Lid setup needed";
-"Lid open only" = "Lid open only";
-"Display sleeps after %d min" = "Display sleeps after %d min";
-"Display stays on" = "Display stays on";
-
-/* Welcome / About */
+/* Welcome */
 "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar." = "I live in the menu bar and keep your Mac awake while Codex or Claude Code are working — then let it sleep when they stop.\n\nThere's nothing to set up. Look for the bolt in the menu bar.";
-"Get Started" = "Get Started";
-"Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced." = "Version %@\n\nKeeps your Mac awake while Codex or Claude Code are working.\n\nLid-closed mode adds one narrow sudoers rule for the exact pmset commands it needs, and backs off automatically if your Mac gets too warm. Remove it anytime from Advanced.";
-"OK" = "OK";
 
-/* Advanced panel */
+/* About manual */
+"Keeps your Mac awake so long coding jobs finish while you're away." = "Keeps your Mac awake so long coding jobs finish while you're away.";
+"How it works" = "How it works";
+"It's automatic" = "It's automatic";
+"While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything." = "While Codex or Claude Code are working, your Mac stays awake. When they finish, it sleeps as usual. You don't have to do anything.";
+"Turn this on to keep your Mac awake no matter what, until you turn it off." = "Turn this on to keep your Mac awake no matter what, until you turn it off.";
+"Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock." = "Blocks the keyboard during a run so a pet or child can't interrupt it. Press ⌘⌥⌃L to unlock.";
+"Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot." = "Keep working with the lid shut. Use it on a desk only — it pauses if your Mac gets too hot.";
+
+/* Settings panel */
 "Battery" = "Battery";
 "Low battery warnings" = "Low battery warnings";
 "Warns you out loud when battery gets low." = "Warns you out loud when battery gets low.";
-"Low battery alert" = "Low battery alert";
-"Critical battery alert" = "Critical battery alert";
-"The warning level always stays above the critical level." = "The warning level always stays above the critical level.";
+"Warn me at" = "Warn me at";
 "Notification banners" = "Notification banners";
 "Optional. Sound alerts still work without banners." = "Optional. Sound alerts still work without banners.";
 "Test alert sound" = "Test alert sound";
@@ -60,9 +58,8 @@
 "10 minutes" = "10 minutes";
 "15 minutes" = "15 minutes";
 "Lid closed" = "Lid closed";
-"Lid-closed work pauses automatically if your Mac gets too warm." = "Lid-closed work pauses automatically if your Mac gets too warm.";
-"Lid-closed admin access" = "Lid-closed admin access";
-"Lets the app change lid settings without asking for your password. Your password is not stored." = "Lets the app change lid settings without asking for your password. Your password is not stored.";
+"Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot." = "Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot.";
+"Disable lid-closed and remove its admin permission." = "Disable lid-closed and remove its admin permission.";
 "Remove" = "Remove";
 
 /* Button states */
@@ -75,7 +72,6 @@
 "It needs a one-time admin approval. Try again when you're ready." = "It needs a one-time admin approval. Try again when you're ready.";
 
 /* Thermal back-off */
-"Cooling down" = "Cooling down";
 "Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools." = "Your Mac is getting warm, so I paused lid-closed work to protect it. It resumes automatically once it cools.";
 
 /* Keyboard lock notification */
@@ -90,8 +86,6 @@
 /* Battery alerts / system notifications */
 "Battery low" = "Battery low";
 "Battery is at %d percent. Please plug in power." = "Battery is at %d percent. Please plug in power.";
-"Battery critical" = "Battery critical";
-"Battery is at %d percent. Plug in power now." = "Battery is at %d percent. Plug in power now.";
 "Battery is getting low. Plug in your charger." = "Battery is getting low. Plug in your charger.";
 "Battery is almost dead. Plug in now." = "Battery is almost dead. Plug in now.";
 "Vibe Coding Guard test" = "Vibe Coding Guard test";

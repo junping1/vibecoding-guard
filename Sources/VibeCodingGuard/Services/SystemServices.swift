@@ -11,22 +11,13 @@ extension AppDelegate {
 
         guard keepAwakeShouldRun, config.batteryAlertsEnabled, battery.isDischarging else {
             lastWarningAlert = nil
-            lastCriticalAlert = nil
             return
         }
 
-        if battery.percent <= config.criticalPercent {
-            maybeSendBatteryAlert(
-                level: "critical",
-                repeatAfter: 300,
-                title: "Battery critical".localized,
-                message: String(format: "Battery is at %d percent. Plug in power now.".localized, battery.percent),
-                critical: true
-            )
-        } else if battery.percent <= config.warningPercent {
+        if battery.percent <= config.warningPercent {
             maybeSendBatteryAlert(
                 level: "warning",
-                repeatAfter: 900,
+                repeatAfter: 600,
                 title: "Battery low".localized,
                 message: String(format: "Battery is at %d percent. Please plug in power.".localized, battery.percent),
                 critical: false

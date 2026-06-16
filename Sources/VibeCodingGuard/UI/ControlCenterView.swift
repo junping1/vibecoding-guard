@@ -23,13 +23,13 @@ extension AppDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "Advanced".localized
+        window.title = "Settings".localized
         window.center()
         window.delegate = self
         window.isReleasedWhenClosed = false
         window.collectionBehavior = [.moveToActiveSpace]
 
-        window.contentView = advancedRootView()
+        window.contentView = settingsRootView()
         controlWindow = window
         refreshWindow()
         fitWindowToContent()
@@ -55,7 +55,7 @@ extension AppDelegate {
         window.setFrame(frame, display: true, animate: false)
     }
 
-    func advancedRootView() -> NSView {
+    func settingsRootView() -> NSView {
         let content = NSStackView()
         content.orientation = .vertical
         content.spacing = 12
@@ -63,11 +63,9 @@ extension AppDelegate {
         content.edgeInsets = NSEdgeInsets(top: 22, left: 24, bottom: 20, right: 24)
         content.translatesAutoresizingMaskIntoConstraints = false
 
-        let title = label("Advanced".localized, size: 18, weight: .bold)
+        let title = label("Settings".localized, size: 18, weight: .bold)
         content.addArrangedSubview(title)
-        let subtitle = label("Fine-tuning most people never need.".localized, size: 12, color: .secondaryLabelColor)
-        content.addArrangedSubview(subtitle)
-        content.setCustomSpacing(18, after: subtitle)
+        content.setCustomSpacing(18, after: title)
 
         // Battery
         content.addArrangedSubview(sectionHeader("Battery".localized))
@@ -77,9 +75,7 @@ extension AppDelegate {
             switchKey: "batteryAlerts",
             action: #selector(switchBatteryAlerts)
         ))
-        content.addArrangedSubview(compactPopupRow(title: "Low battery alert".localized, popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
-        content.addArrangedSubview(compactPopupRow(title: "Critical battery alert".localized, popupKey: "critical", titles: ["5%", "10%", "15%"], action: #selector(changeCriticalLevel)))
-        content.addArrangedSubview(compactInfoRow("The warning level always stays above the critical level.".localized))
+        content.addArrangedSubview(compactPopupRow(title: "Warn me at".localized, popupKey: "warning", titles: ["15%", "20%", "25%", "30%"], action: #selector(changeWarningLevel)))
         let notificationRow = compactButtonRow(
             title: "Notification banners".localized,
             detail: "Optional. Sound alerts still work without banners.".localized,
@@ -106,10 +102,9 @@ extension AppDelegate {
 
         // Lid-closed
         content.addArrangedSubview(sectionHeader("Lid closed".localized))
-        content.addArrangedSubview(compactInfoRow("Lid-closed work pauses automatically if your Mac gets too warm.".localized))
+        content.addArrangedSubview(cautionRow("Only use on a desk. Closing the lid in a bag can overheat your Mac — it isn't thermal-safe. It pauses on its own if it gets too hot.".localized))
         let powerPermissionRow = compactButtonRow(
-            title: "Lid-closed admin access".localized,
-            detail: "Lets the app change lid settings without asking for your password. Your password is not stored.".localized,
+            title: "Disable lid-closed and remove its admin permission.".localized,
             buttonTitle: "Remove".localized,
             buttonKey: "powerPermission",
             action: #selector(removePowerPermissionAction)
@@ -134,6 +129,23 @@ extension AppDelegate {
 
     func sectionHeader(_ text: String) -> NSView {
         label(text, size: 11, weight: .semibold, color: .secondaryLabelColor)
+    }
+
+    func cautionRow(_ text: String) -> NSView {
+        let row = NSStackView()
+        row.orientation = .horizontal
+        row.spacing = 8
+        row.alignment = .top
+        row.widthAnchor.constraint(equalToConstant: 412).isActive = true
+
+        let icon = symbolCircle("exclamationmark.triangle.fill", tone: .warning, size: 22)
+        row.addArrangedSubview(icon)
+
+        let text = label(text, size: 12, color: .labelColor)
+        text.maximumNumberOfLines = 4
+        text.widthAnchor.constraint(equalToConstant: 382).isActive = true
+        row.addArrangedSubview(text)
+        return row
     }
 
     // MARK: - Compact row helpers

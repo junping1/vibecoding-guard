@@ -119,7 +119,6 @@ extension AppDelegate {
     func refreshPopups() {
         selectPopup(popups["idle"], value: config.idleDisplaySeconds / 60, values: [3, 5, 10, 15])
         selectPopup(popups["warning"], value: config.warningPercent, values: [15, 20, 25, 30])
-        selectPopup(popups["critical"], value: config.criticalPercent, values: [5, 10, 15])
     }
 
     func selectPopup(_ popup: NSPopUpButton?, value: Int, values: [Int]) {
